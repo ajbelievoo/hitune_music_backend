@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    (function(){var d=document.documentElement,t='light';
+    try{t=localStorage.getItem('hitune-theme')||'light'}catch(e){}
+    d.setAttribute('data-theme',t);
+    var m=function(n){var mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.setAttribute('content',n==='light'?'#f8fafc':'#0a0a1a');};
+    m(t);
+    document.addEventListener('click',function(e){var b=e.target.closest('.theme-toggle');if(!b)return;
+    var n=d.getAttribute('data-theme')==='light'?'dark':'light';
+    d.setAttribute('data-theme',n);try{localStorage.setItem('hitune-theme',n)}catch(err){}m(n);});})();
+    </script>
+    <title>Privacy Policy | Hitune</title>
+    <meta name="description" content="How Hitune collects, uses and protects your personal data across Hitune Music and Hitune Distribution.">
+    <link rel="canonical" href="https://hitune.in/privacy-policy.html">
+    <link rel="icon" type="image/png" href="/hitune-icon.png">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Figtree','sans-serif']},colors:{ink:'#0a0a1a',accent:'#00b7ff',accent2:'#8b5cf6'}}}}</script>
+    <style>
+        body{background:#0a0a1a;font-family:'Figtree',sans-serif}
+        .glass{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+        .legal h2{color:#fff;font-weight:800;font-size:1.35rem;margin:2.2rem 0 .8rem}
+        .legal h3{color:#e2e8f0;font-weight:700;margin:1.4rem 0 .5rem}
+        .legal p,.legal li{color:#94a3b8;line-height:1.75;font-size:.95rem}
+        .legal ul{list-style:disc;padding-left:1.4rem;margin:.6rem 0}
+        .legal a{color:#00b7ff}
+
+        /* ---- Light theme (default) ---- */
+        html[data-theme="light"] body{background:#f8fafc;color:#334155}
+        html[data-theme="light"] .glass{background:#fff;border-color:rgba(15,23,42,.1);box-shadow:0 10px 40px rgba(15,23,42,.06)}
+        html[data-theme="light"] .legal h2{color:#0f172a}
+        html[data-theme="light"] .legal h3{color:#334155}
+        html[data-theme="light"] .legal p,.legal li{color:#475569}
+        html[data-theme="light"] .legal strong{color:#0f172a}
+        html[data-theme="light"] .text-white{color:#0f172a!important}
+        html[data-theme="light"] .text-slate-200{color:#334155!important}
+        html[data-theme="light"] .text-slate-300{color:#475569!important}
+        html[data-theme="light"] .text-slate-400{color:#64748b!important}
+        html[data-theme="light"] .text-slate-500{color:#64748b!important}
+        html[data-theme="light"] header{background:rgba(255,255,255,.9)!important;border-bottom-color:rgba(15,23,42,.08)!important}
+        html[data-theme="light"] [class*="border-white"]{border-color:rgba(15,23,42,.1)!important}
+        html[data-theme="light"] .hover\:text-white:hover{color:#0f172a!important}
+        html[data-theme="light"] .theme-icon-dark{display:none}
+        html[data-theme="light"] .theme-icon-light{display:inline-block!important}
+        html:not([data-theme="light"]) .theme-icon-light{display:none}
+    </style>
+</head>
+<body class="text-slate-200 antialiased">
+<header class="border-b border-white/5" style="background:rgba(10,10,26,.9)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <a href="/" class="flex items-center gap-3">
+            <img src="/hitune-icon.png" alt="Hitune" class="w-10 h-10 rounded-xl">
+            <div class="leading-tight">
+                <span class="text-lg font-extrabold text-white">Hitune</span>
+                <span class="block text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">Music & Distribution</span>
+            </div>
+        </a>
+        <div class="flex items-center gap-3">
+            <button type="button" class="theme-toggle w-10 h-10 rounded-lg border border-white/15 text-white hover:bg-white/5 transition inline-flex items-center justify-center" aria-label="Toggle light/dark mode" title="Toggle theme"><i class="fas fa-moon theme-icon-dark"></i><i class="fas fa-sun theme-icon-light"></i></button>
+            <a href="/" class="text-sm font-semibold text-slate-300 hover:text-white transition"><i class="fas fa-arrow-left mr-2 text-xs"></i>Back to Home</a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-semibold mb-6"><i class="fas fa-shield-halved text-xs"></i> Legal</span>
+    <h1 class="text-4xl font-extrabold text-white mb-3">Privacy Policy</h1>
+    <p class="text-slate-500 text-sm mb-10">Last updated: September 2026 · Applies to hitune.in, music.hitune.in, distribution.hitune.in and related Hitune services.</p>
+
+    <div class="glass rounded-2xl p-8 legal">
+        <p>Hitune ("we", "our", "us") is a music streaming and distribution platform operated as a product of <strong class="text-white">Believoo</strong>. This Privacy Policy explains what information we collect, why we collect it, and how we keep it safe when you use Hitune Music, Hitune Distribution, the Hitune web player, mobile apps, and related subdomains (together, the "Services").</p>
+
+        <h2>1. Information We Collect</h2>
+        <h3>Account information</h3>
+        <ul>
+            <li>Name, email address, and password when you create an account.</li>
+            <li>Artist/label details you provide for distribution (stage name, label name, payout details, tax/KYC information where required).</li>
+            <li>Profile preferences such as language, avatar and playlists.</li>
+        </ul>
+        <h3>Content you submit</h3>
+        <ul>
+            <li>Audio files, cover artwork, metadata (titles, ISRC/UPC, genre, release date) and related release information submitted through Hitune Distribution.</li>
+        </ul>
+        <h3>Usage &amp; device data</h3>
+        <ul>
+            <li>Listening activity, search queries, playlists and playback history.</li>
+            <li>Device type, operating system, app version, IP address and approximate location.</li>
+            <li>Log data such as access times, pages viewed and crash diagnostics.</li>
+        </ul>
+        <h3>Payment data</h3>
+        <ul>
+            <li>Payments are processed by third-party gateways (e.g., Razorpay, PayU). We receive transaction status and reference IDs — we do not store your full card or banking credentials.</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <ul>
+            <li>To provide, operate and improve the Services (streaming, playlists, recommendations).</li>
+            <li>To deliver your music to streaming platforms and digital stores (DSPs) on your behalf.</li>
+            <li>To calculate, report and pay royalties and to produce royalty statements.</li>
+            <li>To process payments, subscriptions and refunds.</li>
+            <li>To communicate with you — service updates, release status, security alerts and, with consent, marketing.</li>
+            <li>To detect fraud, enforce our Terms, and comply with legal obligations.</li>
+        </ul>
+
+        <h2>3. Sharing of Information</h2>
+        <ul>
+            <li><strong class="text-white">DSPs &amp; stores:</strong> release metadata, artist name, artwork and audio are shared with platforms (Spotify, Apple Music, YouTube Music, JioSaavn, etc.) strictly to distribute your content.</li>
+            <li><strong class="text-white">Payment processors:</strong> limited data required to complete transactions.</li>
+            <li><strong class="text-white">Group entities:</strong> within the Believoo group for infrastructure, support and security purposes.</li>
+            <li><strong class="text-white">Legal:</strong> where required by law, court order, or to protect rights, safety and property.</li>
+        </ul>
+        <p>We do <strong class="text-white">not</strong> sell your personal data to third parties.</p>
+
+        <h2>4. Cookies &amp; Tracking</h2>
+        <p>We use cookies and similar technologies for authentication, session management, preferences and analytics. You can control cookies through your browser settings, though some features may stop working without them.</p>
+
+        <h2>5. Data Retention</h2>
+        <p>We retain account and release data for as long as your account is active or as needed to provide the Services. Royalty, payout and transaction records are retained as required by tax and accounting laws. You may request deletion of your account; some data may be retained where legally required.</p>
+
+        <h2>6. Security</h2>
+        <p>We use industry-standard measures — encrypted transport (TLS), hashed passwords, access controls and monitoring — to protect your data. No method of transmission over the internet is 100% secure, but we work continuously to protect your information.</p>
+
+        <h2>7. Your Rights</h2>
+        <ul>
+            <li>Access, correct or update your account information at any time.</li>
+            <li>Request a copy of your personal data.</li>
+            <li>Request deletion of your account and personal data (subject to legal retention requirements).</li>
+            <li>Opt out of marketing communications via unsubscribe links.</li>
+        </ul>
+
+        <h2>8. Children's Privacy</h2>
+        <p>The Services are not directed at children under 13 (or the applicable age of digital consent). We do not knowingly collect data from children; if discovered, such data is deleted.</p>
+
+        <h2>9. International Transfers</h2>
+        <p>Your data may be processed on servers located in India or other countries where we or our providers operate. We take steps to ensure adequate protection wherever data is processed.</p>
+
+        <h2>10. Changes to This Policy</h2>
+        <p>We may update this policy from time to time. Material changes will be announced on this page or via email. Continued use of the Services after changes constitutes acceptance.</p>
+
+        <h2>11. Contact Us</h2>
+        <p>Questions about this policy or your data? Write to us at <a href="mailto:hello@hitune.in">hello@hitune.in</a> or reach the Believoo team via <a href="https://believoo.com">believoo.com</a>.</p>
+    </div>
+</main>
+
+<footer class="border-t border-white/5 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+        <p>&copy; 2026 Hitune — a <a href="https://believoo.com" class="text-slate-300 hover:text-accent">Believoo</a> product. All rights reserved.</p>
+        <div class="flex gap-5">
+            <a href="/terms.html" class="hover:text-accent">Terms</a>
+            <a href="/copyright.html" class="hover:text-accent">Copyright</a>
+            <a href="/refund-policy.html" class="hover:text-accent">Refunds</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

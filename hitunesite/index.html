@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    (function(){var d=document.documentElement,t='light';
+    try{t=localStorage.getItem('hitune-theme')||'light'}catch(e){}
+    d.setAttribute('data-theme',t);
+    var m=function(n){var mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.setAttribute('content',n==='light'?'#f8fafc':'#0a0a1a');};
+    m(t);
+    document.addEventListener('click',function(e){var b=e.target.closest('.theme-toggle');if(!b)return;
+    var n=d.getAttribute('data-theme')==='light'?'dark':'light';
+    d.setAttribute('data-theme',n);try{localStorage.setItem('hitune-theme',n)}catch(err){}m(n);});})();
+    </script>
+    <title>Hitune — Music Streaming & Distribution | A Believoo Company</title>
+    <meta name="description" content="Hitune is the music arm of Believoo — stream millions of songs on Hitune Music and distribute your releases to Spotify, Apple Music, YouTube Music and 100+ platforms worldwide. Keep 100% of your royalties.">
+    <meta name="keywords" content="hitune, hitune music, music distribution, spotify distribution, apple music distribution, believoo, music streaming india">
+    <meta name="author" content="Hitune">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hitune.in/">
+
+    <meta property="og:title" content="Hitune — Music Streaming & Distribution">
+    <meta property="og:description" content="Stream on Hitune Music. Distribute your music to 100+ platforms worldwide. A Believoo company.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hitune.in/">
+    <meta property="og:site_name" content="Hitune">
+    <meta property="og:image" content="https://hitune.in/hitune-icon.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="theme-color" content="#0a0a1a">
+
+    <link rel="icon" type="image/png" href="/hitune-icon.png">
+    <link rel="apple-touch-icon" href="/hitune-icon.png">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Figtree', 'sans-serif'] },
+                    colors: {
+                        ink: '#0a0a1a',
+                        ink2: '#0f0f24',
+                        accent: '#00b7ff',
+                        accent2: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background:#0a0a1a; font-family:'Figtree',sans-serif; }
+        .grad-text { background:linear-gradient(90deg,#00b7ff,#8b5cf6,#ec4899); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+        .grad-btn { background:linear-gradient(90deg,#00b7ff,#8b5cf6); }
+        .grad-btn:hover { filter:brightness(1.15); }
+        .glass { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); backdrop-filter:blur(12px); }
+        .glass:hover { border-color:rgba(0,183,255,.35); }
+        .marquee-track { animation:marquee 32s linear infinite; }
+        .marquee-track:hover { animation-play-state:paused; }
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+        .floaty { animation:floaty 6s ease-in-out infinite; }
+        .dot-bg { background-image:radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px); background-size:30px 30px; }
+        .card-hover { transition:all .3s ease; }
+        .card-hover:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,183,255,.12); }
+        .eq { display:flex; align-items:flex-end; gap:3px; height:22px; }
+        .eq span { width:4px; background:linear-gradient(180deg,#00b7ff,#8b5cf6); border-radius:2px; animation:eqb 1s ease-in-out infinite; }
+        .eq span:nth-child(2){animation-delay:.15s}.eq span:nth-child(3){animation-delay:.3s}.eq span:nth-child(4){animation-delay:.45s}.eq span:nth-child(5){animation-delay:.6s}
+        @keyframes eqb { 0%,100%{height:6px} 50%{height:22px} }
+
+        /* ---- Light theme (default) ---- */
+        html[data-theme="light"] body{background:#f8fafc;color:#334155}
+        html[data-theme="light"] .text-white:not(.grad-btn){color:#0f172a!important}
+        html[data-theme="light"] .text-slate-200{color:#334155!important}
+        html[data-theme="light"] .text-slate-300{color:#475569!important}
+        html[data-theme="light"] .text-slate-400{color:#64748b!important}
+        html[data-theme="light"] .text-slate-500{color:#64748b!important}
+        html[data-theme="light"] header{background:rgba(255,255,255,.88)!important;border-bottom-color:rgba(15,23,42,.08)!important}
+        html[data-theme="light"] .bg-ink{background:#fff!important}
+        html[data-theme="light"] .bg-ink2{background:#f1f5f9!important}
+        html[data-theme="light"] .bg-white\/5{background-color:rgba(15,23,42,.04)!important}
+        html[data-theme="light"] .bg-white\/10{background-color:rgba(15,23,42,.06)!important}
+        html[data-theme="light"] .bg-black\/40,html[data-theme="light"] .bg-black\/30{background-color:#fff!important}
+        html[data-theme="light"] .glass{background:rgba(255,255,255,.75)!important;border-color:rgba(15,23,42,.1)!important}
+        html[data-theme="light"] .dot-bg{background-image:radial-gradient(rgba(15,23,42,.09) 1px,transparent 1px)!important}
+        html[data-theme="light"] [class*="border-white"]{border-color:rgba(15,23,42,.1)!important}
+        html[data-theme="light"] .hover\:text-white:hover{color:#0f172a!important}
+        html[data-theme="light"] .hover\:bg-white\/5:hover{background:rgba(15,23,42,.06)!important}
+        html[data-theme="light"] .card-hover:hover{box-shadow:0 20px 50px rgba(0,183,255,.18)!important}
+        html[data-theme="light"] .theme-icon-dark{display:none}
+        html[data-theme="light"] .theme-icon-light{display:inline-block!important}
+        html:not([data-theme="light"]) .theme-icon-light{display:none}
+    </style>
+</head>
+<body class="text-slate-200 antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50 border-b border-white/5" style="background:rgba(10,10,26,.85);backdrop-filter:blur(14px);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <a href="/" class="flex items-center gap-3">
+                <img src="/hitune-icon.png" alt="Hitune" class="w-10 h-10 rounded-xl">
+                <div class="leading-tight">
+                    <span class="text-lg font-extrabold text-white tracking-tight">Hitune</span>
+                    <span class="block text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">Music & Distribution</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#products" class="hover:text-white transition">Products</a>
+                <a href="#how-it-works" class="hover:text-white transition">How It Works</a>
+                <a href="#platforms" class="hover:text-white transition">Platforms</a>
+                <a href="#family" class="hover:text-white transition">Believoo Group</a>
+                <a href="#legal" class="hover:text-white transition">Policies</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <button type="button" class="theme-toggle w-10 h-10 rounded-lg border border-white/15 text-white hover:bg-white/5 transition inline-flex items-center justify-center" aria-label="Toggle light/dark mode" title="Toggle theme"><i class="fas fa-moon theme-icon-dark"></i><i class="fas fa-sun theme-icon-light"></i></button>
+                <a href="https://music.hitune.in" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-white/15 text-sm font-semibold text-white hover:bg-white/5 transition">
+                    <i class="fas fa-headphones text-accent"></i> Open App
+                </a>
+                <a href="https://distribution.hitune.in" class="grad-btn inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold text-white transition">
+                    Distribute Music <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+                <button id="menuBtn" class="md:hidden text-white text-xl px-2"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden pb-4 text-sm font-medium text-slate-300 space-y-3">
+            <a href="#products" class="block hover:text-white">Products</a>
+            <a href="#how-it-works" class="block hover:text-white">How It Works</a>
+            <a href="#platforms" class="block hover:text-white">Platforms</a>
+            <a href="#family" class="block hover:text-white">Believoo Group</a>
+            <a href="#legal" class="block hover:text-white">Policies</a>
+        </div>
+    </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="relative min-h-screen flex items-center pt-24 pb-16 overflow-hidden dot-bg">
+    <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-25 blur-3xl" style="background:radial-gradient(circle,#00b7ff,transparent 70%)"></div>
+    <div class="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-20 blur-3xl" style="background:radial-gradient(circle,#8b5cf6,transparent 70%)"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div class="grid lg:grid-cols-2 gap-14 items-center">
+            <div>
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-semibold mb-6">
+                    <i class="fas fa-building text-xs"></i> A Believoo Company
+                </span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
+                    Your Music.<br><span class="grad-text">Everywhere.</span>
+                </h1>
+                <p class="text-lg text-slate-400 mb-4 max-w-xl leading-relaxed">
+                    Hitune is Believoo's music ecosystem — <strong class="text-white">Hitune Music</strong> for streaming millions of tracks, and <strong class="text-white">Hitune Distribution</strong> to release your songs on Spotify, Apple Music, YouTube Music and 100+ platforms while you keep 100% of your royalties.
+                </p>
+                <div class="flex items-center gap-3 mb-8 text-accent">
+                    <div class="eq"><span></span><span></span><span></span><span></span><span></span></div>
+                    <span class="text-sm font-semibold text-slate-300">Made in India · Built for the world</span>
+                </div>
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://music.hitune.in" class="grad-btn inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-bold shadow-lg shadow-accent/20 transition">
+                        <i class="fas fa-play text-sm"></i> Listen on Hitune Music
+                    </a>
+                    <a href="https://distribution.hitune.in" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/5 transition">
+                        <i class="fas fa-cloud-arrow-up text-sm"></i> Distribute Your Music
+                    </a>
+                    <a href="/hitune-music.apk?v=1cf0daa9" download class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/5 transition">
+                        <i class="fab fa-android text-sm"></i> Download Android App
+                    </a>
+                </div>
+                <div class="mt-12 flex items-center gap-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-extrabold text-white">100+</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-wider">Platforms</div>
+                    </div>
+                    <div class="w-px h-10 bg-white/10"></div>
+                    <div class="text-center">
+                        <div class="text-2xl font-extrabold text-white">100%</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-wider">Royalties</div>
+                    </div>
+                    <div class="w-px h-10 bg-white/10"></div>
+                    <div class="text-center">
+                        <div class="text-2xl font-extrabold text-white">24/7</div>
+                        <div class="text-xs text-slate-500 uppercase tracking-wider">Support</div>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="relative aspect-square max-w-md mx-auto">
+                    <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-accent/20 to-accent2/20"></div>
+                    <div class="absolute inset-4 rounded-[2.5rem] glass shadow-2xl p-8 flex flex-col items-center justify-center gap-6">
+                        <img src="/hitune-icon.png" alt="Hitune" class="w-44 h-44 floaty drop-shadow-2xl">
+                        <div class="w-full space-y-3">
+                            <div class="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10">
+                                <div class="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center text-accent"><i class="fas fa-music"></i></div>
+                                <div class="flex-1">
+                                    <div class="font-semibold text-white text-sm">Now Streaming</div>
+                                    <div class="text-xs text-slate-400">Millions of tracks on Hitune Music</div>
+                                </div>
+                                <div class="eq"><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10">
+                                <div class="w-10 h-10 rounded-xl bg-accent2/15 flex items-center justify-center text-accent2"><i class="fas fa-earth-asia"></i></div>
+                                <div class="flex-1">
+                                    <div class="font-semibold text-white text-sm">Global Delivery</div>
+                                    <div class="text-xs text-slate-400">Live on 100+ stores &amp; DSPs</div>
+                                </div>
+                                <i class="fas fa-circle-check text-emerald-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ LIVE STATS + TRENDING (real-time) ============ -->
+<section id="live" class="py-14 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center gap-3 mb-8">
+            <span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-green-400"></span></span>
+            <span class="text-[11px] font-bold tracking-[0.3em] uppercase text-white/50">Live from HiTune Music</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10" id="live-stats">
+            <div class="glass rounded-2xl p-6 text-center"><div class="text-3xl md:text-4xl font-extrabold grad-text" data-count="tracks">–</div><div class="text-xs text-white/50 mt-1 tracking-wider uppercase">Tracks</div></div>
+            <div class="glass rounded-2xl p-6 text-center"><div class="text-3xl md:text-4xl font-extrabold grad-text" data-count="artists">–</div><div class="text-xs text-white/50 mt-1 tracking-wider uppercase">Artists</div></div>
+            <div class="glass rounded-2xl p-6 text-center"><div class="text-3xl md:text-4xl font-extrabold grad-text" data-count="albums">–</div><div class="text-xs text-white/50 mt-1 tracking-wider uppercase">Albums</div></div>
+            <div class="glass rounded-2xl p-6 text-center"><div class="text-3xl md:text-4xl font-extrabold grad-text" data-count="plays">–</div><div class="text-xs text-white/50 mt-1 tracking-wider uppercase">Total Plays</div></div>
+        </div>
+        <div class="mb-3"><span class="text-[11px] font-bold tracking-[0.3em] uppercase text-white/40">Trending right now</span></div>
+        <div id="trending-rail" class="flex gap-3 overflow-x-auto pb-2" style="scrollbar-width:thin"></div>
+    </div>
+</section>
+
+<!-- ============ PLATFORM MARQUEE ============ -->
+<section id="platforms" class="py-8 bg-black/40 border-y border-white/5 overflow-hidden">
+    <div class="text-center pb-5">
+        <span class="text-[11px] font-bold tracking-[0.3em] uppercase text-white/40">Distribute to every major platform</span>
+    </div>
+    <div class="marquee-track flex whitespace-nowrap">
+        <div class="flex items-center gap-12 pr-12 text-white/60 text-lg font-bold uppercase tracking-wider">
+            <span><i class="fab fa-spotify mr-2 text-emerald-400"></i>Spotify</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-apple mr-2"></i>Apple Music</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-youtube mr-2 text-red-400"></i>YouTube Music</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-amazon mr-2"></i>Amazon Music</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-deezer mr-2 text-pink-400"></i>Deezer</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-tiktok mr-2"></i>TikTok</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-instagram mr-2 text-fuchsia-400"></i>Instagram / Facebook</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>JioSaavn</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Gaana</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Hungama</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Wynk</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Anghami</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Boomplay</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>+ 100 more</span>
+        </div>
+        <div class="flex items-center gap-12 pr-12 text-white/60 text-lg font-bold uppercase tracking-wider" aria-hidden="true">
+            <span><i class="fab fa-spotify mr-2 text-emerald-400"></i>Spotify</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-apple mr-2"></i>Apple Music</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-youtube mr-2 text-red-400"></i>YouTube Music</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-amazon mr-2"></i>Amazon Music</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-deezer mr-2 text-pink-400"></i>Deezer</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-tiktok mr-2"></i>TikTok</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span><i class="fab fa-instagram mr-2 text-fuchsia-400"></i>Instagram / Facebook</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>JioSaavn</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Gaana</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Hungama</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Wynk</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Anghami</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Boomplay</span><span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>+ 100 more</span>
+        </div>
+    </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section id="products" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="text-accent font-semibold tracking-wider uppercase text-sm">Our Products</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">One Brand. Complete Music Ecosystem.</h2>
+            <p class="text-slate-400 mt-4 max-w-2xl mx-auto">Everything an artist or listener needs — streaming, distribution, live and more — under one roof.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="https://music.hitune.in" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-accent/15 flex items-center justify-center mb-6"><i class="fas fa-headphones text-2xl text-accent"></i></div>
+                <h3 class="text-xl font-bold text-white mb-2">Hitune Music</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-4">Stream millions of songs, playlists, radio and lyrics — on web and our Android app.</p>
+                <span class="inline-flex items-center gap-2 text-accent font-semibold text-sm">Open <i class="fas fa-arrow-right text-xs"></i></span>
+            </a>
+            <a href="https://distribution.hitune.in" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-accent2/15 flex items-center justify-center mb-6"><i class="fas fa-cloud-arrow-up text-2xl text-accent2"></i></div>
+                <h3 class="text-xl font-bold text-white mb-2">Hitune Distribution</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-4">Release your music on 100+ global platforms and keep 100% of your royalties.</p>
+                <span class="inline-flex items-center gap-2 text-accent2 font-semibold text-sm">Get Started <i class="fas fa-arrow-right text-xs"></i></span>
+            </a>
+            <a href="https://web.hitune.in" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-400/15 flex items-center justify-center mb-6"><i class="fas fa-globe text-2xl text-emerald-400"></i></div>
+                <h3 class="text-xl font-bold text-white mb-2">Hitune Web</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-4">Full-featured web player — no install needed, works on every device and browser.</p>
+                <span class="inline-flex items-center gap-2 text-emerald-400 font-semibold text-sm">Launch <i class="fas fa-arrow-right text-xs"></i></span>
+            </a>
+            <a href="https://panel.hitune.in" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-pink-400/15 flex items-center justify-center mb-6"><i class="fas fa-gauge-high text-2xl text-pink-400"></i></div>
+                <h3 class="text-xl font-bold text-white mb-2">Artist Panel</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-4">Manage releases, track performance, view analytics and control your catalog.</p>
+                <span class="inline-flex items-center gap-2 text-pink-400 font-semibold text-sm">Sign In <i class="fas fa-arrow-right text-xs"></i></span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works" class="py-24 bg-black/30 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="text-accent font-semibold tracking-wider uppercase text-sm">Music Distribution</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">How Hitune Distribution Works</h2>
+            <p class="text-slate-400 mt-4 max-w-2xl mx-auto">From your studio to every streaming platform on the planet — in five simple steps.</p>
+        </div>
+        <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div class="glass rounded-2xl p-6 card-hover">
+                <div class="text-4xl font-extrabold grad-text mb-4">01</div>
+                <h3 class="font-bold text-white mb-2">Create Account</h3>
+                <p class="text-sm text-slate-400">Sign up on Hitune Distribution and pick a plan — Rising Artist, Breakout or Professional.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-hover">
+                <div class="text-4xl font-extrabold grad-text mb-4">02</div>
+                <h3 class="font-bold text-white mb-2">Upload Release</h3>
+                <p class="text-sm text-slate-400">Submit your audio, cover art and metadata — artist name, ISRC, genre, release date.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-hover">
+                <div class="text-4xl font-extrabold grad-text mb-4">03</div>
+                <h3 class="font-bold text-white mb-2">Quality Review</h3>
+                <p class="text-sm text-slate-400">Our team checks audio specs, artwork and rights so stores accept your release first time.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-hover">
+                <div class="text-4xl font-extrabold grad-text mb-4">04</div>
+                <h3 class="font-bold text-white mb-2">Go Live Worldwide</h3>
+                <p class="text-sm text-slate-400">Your music is delivered to Spotify, Apple Music, YouTube Music, JioSaavn and 100+ DSPs.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-hover">
+                <div class="text-4xl font-extrabold grad-text mb-4">05</div>
+                <h3 class="font-bold text-white mb-2">Earn Royalties</h3>
+                <p class="text-sm text-slate-400">Track streams and earnings from your dashboard — you keep 100% of your royalties.</p>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="https://distribution.hitune.in" class="grad-btn inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-bold shadow-lg shadow-accent/20 transition">
+                Start Distributing <i class="fas fa-arrow-right text-sm"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ WHY ============ -->
+<section class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <span class="text-accent font-semibold tracking-wider uppercase text-sm">Why Hitune</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2 mb-6">Built for Independent Artists</h2>
+                <p class="text-slate-400 text-lg leading-relaxed mb-8">Whether you are releasing your first single or managing a full catalog, Hitune gives you label-grade distribution without giving up your rights or royalties.</p>
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center text-accent flex-shrink-0"><i class="fas fa-indian-rupee-sign text-lg"></i></div>
+                        <div><h4 class="font-bold text-white mb-1">100% Royalties</h4><p class="text-slate-400 text-sm">Your earnings stay yours — no hidden cuts, no revenue share on plans.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-accent2/15 flex items-center justify-center text-accent2 flex-shrink-0"><i class="fas fa-bolt text-lg"></i></div>
+                        <div><h4 class="font-bold text-white mb-1">Fast Delivery</h4><p class="text-slate-400 text-sm">Optimized delivery pipeline gets releases live on stores quickly.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-400/15 flex items-center justify-center text-emerald-400 flex-shrink-0"><i class="fas fa-flag text-lg"></i></div>
+                        <div><h4 class="font-bold text-white mb-1">Indian + Global Stores</h4><p class="text-slate-400 text-sm">JioSaavn, Gaana, Hungama and Wynk alongside Spotify, Apple Music and more.</p></div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-pink-400/15 flex items-center justify-center text-pink-400 flex-shrink-0"><i class="fas fa-headset text-lg"></i></div>
+                        <div><h4 class="font-bold text-white mb-1">Real Human Support</h4><p class="text-slate-400 text-sm">Backed by Believoo's 24/7 support team — not a ticket black hole.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="glass rounded-2xl p-7 card-hover">
+                    <i class="fab fa-spotify text-3xl text-emerald-400 mb-4"></i>
+                    <h4 class="font-bold text-white mb-1">Streaming</h4>
+                    <p class="text-sm text-slate-400">Millions of tracks, playlists, radio and lyrics on Hitune Music.</p>
+                </div>
+                <div class="glass rounded-2xl p-7 card-hover mt-8">
+                    <i class="fas fa-cloud-arrow-up text-3xl text-accent mb-4"></i>
+                    <h4 class="font-bold text-white mb-1">Distribution</h4>
+                    <p class="text-sm text-slate-400">Singles, EPs and albums delivered to 100+ stores worldwide.</p>
+                </div>
+                <div class="glass rounded-2xl p-7 card-hover">
+                    <i class="fas fa-chart-line text-3xl text-accent2 mb-4"></i>
+                    <h4 class="font-bold text-white mb-1">Analytics</h4>
+                    <p class="text-sm text-slate-400">Streams, earnings and release status in one artist dashboard.</p>
+                </div>
+                <div class="glass rounded-2xl p-7 card-hover mt-8">
+                    <i class="fas fa-tower-broadcast text-3xl text-pink-400 mb-4"></i>
+                    <h4 class="font-bold text-white mb-1">Live & More</h4>
+                    <p class="text-sm text-slate-400">Live audio, games and community features across the Hitune network.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ BELIEVOO FAMILY ============ -->
+<section id="family" class="py-24 bg-black/30 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="text-accent font-semibold tracking-wider uppercase text-sm">Believoo Group</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">Part of the Believoo Family</h2>
+            <p class="text-slate-400 mt-4 max-w-2xl mx-auto">Hitune is built and operated by Believoo — alongside a family of products powering creators and businesses.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="https://believoo.com" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-400/15 flex items-center justify-center mb-5"><i class="fas fa-building text-2xl text-amber-400"></i></div>
+                <h3 class="text-lg font-bold text-white mb-2">Believoo</h3>
+                <p class="text-sm text-slate-400">Parent company — cloud, VPS, web hosting, domains &amp; software solutions.</p>
+            </a>
+            <div class="glass rounded-2xl p-8 text-center border-accent/30" style="border-width:1px;">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-accent/15 flex items-center justify-center mb-5"><img src="/hitune-icon.png" class="w-9 h-9" alt="Hitune"></div>
+                <h3 class="text-lg font-bold text-white mb-2">Hitune</h3>
+                <p class="text-sm text-slate-400">You are here — music streaming &amp; worldwide distribution.</p>
+            </div>
+            <a href="https://bc.believoo.com" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-accent2/15 flex items-center justify-center mb-5"><i class="fas fa-people-group text-2xl text-accent2"></i></div>
+                <h3 class="text-lg font-bold text-white mb-2">B-Connect</h3>
+                <p class="text-sm text-slate-400">Workspace suite — meetings, projects, billing, kanban &amp; AI notes.</p>
+            </a>
+            <a href="https://ghc.believoo.com" class="glass card-hover rounded-2xl p-8 block text-center">
+                <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-400/15 flex items-center justify-center mb-5"><i class="fas fa-server text-2xl text-emerald-400"></i></div>
+                <h3 class="text-lg font-bold text-white mb-2">GHC</h3>
+                <p class="text-sm text-slate-400">Game &amp; hosting control infrastructure by Believoo.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ LEGAL ============ -->
+<section id="legal" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+            <span class="text-accent font-semibold tracking-wider uppercase text-sm">Legal</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">Policies &amp; Terms</h2>
+            <p class="text-slate-400 mt-4 max-w-2xl mx-auto">Transparent policies for listeners, artists and partners across the Hitune platform.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <a href="/privacy-policy.html" class="glass card-hover rounded-2xl p-7 block">
+                <i class="fas fa-shield-halved text-2xl text-accent mb-4"></i>
+                <h3 class="font-bold text-white mb-1">Privacy Policy</h3>
+                <p class="text-sm text-slate-400">How we collect, use and protect your data.</p>
+            </a>
+            <a href="/terms.html" class="glass card-hover rounded-2xl p-7 block">
+                <i class="fas fa-file-contract text-2xl text-accent2 mb-4"></i>
+                <h3 class="font-bold text-white mb-1">Terms of Service</h3>
+                <p class="text-sm text-slate-400">The rules for using Hitune products and services.</p>
+            </a>
+            <a href="/copyright.html" class="glass card-hover rounded-2xl p-7 block">
+                <i class="fas fa-copyright text-2xl text-emerald-400 mb-4"></i>
+                <h3 class="font-bold text-white mb-1">Copyright &amp; Content</h3>
+                <p class="text-sm text-slate-400">Rights, takedowns and content ownership policy.</p>
+            </a>
+            <a href="/refund-policy.html" class="glass card-hover rounded-2xl p-7 block">
+                <i class="fas fa-rotate-left text-2xl text-pink-400 mb-4"></i>
+                <h3 class="font-bold text-white mb-1">Refund Policy</h3>
+                <p class="text-sm text-slate-400">Cancellations and refunds for plans and services.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="py-24 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20" style="background:radial-gradient(circle at 50% 0%,#00b7ff,transparent 60%)"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <img src="/hitune-icon.png" alt="Hitune" class="w-24 h-24 mx-auto mb-8 floaty">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-6">Ready to share your music<br><span class="grad-text">with the world?</span></h2>
+        <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Join Hitune Distribution today, or press play on Hitune Music and start listening.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="https://distribution.hitune.in" class="grad-btn inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white font-bold shadow-lg shadow-accent/25 transition"><i class="fas fa-cloud-arrow-up"></i> Distribute Now</a>
+            <a href="https://music.hitune.in" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/20 text-white font-bold hover:bg-white/5 transition"><i class="fas fa-play"></i> Open Hitune Music</a>
+        </div>
+    </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-white/5 bg-black/40 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-10 mb-12">
+            <div>
+                <a href="/" class="flex items-center gap-3 mb-5">
+                    <img src="/hitune-icon.png" alt="Hitune" class="w-10 h-10 rounded-xl">
+                    <div class="leading-tight">
+                        <span class="text-lg font-extrabold text-white">Hitune</span>
+                        <span class="block text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">Music & Distribution</span>
+                    </div>
+                </a>
+                <p class="text-sm text-slate-400 leading-relaxed">The music ecosystem by Believoo — streaming for listeners, worldwide distribution for artists.</p>
+                <div class="flex gap-3 mt-5">
+                    <a href="https://music.hitune.in" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-300 hover:text-accent hover:bg-white/10 transition" title="Hitune Music"><i class="fas fa-music"></i></a>
+                    <a href="https://believoo.com" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-300 hover:text-accent hover:bg-white/10 transition" title="Believoo"><i class="fas fa-globe"></i></a>
+                    <a href="mailto:hello@hitune.in" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-slate-300 hover:text-accent hover:bg-white/10 transition" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 text-sm uppercase tracking-wider">Products</h4>
+                <ul class="space-y-2.5 text-sm text-slate-400">
+                    <li><a href="https://music.hitune.in" class="hover:text-accent transition">Hitune Music</a></li>
+                    <li><a href="https://distribution.hitune.in" class="hover:text-accent transition">Hitune Distribution</a></li>
+                    <li><a href="https://web.hitune.in" class="hover:text-accent transition">Hitune Web Player</a></li>
+                    <li><a href="https://panel.hitune.in" class="hover:text-accent transition">Artist Panel</a></li>
+                    <li><a href="https://live.hitune.in" class="hover:text-accent transition">Hitune Live</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 text-sm uppercase tracking-wider">Believoo Group</h4>
+                <ul class="space-y-2.5 text-sm text-slate-400">
+                    <li><a href="https://believoo.com" class="hover:text-accent transition">Believoo</a></li>
+                    <li><a href="https://bc.believoo.com" class="hover:text-accent transition">B-Connect</a></li>
+                    <li><a href="https://ghc.believoo.com" class="hover:text-accent transition">GHC</a></li>
+                    <li><a href="https://rv.hitune.in" class="hover:text-accent transition">Hitune Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 text-sm uppercase tracking-wider">Legal & Support</h4>
+                <ul class="space-y-2.5 text-sm text-slate-400">
+                    <li><a href="/privacy-policy.html" class="hover:text-accent transition">Privacy Policy</a></li>
+                    <li><a href="/terms.html" class="hover:text-accent transition">Terms of Service</a></li>
+                    <li><a href="/copyright.html" class="hover:text-accent transition">Copyright &amp; Content</a></li>
+                    <li><a href="/refund-policy.html" class="hover:text-accent transition">Refund Policy</a></li>
+                    <li><a href="mailto:hello@hitune.in" class="hover:text-accent transition">hello@hitune.in</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+            <p>&copy; <span id="yr">2026</span> Hitune — a <a href="https://believoo.com" class="text-slate-300 hover:text-accent transition">Believoo</a> product. All rights reserved.</p>
+            <p class="flex items-center gap-2"><i class="fas fa-music text-accent"></i> Made with rhythm in India</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Live stats + trending from HiTune Music API
+(function(){
+  fetch('https://music.hitune.in/api/iyol/site_stats').then(function(r){return r.json()}).then(function(j){
+    var st = (j && j.stats) || {};
+    var fmt = function(n){ n=+n||0; if(n>=1000000)return (n/1000000).toFixed(1)+'M'; if(n>=1000)return (n/1000).toFixed(1)+'K'; return ''+n; };
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      var k = el.getAttribute('data-count'), target = +st[k]||0, cur=0, t0=null;
+      var step=function(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/900); el.textContent=fmt(Math.round(target*p)); if(p<1)requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+    var rail = document.getElementById('trending-rail');
+    if (rail && j.trending && j.trending.length){
+      rail.innerHTML = j.trending.map(function(t){
+        return '<a href="'+t.url+'" target="_blank" rel="noopener" class="glass rounded-xl px-4 py-3 min-w-[210px] hover:border-cyan-400/40 transition-colors" style="text-decoration:none">'
+          +'<div class="text-sm font-semibold text-white truncate" style="max-width:190px">'+ (t.title||'Track').replace(/</g,'&lt;') +'</div>'
+          +'<div class="text-xs text-white/50 truncate" style="max-width:190px">'+ (t.artist||'').replace(/</g,'&lt;') +'</div>'
+          +'<div class="text-[10px] text-cyan-300/80 mt-1">'+ fmt(t.plays) +' plays</div></a>';
+      }).join('');
+    } else if (rail){ rail.innerHTML='<div class="text-white/40 text-sm">Trending tracks coming soon</div>'; }
+  }).catch(function(){});
+})();
+
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    document.getElementById('menuBtn').addEventListener('click', function() {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    (function(){var d=document.documentElement,t='light';
+    try{t=localStorage.getItem('hitune-theme')||'light'}catch(e){}
+    d.setAttribute('data-theme',t);
+    var m=function(n){var mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.setAttribute('content',n==='light'?'#f8fafc':'#0a0a1a');};
+    m(t);
+    document.addEventListener('click',function(e){var b=e.target.closest('.theme-toggle');if(!b)return;
+    var n=d.getAttribute('data-theme')==='light'?'dark':'light';
+    d.setAttribute('data-theme',n);try{localStorage.setItem('hitune-theme',n)}catch(err){}m(n);});})();
+    </script>
+    <title>Refund Policy | Hitune</title>
+    <meta name="description" content="Refund and cancellation policy for Hitune Distribution plans and Hitune Music subscriptions.">
+    <link rel="canonical" href="https://hitune.in/refund-policy.html">
+    <link rel="icon" type="image/png" href="/hitune-icon.png">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Figtree','sans-serif']},colors:{ink:'#0a0a1a',accent:'#00b7ff',accent2:'#8b5cf6'}}}}</script>
+    <style>
+        body{background:#0a0a1a;font-family:'Figtree',sans-serif}
+        .glass{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+        .legal h2{color:#fff;font-weight:800;font-size:1.35rem;margin:2.2rem 0 .8rem}
+        .legal p,.legal li{color:#94a3b8;line-height:1.75;font-size:.95rem}
+        .legal ul{list-style:disc;padding-left:1.4rem;margin:.6rem 0}
+        .legal a{color:#00b7ff}
+
+        /* ---- Light theme (default) ---- */
+        html[data-theme="light"] body{background:#f8fafc;color:#334155}
+        html[data-theme="light"] .glass{background:#fff;border-color:rgba(15,23,42,.1);box-shadow:0 10px 40px rgba(15,23,42,.06)}
+        html[data-theme="light"] .legal h2{color:#0f172a}
+        html[data-theme="light"] .legal h3{color:#334155}
+        html[data-theme="light"] .legal p,.legal li{color:#475569}
+        html[data-theme="light"] .legal strong{color:#0f172a}
+        html[data-theme="light"] .text-white{color:#0f172a!important}
+        html[data-theme="light"] .text-slate-200{color:#334155!important}
+        html[data-theme="light"] .text-slate-300{color:#475569!important}
+        html[data-theme="light"] .text-slate-400{color:#64748b!important}
+        html[data-theme="light"] .text-slate-500{color:#64748b!important}
+        html[data-theme="light"] header{background:rgba(255,255,255,.9)!important;border-bottom-color:rgba(15,23,42,.08)!important}
+        html[data-theme="light"] [class*="border-white"]{border-color:rgba(15,23,42,.1)!important}
+        html[data-theme="light"] .hover\:text-white:hover{color:#0f172a!important}
+        html[data-theme="light"] .theme-icon-dark{display:none}
+        html[data-theme="light"] .theme-icon-light{display:inline-block!important}
+        html:not([data-theme="light"]) .theme-icon-light{display:none}
+    </style>
+</head>
+<body class="text-slate-200 antialiased">
+<header class="border-b border-white/5" style="background:rgba(10,10,26,.9)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <a href="/" class="flex items-center gap-3">
+            <img src="/hitune-icon.png" alt="Hitune" class="w-10 h-10 rounded-xl">
+            <div class="leading-tight">
+                <span class="text-lg font-extrabold text-white">Hitune</span>
+                <span class="block text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">Music & Distribution</span>
+            </div>
+        </a>
+        <div class="flex items-center gap-3">
+            <button type="button" class="theme-toggle w-10 h-10 rounded-lg border border-white/15 text-white hover:bg-white/5 transition inline-flex items-center justify-center" aria-label="Toggle light/dark mode" title="Toggle theme"><i class="fas fa-moon theme-icon-dark"></i><i class="fas fa-sun theme-icon-light"></i></button>
+            <a href="/" class="text-sm font-semibold text-slate-300 hover:text-white transition"><i class="fas fa-arrow-left mr-2 text-xs"></i>Back to Home</a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-semibold mb-6"><i class="fas fa-rotate-left text-xs"></i> Legal</span>
+    <h1 class="text-4xl font-extrabold text-white mb-3">Refund Policy</h1>
+    <p class="text-slate-500 text-sm mb-10">Last updated: September 2026</p>
+
+    <div class="glass rounded-2xl p-8 legal">
+        <p>This policy explains when refunds apply for Hitune Distribution plans, Hitune Music subscriptions, and other paid services operated by <strong class="text-white">Believoo</strong>.</p>
+
+        <h2>1. Hitune Distribution Plans</h2>
+        <ul>
+            <li><strong class="text-white">Before delivery:</strong> If you purchase a distribution plan and no release has been submitted or delivered to stores, you may request a full refund within <strong class="text-white">7 days</strong> of purchase.</li>
+            <li><strong class="text-white">After delivery:</strong> Once a release has been delivered to one or more DSPs (Spotify, Apple Music, etc.), the plan fee is considered consumed and is <strong class="text-white">non-refundable</strong>.</li>
+            <li><strong class="text-white">Rejected releases:</strong> If a release is rejected during our quality review for reasons within your control (rights issues, bad audio, guideline violations), the plan fee is not refundable — but you may fix and resubmit.</li>
+        </ul>
+
+        <h2>2. Hitune Music Subscriptions</h2>
+        <ul>
+            <li>Premium subscriptions can be cancelled anytime; access continues until the end of the current billing period.</li>
+            <li>Refunds for the current period are issued only where required by law or in cases of verified billing errors or duplicate charges.</li>
+            <li>In-app purchases made via Google Play / App Store are subject to the respective store's refund policies.</li>
+        </ul>
+
+        <h2>3. Duplicate or Failed Payments</h2>
+        <ul>
+            <li>Duplicate charges and payments debited but not credited to your account are refunded in full after verification.</li>
+            <li>Refunds are processed back to the original payment method via our payment processor (Razorpay/PayU) and typically reflect within <strong class="text-white">5–10 business days</strong>, depending on your bank.</li>
+        </ul>
+
+        <h2>4. Royalties &amp; Payouts</h2>
+        <ul>
+            <li>Royalties earned from DSPs are not "purchases" and are not refundable; they are paid out per your dashboard's payout schedule.</li>
+            <li>If DSPs claw back royalties due to streaming fraud or rights disputes, corresponding amounts may be deducted from your balance.</li>
+        </ul>
+
+        <h2>5. How to Request a Refund</h2>
+        <p>Email <a href="mailto:hello@hitune.in">hello@hitune.in</a> with subject <strong class="text-white">"Refund Request"</strong>, including your account email, order/transaction ID, and reason. We review requests within 3–5 business days.</p>
+
+        <h2>6. Chargebacks</h2>
+        <p>Please contact us before filing a chargeback — most issues resolve faster directly. Unjustified chargebacks may result in account suspension and removal of distributed content.</p>
+    </div>
+</main>
+
+<footer class="border-t border-white/5 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+        <p>&copy; 2026 Hitune — a <a href="https://believoo.com" class="text-slate-300 hover:text-accent">Believoo</a> product. All rights reserved.</p>
+        <div class="flex gap-5">
+            <a href="/privacy-policy.html" class="hover:text-accent">Privacy</a>
+            <a href="/terms.html" class="hover:text-accent">Terms</a>
+            <a href="/copyright.html" class="hover:text-accent">Copyright</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

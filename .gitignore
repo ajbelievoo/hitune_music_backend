@@ -3,6 +3,7 @@
 !.gitignore
 !/music/
 !/web/
+!/hitunesite/
 
 # --- secrets (never committed) ---
 music/.env
@@ -28,3 +29,7 @@ untitled file
 *.swp
 *~
 .DS_Store
+
+# hitunesite binaries (deploy artifacts)
+hitunesite/*.apk
+hitunesite/*.apk.bak
