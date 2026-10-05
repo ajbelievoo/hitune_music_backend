@@ -1,0 +1,13 @@
+.lorem {
+    background: rgba(var(--theme_color),0.3);
+    padding: 25px;
+    border-radius: 5px;
+    color: rgba(var(--ui_color),);
+}
+.lorem .logs .log {
+  margin-bottom: 10px;
+}
+
+.lorem .logs .log:last-child {
+  margin-bottom: 0
+}

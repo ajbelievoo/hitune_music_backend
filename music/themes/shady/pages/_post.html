@@ -1,0 +1,27 @@
+
+<div class="page_bg small colorOnly" style='background-color:rgb($bof ? single^data^background_color$)'></div>
+<div class="page_bg small colorOnly dropColor" style='background-color:rgb($bof ? single^data^background_color$)'></div>
+
+$bof if single^data^background$
+<div class="page_bg small blur dark">$bof ? ?$</div>
+$!bof if single^data^background$
+
+<div class="page_content single $bof ? single^data^ot$_content $bof ? single^page^classes$">
+
+  <div class="d_head item bof_$bof ? single^data^ot$_$bof ? single^data^hash$" id="bof_main">
+
+    $bof if single^data^cover$
+    <div class="cover_wrapper">$bof ? ?$</div>
+    $!bof if single^data^cover$
+
+    <div class="detail clearafter">
+      <div class="title">$bof ? single^data^title$</div>
+    </div>
+
+  </div>
+
+  <div class="$bof ? single^data^ot$_body t_s_body">
+    $bof ? single^data^content$
+  </div>
+
+</div>

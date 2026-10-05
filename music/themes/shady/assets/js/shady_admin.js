@@ -1,0 +1,166 @@
+"use strict";
+
+window.shady_admin = {
+
+  displaying: function(){
+
+    $(document).on( "click", "#item_features .btn-primary", function(){
+      window.shady_admin.feature.edit_start("new");
+    } )
+
+    $(document).on( "modal_created", function( e,t ){
+      if ( t.inputs ? Object.keys( t.inputs ).indexOf( "features" ) > -1 : false ){
+        window.shady_admin.feature.build();
+      }
+    } )
+
+    $(document).on( "click", "#item_features .fts .ft .ft_buttons .btn.edit", function(){
+
+      var ft_id = $(this).parents(".ft").data("ft-id");
+      window.shady_admin.feature.edit_start( ft_id );
+
+    } )
+
+    $(document).on( "click", "#item_features .fts .ft .ft_buttons .btn.delete", function(){
+
+      var ft_id = $(this).parents(".ft").data("ft-id");
+
+      var ftData = $(document).find("#item_features input[name=features]").val();
+      if ( !ftData ) ftData = {};
+      else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+      delete ftData[ ft_id ];
+
+      $(document).find("#item_features input[name=features]").val( encodeURIComponent( JSON.stringify( ftData ) ) );
+
+      window.shady_admin.feature.build();
+
+    } )
+
+  },
+
+  unloading: function(){
+  },
+
+  feature: {
+    build: function(){
+
+      var ftData = $(document).find("#item_features input[name=features]").val();
+      if ( !ftData ) ftData = {};
+      else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+      if ( ftData ){
+        var html = "<div class='fts'>";
+        for ( var i=0; i<Object.keys(ftData).length; i++ ){
+          var ft_k = Object.keys(ftData)[i];
+          var ft = ftData[ ft_k ];
+          html += "<div class='ft' data-ft-id='"+ft_k+"'>\
+            <div class='ft_title'>"+ft.title+"</div>\
+            <div class='ft_desc'>"+ft.text+"</div>\
+            <div class='ft_buttons'>\
+              <div class='btn btn-secondary edit'>Edit</div>\
+              <div class='btn btn-secondary delete'>Delete</div>\
+            </div>\
+          </div>";
+        }
+        html += "</div>";
+        $(document).find("#ft_list").html( html );
+      }
+
+    },
+    edit_start: function( $ID ){
+
+      var ftData = $(document).find("#item_features input[name=features]").val();
+      if ( !ftData ) ftData = {};
+      else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+      var _data = {};
+      if ( ftData ? ftData[ $ID ] : false )
+      _data = ftData[ $ID ];
+
+      var $inputs = {
+        icon: {
+          label: "Icon",
+          tip: "Visit <a href='https://materialdesignicons.com/' target='_blank'>materialdesignicons.com</a>, copy name of chosen icon and paste it here. Example: star",
+          input: {
+            type: "text",
+            name: "icon",
+            value: _data.icon ? _data.icon : ""
+          }
+        },
+        title: {
+          label: "Title",
+          input: {
+            type: "text",
+            name: "title",
+            value: _data.title ? _data.title : ""
+          }
+        },
+        text: {
+          label: "Description",
+          input: {
+            type: "textarea",
+            name: "text",
+            value: _data.text ? _data.text : ""
+          }
+        }
+      };
+
+      var Langs = window.ui.page.curr().data.becli.entity.indexed_non_default_langs;
+
+      if ( Langs && Langs.length ){
+        for ( var i=0; i<Langs.length; i++ ){
+          var Lang = Langs[i];
+          $inputs["title_"+Lang.code2] = {
+            label: "Title - " + Lang.name,
+            input: {
+              type: "text",
+              name: "title_"+Lang.code2,
+              value: _data["title_"+Lang.code2] ? _data["title_"+Lang.code2] : ""
+            }
+          }
+          $inputs["text_"+Lang.code2] = {
+            label: "Description - " + Lang.name,
+            input: {
+              type: "textarea",
+              name: "text_"+Lang.code2,
+              value: _data["text_"+Lang.code2] ? _data["text_"+Lang.code2] : ""
+            }
+          }
+        }
+      }
+
+      window.bof_modal.create({
+        layer: 2,
+        title: "test",
+        inputs: $inputs,
+        buttons: [
+          [ "btn-primary", $ID == "new" ? "Add" : "Edit", "window.shady_admin.feature.edit_finalize(\""+ $ID +"\")" ]
+        ]
+      })
+
+    },
+    edit_finalize: function( $ID ){
+
+      var ftData = $(document).find("#item_features input[name=features]").val();
+      if ( !ftData ) ftData = {};
+      else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+      var modalData = window.bof_modal.get(true,".modal.layer_2");
+
+      if ( $ID == "new" ){
+        ftData[ window._g.uniqid(8) ] = modalData;
+      }
+      else{
+        ftData[ $ID ] = modalData;
+      }
+
+      $(document).find("#item_features input[name=features]").val( encodeURIComponent( JSON.stringify( ftData ) ) );
+      window.shady_admin.feature.build();
+
+      window.bof_modal.close();
+
+    }
+  },
+
+}

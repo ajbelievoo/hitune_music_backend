@@ -1,0 +1,80 @@
+$bof if display^type = grid$
+<div class="grid $bof ? Parent^DataPool^display^classes$" $bof ? Parent^DataPool^display^attr$ id="$bof ? Parent^DataPool^ID$">
+$!bof if display^type = grid$
+$bof if display^type != grid$
+<div class="widget $bof ? Parent^DataPool^display^classes$" $bof ? Parent^DataPool^display^attr$ id="$bof ? Parent^DataPool^ID$">
+$!bof if display^type != grid$
+  <div class="widget_bg">
+    $bof if display^bg_img$
+      $bof ? ?$
+    $!bof if display^bg_img$
+  </div>
+
+  <div class="widget_content">
+
+    <div class="title">
+    $bof if display^link$
+    <a href="$bof ? ?$">
+    $!bof if display^link$
+    $bof ? display^title$
+    $bof if display^link$
+    </a>
+    <a class="_more" href="$bof ? ?$">$bof ? Lang^more __uc=true$</a>
+    $!bof if display^link$
+    </div>
+
+    $bof if display^sub_data$
+    <div class="sub_title">$bof ? ?$</div>
+    $!bof if display^sub_data$
+
+    $bof if display^type = slider$
+      $bof html Parent^DataPool^? __name=widget_slider$
+    $!bof if display^type = slider$
+
+    $bof if display^type = list$
+      $bof html Parent^DataPool^? __name=widget_list$
+    $!bof if display^type = list$
+
+    $bof if display^type = table$
+      $bof html Parent^DataPool^? __name=widget_table$
+    $!bof if display^type = table$
+
+    $bof if display^type = search_form$
+      $bof html Parent^DataPool^? __name=widget_search_form$
+    $!bof if display^type = search_form$
+
+    $bof if display^type = html$
+      $bof html Parent^DataPool^? __name=widget_html$
+    $!bof if display^type = html$
+
+    $bof if display^type = text$
+      $bof html Parent^DataPool^? __name=widget_html$
+    $!bof if display^type = text$
+
+    $bof if display^type = ads$
+      $bof html Parent^DataPool^? __name=widget_ads$
+    $!bof if display^type = ads$
+
+    $bof if display^type = grid$
+      $bof if Parent^DataPool^display^widgets$
+      <div class="cols cols_$bof ? Parent^Parent^DataPool^display^grid_cols$">
+        $bof foreach ?$
+          <div class="col">
+          $bof html ? __name=widget$
+          </div>
+        $!bof foreach ?$
+      </div>
+      $!bof if Parent^DataPool^display^widgets$
+    $!bof if display^type = grid$
+
+  </div>
+
+</div>
+
+$bof if display^link_on_bottom$
+$bof if Parent^DataPool^display^link$
+<div class="pages">
+  <a href="$bof ? ?$" class="page next">$bof ? Lang^next __uc=true$</a>
+</div>
+$!bof if Parent^DataPool^display^link$
+$!bof if display^link_on_bottom$

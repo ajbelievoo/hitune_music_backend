@@ -1,0 +1,241 @@
+ul,
+li,
+ol,
+img {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+a {
+  text-decoration: inherit;
+  color: inherit;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+span.material-icons {
+  font-size: inherit;
+}
+
+.bof_input {
+  background: rgba(var(--bg_color), 1);
+  border: 1px solid rgba(var(--ui_color), 0.2);
+  color: rgba(var(--ui_color), 1);
+  display: block;
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+textarea.bof_input {
+  min-height: 120px
+}
+
+.bof_input.failed {
+  border-color: rgba(var(--c_red), 0.3) !important;
+  color: rgba(var(--c_red), 0.7) !important;
+}
+
+.bof_input.failed::placeholder {
+  color: rgba(var(--c_red), 0.4) !important;
+}
+
+.btn {
+  display: inline-block;
+  background: red;
+  border: none;
+  color: rgb(var(--ui_color));
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 90%;
+  cursor: pointer;
+}
+
+.btn.btn-primary {
+  background: rgb(var(--theme_color));
+  color: #fff;
+}
+
+.btn.btn-secondary {
+  background: rgba(var(--ui_color), 0.15);
+  color: rgba(var(--ui_color), 0.7);
+}
+
+.bof_processing,
+.bof_done,
+.bof_fail {
+  opacity: 1 !important;
+  border: none !important;
+  color: #fff !important;
+  position: relative;
+  overflow: hidden;
+  font-size: var(--font-size) !important;
+}
+
+.bof_processing:before {
+  content: "";
+  background: rgba(var(--theme_color), 1);
+  position: absolute;
+  right: 15px;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.bof_processing:after,
+.bof_done:before,
+.bof_fail:before {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.bof_processing {
+  background: rgba(var(--theme_color), 1) !important;
+}
+
+.bof_processing:after {
+  content: "sync";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 26px;
+  right: 0;
+  height: fit-content;
+  margin: auto;
+  z-index: 1;
+  animation: spin 3s cubic-bezier(0.1, 0.35, 0.79, 0.43) infinite;
+  animation-direction: reverse;
+  text-align: center;
+}
+
+.bof_done {
+  background: rgba(var(--c_green), 1) !important;
+}
+
+.bof_done:before {
+  content: "check_circle";
+  z-index: 1;
+  opacity: 0.5;
+  line-height: 0;
+  position: relative;
+  top: 5px;
+  margin-right: 5px;
+  font-size: 20px;
+}
+
+.bof_fail {
+  background: rgba(var(--c_red), 1) !important;
+}
+
+.bof_fail:before {
+  content: "highlight_off";
+  font-size: 20px;
+  z-index: 1;
+  opacity: 0.7;
+  line-height: 0;
+  position: relative;
+  top: 5px;
+  margin-right: 5px;
+}
+
+input,
+select {
+  outline: none !important
+}
+
+.bof_part {
+  transition: 2000ms ease opacity
+}
+
+body.noParts .bof_part {
+  opacity: 0;
+  visibility: hidden;
+  height: 0 !important
+}
+
+body.noPaddings #main {
+  margin-left: 0;
+}
+
+body.noPaddings #main .content {
+  margin: 0
+}
+
+body .loader {
+  display: none
+}
+
+body.loading .loader {
+  position: fixed;
+  top: 0;
+  left: calc(var(--sidebar_width) + var(--highlight_width));
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+}
+
+body.loading #main .content {
+  display: none
+}
+
+body.splash .loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  display: block;
+  transform: scale(2);
+}
+
+.clearafter:after {
+  display: block;
+  content: "";
+  float: none;
+  clear: both;
+  width: 100%;
+  height: 0px;
+}
+
+.material-icons-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,184 @@
+<div id="bulk_importer" class="nonSelected">
+  <div id="bulk_importer_sidebar" class="bi_scroll">
+
+    <div class="highlight_toggler">
+      <div class="active bib">Bulk Importer</div>
+      <div class="him">Open Menu</div>
+    </div>
+
+
+    <div id="bulk_importer_editor">
+      <form>
+        <div class="_t" id='selectedCount'></div>
+        <div class="_bts top">
+          <div class="btn btn-primary import"><span class='_text'>Mark for Import</span></div>
+        </div>
+        <div class="_i">
+          <label>Title</label>
+          <input type="hidden" name="ids">
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="title_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="title"></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Artist</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="artist_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="artist"></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Album</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="album_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="album"></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Cover</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="cover_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="hidden" class="bof_input" name="cover"><span id="upload_cover"></span></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Album Artist</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="album_artist_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="album_artist"></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Album Order</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="album_order_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="album_order"></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Album Type</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="album_type_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><select readonly class="bof_input" name="album_type"><option value="studio" selected='selected'>Studio</option><option value="single">Single</option><option value="mixtape">Mixtape</option><option value="compilation">Compilation</option></select></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Time Release</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="time_release_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="datetime" class="bof_input" name="time_release"></div>
+          </div>
+        </div>
+        <div class="_i">
+          <label>Featured Artists</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="ft_artists_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="ft_artists"></div>
+          </div>
+          <div class='tip'>Separate with semicolon ( ; )</div>
+        </div>
+        <div class="_i">
+          <label>Genres</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="genres_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="genres"></div>
+          </div>
+          <div class='tip'>Separate with semicolon ( ; )</div>
+        </div>
+        <div class="_i">
+          <label>Tags</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="tags_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="tags"></div>
+          </div>
+          <div class='tip'>Separate with semicolon ( ; )</div>
+        </div>
+        <div class="_i">
+          <label>Language</label>
+          <div class="_ig">
+            <div class="_igC"><input type="checkbox" class="bof_input" name="langs_active"><span class="checkbox_mask"></span></div>
+            <div class="_igI"><input readonly type="text" class="bof_input" name="langs"></div>
+          </div>
+        </div>
+        <div class="_bts">
+          <div class="btn btn-primary save"><span class="material-icons-outlined">sync</span><span class='_text'>Save</span></div>
+        </div>
+      </form>
+    </div>
+
+    <div id="bulk_importer_upload_cover">
+      $bof html content^cover __name=o_input$
+    </div>
+
+    <div id="bulk_importer_empty">
+      Select items from list, edit tags & submit for <span class="hl">import</span> <br>
+      <span class="h1">Upload:</span>
+      <span class="h5">Use your preferred uploader to upload files and folders to: <b class='_p'>$bof ? content^dir_path$</b></span>
+      <span class="h1">Selecting Items:</span>
+      <span class="h5">To choose a single item, simply click on it in the right sidebar.</span>
+      <span class="h1">Multi-Selection:</span>
+      <span class="h5">Hold down <span class="hl">Ctrl</span> (Control) and click on multiple items to select them individually.</span>
+      <span class="h5">Hold down <span class="hl">Shift</span> and click on the first and last items to select a range of items.</span>
+    </div>
+
+    <div class="btn btn-primary" id="resync_btn">ReSync Files</div>
+
+  </div>
+  <div id="bulk_importer_items">
+    <div class="syncing_alert">
+      <h4 class="state1">Files Sync Pending</h4>
+      <h4 class="state2">Files Sync Progresing</h4>
+      <span class="_de state1">Bulk Importer is waiting for cronjob to pick the job. Wait please and refresh the page after few minutes</span>
+      <span class="_de state2">Bulk Importer is scanning the upload folder for content. Depending on quanity and server resources, it might take from seconds to hours. Click <a href='cronjobs?code=bulk_import_scan'>here</a> to check cronjobs logs</span>
+    </div>
+    $bof if content^files$
+    <table>
+      <thead>
+        <tr>
+          <td><a title='Sort by Default' href='bulk_importer?sort=ID'>Filename</a></td>
+          <td><a title='Sort by Folder' href='bulk_importer?sort=path_dir_name'>Folder</a></td>
+          <td>Sta</td>
+          <td>Cover</td>
+          <td><a title='Sort by Artist' href='bulk_importer?sort=artist'>Artist</a></td>
+          <td><a title='Sort by Album' href='bulk_importer?sort=album'>Album</a></td>
+          <td><a title='Sort by Title' href='bulk_importer?sort=title'>Title</a></td>
+          <td><a title='Sort by Album Artist' href='bulk_importer?sort=album_artist'>Album Artist</a></td>
+          <td><a title='Sort by Album Order' href='bulk_importer?sort=album_order'>Album Order</a></td>
+          <td><a title='Sort by Album Type' href='bulk_importer?sort=album_type'>Album Type</a></td>
+          <td><a title='Sort by Time Release' href='bulk_importer?sort=time_release'>Time Release</a></td>
+          <td>FT Artists</td>
+          <td>Genres</td>
+          <td>Tags</td>
+          <td>Lang</td>
+        </tr>
+      </thead>
+      <tbody>
+        $bof foreach ?$
+        <tr id="f_$bof ? i$" class="mp3_$bof ? mp3$ id_$bof ? ID$">
+          <td class="_bi_path_name" title="$bof ? path_name$"><span>$bof ? path_name$</span></td>
+          <td class="_bi_path_dir_name" title="$bof ? path_dir_name$"><span>$bof ? path_dir_name$</span></td>
+          <td class="_bi_sta sta_$bof ? sta$" title="$bof ? sta_hr$"><span class="material-icons-outlined sta1">pending</span><span class="material-icons-outlined sta2">check_circle</span><span class="material-icons-outlined staf">error</span></td>
+          <td class="_bi_cover" >$bof if cover_address$<span style='background-image:url($bof ? ?$)'></span>$!bof if cover_address$</td>
+          <td class="_bi_artist" title="$bof ? tag_artist$"><span>$bof ? tag_artist$</span></td>
+          <td class="_bi_album" title="$bof ? tag_album$" class="bof_tip"><span>$bof ? tag_album$</span></td>
+          <td class="_bi_title" title="$bof ? tag_title$"><span>$bof ? tag_title$</span></td>
+          <td class="_bi_album_artist" title="$bof ? tag_album_artist$"><span>$bof ? tag_album_artist$</span></td>
+          <td class="_bi_album_order" title="$bof ? tag_album_order$"><span>$bof ? tag_album_order$</span></td>
+          <td class="_bi_album_type" title="$bof ? tag_album_type$"><span>$bof ? tag_album_type$</span></td>
+          <td class="_bi_time_release" title="$bof ? tag_time_release$"><span>$bof ? tag_time_release$</span></td>
+          <td class="_bi_ft_artists" title="$bof ? tag_ft_artists$"><span>$bof ? tag_ft_artists$</span></td>
+          <td class="_bi_genres" title="$bof ? tag_genres$"><span>$bof ? tag_genres$</span></td>
+          <td class="_bi_tags" title="$bof ? tag_tags$"><span>$bof ? tag_tags$</span></td>
+          <td class="_bi_langs" title="$bof ? tag_langs$"><span>$bof ? tag_langs$</span></td>
+        </tr>
+        $!bof foreach ?$
+      </tbody>
+    </table>
+    $!bof if content^files$
+    $bof if content^files false$
+    <div id="bulk_importer_empty"><span class="material-icons-outlined">sentiment_very_dissatisfied</span><b>No files found</b>Nothing is uploaded yet</div>
+    $!bof if content^files false$
+
+  </div>
+</div>

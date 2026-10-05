@@ -1,0 +1,217 @@
+.add_fund_wrapper {
+  max-width: var(--container);
+  margin: auto;
+}
+.add_fund_wrapper .title {
+  font-size: 200%;
+  font-weight: 600;
+  margin: calc( var(--padding) * 3 ) 0 calc( var(--padding) * 4 );
+}
+.add_fund_wrapper .pgts_wrapper .stitle {
+  margin-bottom: calc( var(--padding) * 1 );
+  font-size: 140%;
+  font-weight: 500;
+  opacity: 0.3;
+}
+.add_fund_wrapper .pgts_wrapper .pgts {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc( var(--padding) * -0.5 ) calc( var(--padding) * -1 );
+  margin-bottom: calc( var(--padding) * 4 );
+  margin-top: calc( var(--padding) * 1 );
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt {
+  width: calc( 20% - ( var(--padding) * 2.3 ) );
+  height: calc( var(--padding) * 11 );
+  border: 2px solid rgba( var(--object_color), 0 );
+  border-radius: 10px;
+  margin: var(--padding);
+  padding: calc( var(--padding) * 1.5 );
+  font-size: 120%;
+  font-weight: 600;
+  color: rgba(var(--font_color),0.9);
+  position: relative;
+  cursor: pointer;
+  transition: 200ms ease all;
+  background: rgba( var(--object_color), 0.7 );
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt.icon_t_image img {
+  width: 30px;
+  height: 30px;
+  content: "";
+  display: block;
+  background: red;
+  position: absolute;
+  bottom: calc( var(--padding) * 1.5 );
+  right: calc( var(--padding) * 1.5 );
+  background: center center no-repeat;
+  background-size: contain;
+  border-radius: 6px;
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt .mdi {
+  position: absolute;
+  bottom: calc( var(--padding) * 1.5 );
+  right: calc( var(--padding) * 1.7 );
+  font-size: 20pt;
+  line-height: 0.88;
+  opacity: 0.7;
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt.selected .mdi {
+  color: rgb(var(--theme_color));
+  opacity: 1;
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt.selected {
+  border-color: rgb(var(--theme_color));
+  background: transparent !important
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt span {
+  color: rgba(var(--font_color),0.6);
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt:hover {
+  background: rgba( var(--object_color), 1 );
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt.selected span.name {
+  color: rgba(var(--font_color),1);
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper {
+  display: flex;
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .bof_input {
+  width: 140px;
+  background: transparent;
+  border: 1px solid rgb(var(--object_color2));
+  border-radius: 7px;
+  padding-right: 50px;
+  font-weight: 500;
+}
+.add_fund_wrapper .pgts_wrapper .btns_wrapper .btn {
+  min-width: 100px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: calc( var(--padding) * 5 );
+  background: rgba(var(--theme_color),1);
+  color: #fff;
+  font-weight: 400;
+  opacity: 0.8;
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .details {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .i_wrapper {
+  position: relative;
+  margin-right: 17px;
+  height: 32px;
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .i_wrapper .currency {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  margin: auto;
+  height: fit-content;
+  font-weight: 700;
+  opacity: 0.2;
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .details span {
+  display: block;
+  /* margin: 3px 0; */
+  color: rgba(var(--font_color),0.4);
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .details span b {
+  color: rgba(var(--font_color),0.6);
+  font-weight: 500;
+  /* text-decoration: underline; */
+  position: relative;
+}
+.add_fund_wrapper .pgts_wrapper .is_wrapper .details span b i {
+  font-style: normal;
+}
+
+.add_fund_wrapper .pgts_wrapper .is_wrapper .details span b:after {
+  content: "";
+  border-bottom: 1px dashed rgba(var(--font_color),0.2);
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.add_fund_wrapper .pgts_wrapper .pgts .pgt span.pgt_fee {
+  position: absolute;
+  bottom: calc(var(--padding)*1.5);
+  left: calc(var(--padding)*1.5);
+  font-size: 80%;
+  font-weight: 400;
+}
+.add_fund_wrapper .pgts_wrapper .btns_wrapper .btn:hover {
+  opacity: 1;
+}
+
+.add_fund_wrapper .pay_html {
+  margin-top: calc( var(--padding) * 4 );
+  background: rgba( var(--object_color), 1 );
+  padding: calc( var(--padding) * 2 );
+  border-radius: 10px;
+  line-height: 2;
+  font-size: 120%;
+}
+
+body.light .add_fund_wrapper .pgts_wrapper .pgts .pgt span.pgt_fee {
+  font-weight: 500;
+}
+body.light .add_fund_wrapper .pgts_wrapper .stitle {
+  opacity: 0.4;
+  font-weight: 600;
+}
+body.light .add_fund_wrapper .pgts_wrapper .is_wrapper .details span {
+  color: rgba(var(--font_color),0.5);
+  font-weight: 400;
+}
+body.light .add_fund_wrapper .pgts_wrapper .is_wrapper .details span b {
+  font-weight: 600;
+}
+
+@media (max-width: 1260px){
+  .add_fund_wrapper .pgts_wrapper .pgts .pgt {
+    width: calc( 25% - ( var(--padding) * 2.3 ) );
+  }
+}
+@media (max-width: 700px){
+  .add_fund_wrapper .pgts_wrapper .pgts .pgt {
+    width: calc( 50% - ( var(--padding) * 2.3 ) );
+  }
+  .modal.layer_1.plan_pay_inline .add_fund_wrapper .pgts_wrapper .pgts .pgt {
+    width: calc( 100% - ( var(--padding) * 2.3 ) );
+  }
+}
+@media (max-width: 500px){
+  .add_fund_wrapper .pgts_wrapper .pgts .pgt {
+    width: 100%;
+  }
+}
+
+.modal.plan_pay_inline .add_fund_wrapper .title {
+  display: none;
+}
+.modal.plan_pay_inline .add_fund_wrapper .pgts_wrapper .pgts .pgt {
+  width: calc( 50% - ( var(--padding) * 2.3 ) );
+}
+.modal.plan_pay_inline .add_fund_wrapper .pgts_wrapper .pgts {
+  margin-bottom: 30px;
+}
+.modal.plan_pay_inline .add_fund_wrapper .pgts_wrapper .btns_wrapper .btn {
+  margin-top: 20px;
+}
+.modal.plan_pay_inline .add_fund_wrapper .pgts_wrapper .is_wrapper .i_wrapper {
+  display: none;
+}
+.modal.plan_pay_inline .add_fund_wrapper .pgts_wrapper .stitle.__amount {
+  display: none;
+}
+.modal.plan_pay_inline .add_fund_wrapper .pgts {
+    max-height: 0.3 * var(--window_height);
+    overflow: auto;
+    overflow-x: hidden;
+}

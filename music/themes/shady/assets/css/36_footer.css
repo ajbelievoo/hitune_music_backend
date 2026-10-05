@@ -1,0 +1,117 @@
+body.unloaded #footer,
+body.splash #footer {
+  display: none
+}
+
+#footer {
+  margin: calc( var(--padding) * -3 );
+  margin-top: calc( var(--padding) * 3 );
+  padding: calc( var(--padding) * 3 );
+  border-top: 1px solid rgba(var(--font_color),0.06);
+}
+
+
+#footer ._bof_footer .menu_wrapper .mobile_only {
+  display: none !important;
+}
+
+#footer ._bof_footer .menu_wrapper .bof_dropdown {
+  display: none !important;
+}
+
+#footer ._bof_footer .menu_wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  max-width: calc( 100vw- ( calc( var(--padding) * 6 ) ) );
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+#footer ._bof_footer .menu_wrapper:empty {
+  display: none
+}
+
+#footer ._bof_footer .menu_wrapper .link_wrapper {
+  display: inline-block;
+}
+#footer ._bof_footer .menu_wrapper .link_wrapper span.mdi {
+  display: none
+}
+
+#footer ._bof_footer .menu_wrapper .link_wrapper .children_wrapper {
+  display: inline-block;
+}
+
+#footer ._bof_footer .menu_wrapper .link_wrapper.parent {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  flex-shrink: 0;
+}
+
+#footer ._bof_footer .menu_wrapper .link_wrapper a {
+  font-weight: 600;
+  opacity: 0.46;
+}
+
+#footer ._bof_footer .menu_wrapper .link_wrapper a:after {
+  content: "/";
+  display: inline-block;
+  margin: 0 7px 0 5px;
+  opacity: 0.36;
+}
+
+#footer ._bof_footer .menu_wrapper .link_wrapper.parent:last-child a:last-child:after {
+  display: none;
+}
+#footer ._bof_footer .menu_wrapper .link_wrapper a:hover {
+  opacity: 1;
+}
+#footer ._bof_footer .menu_wrapper .link_wrapper a:hover:after {
+  opacity: 0.18;
+}
+#footer ._bof_text {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+#footer ._bof_text ._signature {
+  opacity: 0.35;
+  font-weight: 600;
+  height: fit-content;
+  margin: auto 0;
+}
+
+#footer ._bof_text ._sls {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0 calc(var(--padding)*-0.5);
+}
+
+#footer ._bof_text ._sls a {
+  margin: 0 calc(var(--padding) * 0.5 );
+  opacity: 0.5;
+  color: rgb(var(--theme_color),1);
+  transform: scale(1.3);}
+
+#footer ._bof_text ._sls a span {
+  font-size: 13pt;
+}
+
+#footer ._bof_text ._sls a:hover {
+  opacity: 0.9;
+}
+
+body.mobile #footer {
+  padding: calc( var(--padding) * 2 ) calc( var(--padding) * 3 );
+  border-bottom: 1px solid rgba(var(--font_color),0.06);
+}
+
+body.mobile #footer ._bof_text ._sls {
+  display: none;
+}
+
+body.no_footer #footer {
+  display: none
+}

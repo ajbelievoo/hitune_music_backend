@@ -1,0 +1,228 @@
+<div class="filter_head clearafter">
+
+  <div class="record_count">
+    Total records <span>$bof ? content^records^total_hr$</span>
+  </div>
+
+  $bof if content^config^search$
+  <div class="search_wrapper">
+    <form id="table_search_form">
+      <input type="text" placeholder="Search" $bof if Parent^DataPool^content^filters^query^input^value$value="$bof ? ?$"$!bof if Parent^DataPool^content^filters^query^input^value$>
+    <span id="table_search_btn" class="material-icons-outlined">search</span>
+    </form>
+  </div>
+  $!bof if content^config^search$
+
+  <div class="filter_handler_wrapper">
+    <div class="filter_handler" data-dropdown-id="table_filters">
+      <span class="material-icons-outlined">filter_list</span>
+      Filters
+    </div>
+  </div>
+
+</div>
+
+<div class="filters_wrapper">
+  <form>
+    <div class="filters" id="table_filters">
+      <div class="title">Filters</div>
+      <div class="clear">clear all</div>
+      $bof if content^filters$
+      <div class="divide"></div>
+      <div class="_fiw">
+        $bof foreach ?$
+        <div class="filter_wrapper i_n_$bof ? ?^input^name$">
+          <div class="filter_title">$bof ? title$</div>
+          <div class="filter">$bof html ?^input __name=o_input$</div>
+          $bof if tip$
+          <div class="filter_tip">$bof ? ?$</div>
+          $!bof if tip$
+        </div>
+        $!bof foreach ?$
+      </div>
+      $!bof if content^filters$
+      <div class="buttons_wrapper">
+        <div class="btn btn-primary" id="apply_filter">Apply</div>
+        <div class="btn btn-secondary close">Cancel</div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="content_table_wrapper">
+
+  $bof if content^items$
+  <div class="table_wrapper">
+  <table>
+
+    <thead>
+      <tr>
+        $bof if Parent^DataPool^content^config^multi^select$
+        <td width="30px" class="_s">
+          <div class="cb_wrapper">
+            <input type="checkbox" name="ID_$bof ? ID$">
+            <span class="cb_clone"></span>
+          </div>
+        </td>
+        $!bof if Parent^DataPool^content^config^multi^select$
+        $bof foreach Parent^DataPool^content^template$
+        <td $bof if ?^width$ width="$bof ? ?$" $!bof if ?^width$>$bof ? ?^label$</td>
+        $!bof foreach Parent^DataPool^content^template$
+        <td width="24px"></td>
+      </tr>
+    </thead>
+    <tbody>
+      $bof foreach ?$
+      <tr class="bof_content_table_item ID_$bof ? ID$" data-id="$bof ? ID$">
+        $bof if Parent^Parent^DataPool^content^config^multi^select$
+        <td class="_s">
+          $bof if Parent^DataPool^buttons$
+          <div class="cb_wrapper">
+            <input type="checkbox" name="ID_$bof ? ID$">
+            <span class="cb_clone"></span>
+          </div>
+          $!bof if Parent^DataPool^buttons$
+        </td>
+        $!bof if Parent^Parent^DataPool^content^config^multi^select$
+        $bof foreach ?^display$
+        <td class="type_$bof ? ?^head_type$ $bof ? ?^head_class$ ID_$bof ? Parent^DataPool^ID$">
+
+          $bof if ?^head_type = simple$
+            $bof ? Parent^DataPool^data$
+            $bof if Parent^DataPool^sub_data$
+            <span class='sub'>$bof ? ?$</span>
+            $!bof if Parent^DataPool^sub_data$
+          $!bof if ?^head_type = simple$
+
+          $bof if ?^head_type = tag$
+            <span class="$bof ? Parent^DataPool^data$">$bof ? Parent^DataPool^data$</span>
+          $!bof if ?^head_type = tag$
+
+          $bof if ?^head_type = time$
+            $bof ? Parent^DataPool^data$ <span><b>$bof ? Parent^DataPool^sub_data$</b></span>
+          $!bof if ?^head_type = time$
+
+          $bof if ?^head_type = boolean$
+            <div class="checkbox_wrapper">
+              <input type="checkbox" class="boolean_toggle_handler" data-positive-payload="$bof ? Parent^DataPool^args^payloads^0$" data-negative-payload="$bof ? Parent^DataPool^args^payloads^1$"
+              $bof if Parent^DataPool^data$
+              checked="checked"
+              $!bof if Parent^DataPool^data$
+              >
+              <span class="checkbox_mask"><span></span></span>
+            </div>
+          $!bof if ?^head_type = boolean$
+
+          $bof if ?^head_type = boolean_d$
+            <div class="boolean_wrapper $bof if Parent^DataPool^data$active$!bof if Parent^DataPool^data$"><span class="material-icons-outlined"></span></div>
+          $!bof if ?^head_type = boolean_d$
+
+        </td>
+        $!bof foreach ?^display$
+
+        <td class="_m">
+          $bof if buttons$
+          <span class="material-icons-outlined dropdown_button" data-dropdown-id="dropdown_item_$bof ? Parent^DataPool^ID$" >more_vert</span>
+          <div class="bof_dropdown" id="dropdown_item_$bof ? Parent^DataPool^ID$">
+            <ul>
+              $bof foreach Parent^DataPool^buttons$
+              <li><a
+                $bof if payload$
+                data-payload='$bof ? ?$'
+                $!bof if payload$
+                $bof if link$
+                href='$bof ? ?$'
+                $!bof if link$
+                $bof if attr$$bof ? ?$$!bof if attr$
+                $bof if ID$
+                ID='$bof ? ?$'
+                $!bof if ID$>$bof ? ?^label$</a></li>
+              $!bof foreach Parent^DataPool^buttons$
+            </ul>
+          </div>
+          $!bof if buttons$
+        </td>
+
+      </tr>
+      $!bof foreach ?$
+    </tbody>
+
+  </table>
+  </div>
+  $!bof if content^items$
+
+  $bof if content^items false$
+  <div class="nada">
+    <span class="material-icons-outlined">
+      sentiment_very_dissatisfied
+    </span>
+    Found nothing. Try without filters
+  </div>
+  $!bof if content^items false$
+
+  <div class="table_buttons">
+
+    <div class="row">
+
+      <div class="col col-6">
+        $bof if content^config^create$
+        <a class="btn btn-primary new_button show" href="$bof ? Parent^DataPool^content^config^edit_page_url$/__new">+ New item</a>
+        $!bof if content^config^create$
+        <div class="group_buttons">
+          $bof if content^config^multi^select$
+          <select id="group_buttons">
+            <option selected>-- Manage --</option>
+
+            $bof foreach Parent^DataPool^content^buttons$
+            $bof if skip_multi -$
+            <option
+            $bof if Parent^DataPool^payload$
+            data-payload='$bof ? ?$'
+            $!bof if Parent^DataPool^payload$
+            $bof if Parent^DataPool^ID$
+            ID='$bof ? Parent^DataPool^?$'
+            $!bof if Parent^DataPool^ID$
+            >$bof ? Parent^DataPool^label$</option>
+            $!bof if skip_multi -$
+            $!bof foreach Parent^DataPool^content^buttons$
+
+          </select>
+          <input type="submit" class="btn btn-primary" id="start_bulk_action" value="Start">
+          $!bof if content^config^multi^select$
+        </div>
+        $bof if content^config^create false$
+        <span style='opacity:0'>.</span>
+        $!bof if content^config^create false$
+      </div>
+
+      <div class="col col-6 clearafter">
+        <div class="pages_buttons clearafter">
+          $bof if content^records^pages^has_next$
+          <div class="page_button">Next</div>
+          $!bof if content^records^pages^has_next$
+          $bof if content^records^pages^max$
+          <div class="page_button i">$bof ? ?$</div>
+          $!bof if content^records^pages^max$
+          $bof if content^records^pages^next$
+          <div class="page_button i">$bof ? ?$</div>
+          $!bof if content^records^pages^next$
+          $bof if content^records^pages^cur$
+          <div class="page_button i active">$bof ? ?$</div>
+          $!bof if content^records^pages^cur$
+          $bof if content^records^pages^pre$
+          <div class="page_button i">$bof ? ?$</div>
+          $!bof if content^records^pages^pre$
+          $bof if content^records^pages^has_first$
+          <div class="page_button i">$bof ? ?$</div>
+          $!bof if content^records^pages^has_first$
+          $bof if content^records^pages^has_pre$
+          <div class="page_button">Previous</div>
+          $!bof if content^records^pages^has_pre$
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

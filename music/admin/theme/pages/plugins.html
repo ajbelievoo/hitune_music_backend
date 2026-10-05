@@ -1,0 +1,51 @@
+<div class="box">
+
+  <div class="box-content">
+
+    <div class="row plugins cols_padding" id="plugins">
+
+      $bof foreach plugins^list$
+      <div class="col col-1">
+        <div class="plugin" data-code="$bof ? code$" data-hash="$bof ? hash$">
+          <div class="data">
+            <div class="icon"><img src="$bof ? icon$" alt="$bof ? name$ icon" width="48" height="48"></div>
+            <div class="_d">
+              <div class="title">$bof ? name$ $bof if version$<span class='version'>v $bof ? Parent^DataPool^version_hr$</span>$!bof if version$</div>
+              <div class="description">$bof ? detail$</div>
+            </div>
+          </div>
+          <div class="footer clearafter">
+
+            <div class="price">$bof ? price_label$</div>
+
+            <div class="button_wrapper">
+
+              <a class="btn
+              btn-$bof ? btn^type$$bof if btn^childs$ dropdown_button$!bof if btn^childs$
+              $bof if btn^action$ action_$bof ? ?$$!bof if btn^action$"
+              $bof if btn^childs$data-dropdown-id="dd_p_$bof ? Parent^DataPool^code$"$!bof if btn^childs$
+              $bof if btn^action$data-action="$bof ? ?$"$!bof if btn^action$
+              $bof if btn^link$href="$bof ? ?$"$!bof if btn^link$
+              >$bof ? btn^title$</a>
+
+              $bof if btn^childs$
+              <div class="bof_dropdown" id="dd_p_$bof ? Parent^DataPool^code$">
+                <ul>
+                  $bof foreach ?$
+                  <li><a class='$bof if action$ action_$bof ? ?$$!bof if action$' href='$bof ? link$'>$bof ? title$</a></li>
+                  $!bof foreach ?$
+                </ul>
+              </div>
+              $!bof if btn^childs$
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      $!bof foreach plugins^list$
+
+    </div>
+
+  </div>
+</div>

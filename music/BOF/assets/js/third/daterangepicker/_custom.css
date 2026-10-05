@@ -1,0 +1,72 @@
+.daterangepicker {
+    background: rgba(var(--bg_color),1);
+    border: 1px solid rgba(var(--ui_color),0.1);
+    border-radius: 10px;
+    box-shadow: 0 0 22px 3px rgba(var(--ui_color),0.05);
+}
+
+.daterangepicker.show-ranges.ltr .drp-calendar.left {
+    border-left-color: rgba(var(--ui_color),0.1);
+}
+
+.daterangepicker .drp-buttons {
+    border-top-color: rgba(var(--ui_color),0.1);
+}
+
+.daterangepicker .calendar-table {
+    background-color: rgba(var(--bg_color),1);
+    border: none;
+}
+
+.daterangepicker td.in-range {
+    background-color: rgba(var(--ui_color),0.2);
+    color: rgba(var(--ui_color),0.6);
+}
+
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+    background: rgba(var(--ui_color),0.001);
+    color: rgba(var(--ui_color),0.3);
+}
+
+.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+    border-color: rgba(var(--ui_color),1);
+}
+
+.daterangepicker .ranges li.active {
+    background-color: rgba(var(--theme_color),1);
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: rgba(var(--theme_color),1);
+}
+
+.daterangepicker .drp-buttons .btn {
+    background: rgba(var(--ui_color),0.1);
+    padding: 5px 25px;
+}
+
+.daterangepicker .drp-selected {
+    opacity: 0.4;
+}
+
+.daterangepicker select {
+    background: rgba(var(--ui_color),0.2) !important;
+    color: rgba(var(--ui_color),0.7) !important;
+    border: none !important;
+}
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+    background-color: rgba(var(--ui_color),0.2);
+}
+
+.daterangepicker select option {
+    color: #000;
+}
+
+.daterangepicker .ranges li:hover {
+    background-color: rgba(var(--ui_color),0.1);
+}
+
+.daterangepicker .drp-buttons .btn-primary {
+    background: rgba(var(--theme_color),0.8);
+}

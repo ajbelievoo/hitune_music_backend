@@ -1,0 +1,59 @@
+<div ID='uploader'>
+
+  <div class="steps">
+    <div class="p title">
+      <span class="title">$bof ? Lang^upload __uc=true$</span>
+    </div>
+    <div class="p p1 active">
+      <span class="mask">1</span>
+      <span class="title">$bof ? Lang^ups1_ct __uc=true$</span>
+    </div>
+    <div class="p p2">
+      <span class="mask">2</span>
+      <span class="title">$bof ? Lang^ups2_st __uc=true$</span>
+    </div>
+    <div class="p p3">
+      <span class="mask">3</span>
+      <span class="title">$bof ? Lang^ups3_up __uc=true$</span>
+    </div>
+    <div class="p p4_5 disabled">
+      <span class="mask">4</span>
+      <span class="title"></span>
+    </div>
+    <div class="p p5 disabled">
+      <span class="mask">4</span>
+      <span class="title"></span>
+    </div>
+  </div>
+
+  <div class="wrapper">
+
+    <div class="title">$bof ? upload^_ts^1$</div>
+
+    <div class="step_wrapper">
+      <div class="step clearafter step1 step_c">
+        $bof foreach upload^_cs$
+        <div class='step_i c_type c_$bof ? data^ID$' data-hook='$bof ? data^ID$'>
+          <span class='mdi mdi-$bof ? data^icon$'></span>
+          <span class='name'>$bof ? data^name$</span>
+        </div>
+        $!bof foreach upload^_cs$
+      </div>
+      <div class="step clearafter step1_5 step_c step_c2"></div>
+      <div class="step clearafter step2 step_c">
+        $bof foreach upload^_ss$
+        <div class='step_i s_type s_$bof ? data^ID$' data-hook='$bof ? data^ID$'>
+          <span class='mdi mdi-$bof ? data^icon$'></span>
+          <span class='name'>$bof ? data^name$</span>
+        </div>
+        $!bof foreach upload^_ss$
+      </div>
+      <div class="step clearafter step3 source_dom"></div>
+      <div class="step clearafter step4 content_dom"></div>
+      <div class="step clearafter step4_5"></div>
+      <div class="step clearafter step5"></div>
+    </div>
+
+  </div>
+
+</div>

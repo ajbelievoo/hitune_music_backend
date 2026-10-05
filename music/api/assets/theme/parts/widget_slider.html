@@ -1,0 +1,42 @@
+<div class="slider_wrapper hide_scroll">
+
+  $bof foreach items$
+  <div class="a_row">
+    $bof foreach ?$
+
+    <div class="item bof_$bof ? ot$ bof_$bof ? ot$_$bof ? hash$ $bof if price$priced$!bof if price$ $bof ? classes$" id="bof_$bof ? id$">
+
+      <div class="cover_wrapper">
+        $bof ? cover$
+        <div class="buttons">
+          <div class="button_wrapper more"><span class="mdi mdi-dots-vertical"></span></div>
+          $bof if Parent^Parent^DataPool^buttons^play$
+          <div class="button_wrapper play _play"><span class="mdi mdi-play"></span></div>
+          $!bof if Parent^Parent^DataPool^buttons^play$
+        </div>
+      </div>
+
+      <div class="data">
+        <div class="title"><a href='$bof ? url$'>$bof ? title$</a></div>
+        $bof if sub_data$
+        <div class="sub_title">
+          <a href="$bof ? Parent^DataPool^sub_link$" class="sub_title_link">$bof ? ?$</a>
+          <span class="price">$bof ? Parent^DataPool^price_hr$</span>
+        </div>
+        $!bof if sub_data$
+      </div>
+
+    </div>
+
+    $!bof foreach ?$
+  </div>
+  $!bof foreach items$
+
+</div>
+
+$bof if display^slider_mason false$
+<div class="arrows">
+  <div class="arrow next"><span class="mdi mdi-chevron-right"></span></div>
+  <div class="arrow prev"><span class="mdi mdi-chevron-left"></span></div>
+</div>
+$!bof if display^slider_mason false$

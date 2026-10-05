@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /index.php?q=dashboard
+Disallow: /index.php?q=cart
+Disallow: /index.php?q=checkout
+Disallow: /index.php?q=submit
+Disallow: /index.php?q=upload
+Disallow: /index.php?q=payouts
+Disallow: /index.php?q=earnings
+Disallow: /index.php?q=revenue
+Disallow: /index.php?q=royalties
+Disallow: /index.php?q=analytics
+Disallow: /index.php?q=releases
+Disallow: /index.php?q=splits
+Disallow: /index.php?q=payment
+Disallow: /index.php?q=verify_email
+Disallow: /index.php?q=reset_password
+Disallow: /index.php?q=forgot_password
+Disallow: /index.php?q=resend_verification
+Disallow: /index.php?q=google_callback
+Disallow: /index.php?q=remove_audio
+Disallow: /index.php?q=upload_audio_ajax
+Disallow: /index.php?q=upload_chunked
+
+Sitemap: https://distribution.hitune.in/sitemap.xml

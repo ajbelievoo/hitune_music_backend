@@ -1,0 +1,126 @@
+/* =========== BODY =========== */
+.bof_part {
+  display: block;
+}
+body.noParts .bof_part,
+body.noParts #player,
+body.noParts .queue {
+  display: none
+}
+body.logged .notLoggedIn {
+  display: none;
+}
+body.notLogged .loggedIn {
+  display: none;
+}
+body.noPaddings #main {
+    height: var(--window_height) !important;
+    margin: 0 !important;
+}
+
+body #main {
+  height: var(--window_height);
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  padding: calc( var(--padding) * 3 );
+  padding-top: calc( ( var(--padding) * 0 ) + 64px );
+  padding-left: calc( var(--sidebar_abs_width) + ( var(--padding) * 3 ) );
+  overflow: auto;
+  box-sizing: border-box;
+  overflow-y: overlay;
+}
+body #main .content {
+  min-height: 100%;
+  position: relative;
+}
+body #main::-webkit-scrollbar{
+  background: transparent;
+  width: calc(var(--padding)*1);
+}
+body #main::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0 0 rgba( 255, 255, 255, 0 );
+  background: transparent;
+}
+body #main::-webkit-scrollbar-thumb {
+  background: rgba( var(--theme_color), 1 );
+  border-radius: 4px;
+}
+
+body #main .content .page_bg {
+  position: absolute;
+  left: calc( var(--padding) * -3 );
+  right: calc( var(--padding) * -3 );
+  top: -64px;
+  height: 700px;
+  z-index: 3;
+  overflow: hidden;
+}
+body #main .content .page_bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body #main .content .page_bg:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(var(--bg_color),0.9), rgba(var(--bg_color),0.8), rgba(var(--bg_color),0.6), rgba(var(--bg_color),0.5));
+}
+body #main .content .page_bg.small {
+  height: 400px;
+}
+body #main .content .page_bg.medium {
+  height: 480px;
+}
+body #main .content .page_bg.dark:after {
+  background: linear-gradient(0deg, rgba(var(--bg_color),1), rgba(var(--bg_color),0.5));
+}
+body #main .content .page_bg.blur img {
+  filter: blur(8px);
+}
+body #main .content .page_bg.blurLight img {
+  filter: blur(3px);
+}
+body #main .content .page_content {
+  position: relative;;
+  z-index: 4;
+}
+
+body.loading #main:before {
+    content: "";
+    display: block;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(320deg, rgba( var(--bg_color), 1 ), rgba( var(--bg_color2), 1 ));
+    z-index: 5;
+    position: fixed;
+}
+body.loading #main:after {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    content: "";
+    display: block;
+    left: var(--sidebar_abs_width);
+    z-index: 6;
+    width: 54px;
+    height: 54px;
+    margin: auto;
+    animation: splash_loader_rotation 0.8s linear infinite;
+    border-radius: 50%;
+    border: 4px solid rgba(var(--theme_color),0.15);
+    border-top-color: rgb(var(--theme_color));
+    box-shadow: 0 0 34px rgba(var(--theme_color), 0.45), 0 0 12px rgba(var(--theme_color), 0.3) inset;
+    box-sizing: border-box;
+}
+body.loading.splash #main:after {
+  left: 0
+}

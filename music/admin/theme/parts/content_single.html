@@ -1,0 +1,54 @@
+<form id="single_form">
+<div class="row cols_padding">
+
+  <div class="col col-12 col-xl-10">
+    <div class="settings_wrapper t2">
+
+      $bof if entity^groups$
+      <div class="_groups clearafter">
+        $bof foreach ?$
+        <div class="_group$bof if ?^2 exists$ active$!bof if ?^2 exists$" data-id="$bof ? ?^0$">
+          $bof ? ?^1$
+        </div>
+        $!bof foreach ?$
+      </div>
+      $!bof if entity^groups$
+
+      <div class="setting_group type_$bof ? entity^type$">
+        $bof foreach entity^display$
+
+        <div class="setting_wrapper type_$bof ? input^type$ group_$bof ? group$ $bof if oner$ is_offable$!bof if oner$" id="item_$bof ? input^name$">
+          $bof if divider$
+          <div class='divide_title'><span>$bof ? ?$</span></div>
+          $!bof if divider$
+          $bof if Parent^DataPool^entity^type = multi$
+          <div class="lock_wrapper">
+            <span>Change?</span>
+            $bof html Parent^DataPool^locked __name=o_input$
+          </div>
+          $!bof if Parent^DataPool^entity^type = multi$
+          $bof if ?^oner$
+          <div class="lock_wrapper">
+            <span>Set?</span>
+            $bof html Parent^DataPool^oner __name=o_input$
+          </div>
+          $!bof if ?^oner$
+          <div class="title">$bof ? label$</div>
+          <div class="input_wrapper">$bof html input __name=o_input$</div>
+          $bof if tip$<div class="detail">$bof ? ?$</div>$!bof if tip$
+        </div>
+
+        $!bof foreach entity^display$
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col col-12 col-xl-10">
+    <div class="settings_wrapper t2">
+      <div class="btn btn-primary" id="save_button">Edit</div>
+    </div>
+  </div>
+
+</div>
+</form>

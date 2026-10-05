@@ -1,0 +1,82 @@
+
+<div class="page_bg small colorOnly" style='background-color:rgb($bof ? single^data^background_color$)'></div>
+<div class="page_bg small colorOnly dropColor" style='background-color:rgb($bof ? single^data^background_color$)'></div>
+
+$bof if single^data^background$
+<div class="page_bg small blurLight dark imageOnly">$bof ? ?$</div>
+$!bof if single^data^background$
+
+<div class="page_content series $bof ? single^data^ot$_content t_s2_content $bof ? single^page^classes$">
+
+  <div class="d_head t2 item $bof if single^data^price$priced$!bof if single^data^price$" id="bof_main">
+
+    $bof if single^data^cover$
+    <div class="cover_wrapper">$bof ? ?$</div>
+    $!bof if single^data^cover$
+
+    <div class="detail clearafter">
+
+      <div class="above">
+        <div class="pre det">
+          <a class="_type">$bof ? single^data^object_name$</a>
+          $bof foreach single^data^before_stats$
+          <a href='$bof ? url$'>$bof ? name$</a>
+          $!bof foreach single^data^before_stats$
+        </div>
+        <div class="title">$bof ? single^data^title$</div>
+        $bof if single^data^sub_title$
+        <div class="nex det">
+          <a href="$bof ? Parent^DataPool^single^data^sub_link$">
+            $bof if Parent^DataPool^single^data^sub_cover$
+            <div class="graphic">$bof ? ?$</div>
+            $!bof if Parent^DataPool^single^data^sub_cover$
+            $bof ? Parent^DataPool^single^data^sub_title$
+          </a>
+        </div>
+        $!bof if single^data^sub_title$
+      </div>
+
+      <div class="is clearafter">
+        $bof foreach single^data^stats$
+        <div class="i">
+          <div class="graphic"><span class="mdi mdi-$bof ? icon$"></span></div>
+          <div class="_t">$bof ? value$</div>
+        </div>
+        $!bof foreach single^data^stats$
+      </div>
+
+      <div class="buttons clearafter">
+        $bof if single^data^price$
+        <div class="button_wrapper t3 t4 purchase" onclick="window.app.actions.get_unlock_solution('$bof ? Parent^DataPool^single^data^ot$','$bof ? Parent^DataPool^single^data^hash$')">
+          <div class="btn">
+            <span class="mdi mdi-cart"></span>
+            <span class="_t">$bof ? Lang^buy __uc=true$ $bof ? Parent^DataPool^single^data^price_hr$</span>
+          </div>
+        </div>
+        $!bof if single^data^price$
+        <div class="button_wrapper t3 t4 play">
+          <div class="btn">
+            <span class="mdi mdi-play"></span>
+            <span class="_t">$bof ? Lang^play __uc=true$</span>
+          </div>
+        </div>
+        <div onclick="window.app.actions.user.like(null,'$bof ? single^data^ot$','$bof ? single^data^hash$')" class="button_wrapper _like bof_$bof ? single^data^ot$_$bof ? single^data^hash$ $bof if single^data^liked$liked$!bof if single^data^liked$"><span class="mdi mdi-heart-outline like"></span><span class="mdi mdi-heart unlike"></span></div>
+        <div class="button_wrapper more"><span class="mdi mdi-dots-horizontal"></span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="$bof ? single^data^ot$_body t_s2_body">
+
+    $bof if single^widgets$
+      $bof foreach ?$
+
+        $bof html ? __name=widget$
+
+      $!bof foreach ?$
+    $!bof if single^widgets$
+
+  </div>
+
+</div>

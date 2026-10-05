@@ -1,0 +1,285 @@
+#uploader.new_nft .step.step1.step_c .step_i span.name {
+    word-break: break-word;
+    white-space: normal;
+    margin: 0 15px;
+    opacity: 0.33;
+    transition: 150ms ease-in all;
+    font-weight: 400;
+    font-size: 90%;
+}
+
+#uploader.new_nft .bofForm {
+    margin: 0;
+}
+#uploader.new_nft .bofForm form {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+#uploader.new_nft .step.step1.step_c .step_i:hover span.name {
+    opacity: 0.6;
+}
+
+#uploader.new_nft .step.step_c .step_i ._icon {
+    max-width: 50px;
+    max-height: 50px;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    left: 0;
+    text-align: center;
+    top: 30%;
+    border-radius: 50%
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft .holder {
+    width: 100%;
+    overflow: hidden;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+    display: block;
+    position: relative;
+    /* margin-bottom: calc( var(--padding)*1.5); */
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft .holder:after {
+    padding-top: 100%;
+    content: "";
+    display: block
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft .holder div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    background: center center no-repeat;
+    background-size: cover
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft span.tid,
+#uploader.new_nft .step.step4.step_c .step_i._nft span.cname {
+    font-size: var(--font_size);
+    white-space: nowrap;
+    overflow: hidden;
+    padding-right: calc(var(--padding)*1.5);
+    padding-left: calc(var(--padding)*1.5);
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft span.tid span,
+#uploader.new_nft .step.step4.step_c .step_i._nft span.cname span {
+    display: block;
+    overflow: hidden
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft span.tid {
+    padding-bottom: calc(var(--padding)*1);
+    padding-top: calc(var(--padding)*1.5);
+    border-right: 2px solid rgba(var(--font_color), 0.05);
+    border-left: 2px solid rgba(var(--font_color), 0.05);
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft span.cname {
+    padding-bottom: calc(var(--padding)*1.5);
+    border-right: 2px solid rgba(var(--font_color), 0.05);
+    border-left: 2px solid rgba(var(--font_color), 0.05);
+    border-bottom: 2px solid rgba(var(--font_color), 0.05);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft {
+    border: none
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft:after {
+    display: none
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._anft {
+    border: 2px solid rgba(var(--font_color), 0.05)
+}
+#uploader.new_nft .step.step4.step_c .step_i._anft:after {
+    padding-top: calc( 100% + ( var(--padding) * 4 ) + 30px );
+}
+
+body.mobile #uploader.new_nft .step.step4.step_c .step_i._anft:after {
+    padding-top: calc( 100% + ( var(--padding) * 4 ) + 26px );
+}
+
+#uploader.new_nft .wrapper.step4 {
+    width: var(--container);
+    max-width: 90vw;
+}
+
+#uploader.new_nft .step.step4.step_c .step_i {
+    width: calc( 33.33% - ( var(--padding) * 2 ) );
+    margin: calc(var(--padding)*1);
+}
+body.mobile #uploader.new_nft .step.step4.step_c .step_i {
+    margin: calc( var(--padding) * 0.5 );
+}
+
+#uploader.new_nft .step.step_c.step4 {
+    margin: calc( var(--padding) * -1 );
+}
+
+#uploader.new_nft .step.step4.step_c .step_i._nft span.tid i {
+    font-style: normal;
+    opacity: 0.3;
+}
+
+#uploader.new_nft .step.step3 .form_wrapper .continue .btn {
+    width: 150px;
+    text-align: center;
+    padding: 7px 20px;
+}
+
+
+body.nft_album .d_head.t2 {
+    --d_head_cover_size: 430px;
+    flex-direction: column;
+    height: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    min-height: unset;
+    padding: calc( var(--padding) * 6 ) 0;
+    margin: 0;
+}
+
+body.nft_album #main .content .page_bg {
+    height: 496px;
+    /* display: none; */
+    opacity: 0.3;
+}
+
+body.nft_album #main .content .page_bg.dropColor {
+    height: 125px;
+    opacity: 0.4;
+}
+
+body.nft_album .d_head.t2 .detail .is {
+    background: none;
+    position: static;
+    margin: 0;
+    padding: 0;
+    margin-top: calc( var(--padding) * 2 );
+}
+
+body.nft_album .d_head.t2 .detail .above {
+    padding: 0;
+}
+
+body.nft_album .d_head .cover_wrapper {
+    position: static;
+    border-width: 10px;
+    border-radius: 8px;
+}
+
+body.nft_album .d_head.t2 .detail {
+    flex-grow: 11;
+    padding-left: calc( var(--padding) * 5 );
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    font-size: 105%;
+}
+
+body.nft_album .d_head.t2 .detail .buttons {
+    margin-bottom: 0;
+}
+
+body.nft_album .d_head.t2 .cover_wrapper img {
+    border-radius: 6px;
+}
+
+body.nft_album .has_cover .widget.desc .title {
+    display: none;
+}
+
+body.nft_album .has_cover .widget.desc {
+    padding: 0;
+}
+
+body.nft_album .d_head.t2 .detail .buttons .button_wrapper._like {
+    display: none;
+}
+
+.modal.nft_buy {}
+
+.modal.nft_buy #wallets {}
+
+.modal.nft_buy #wallets .wt {
+    margin-bottom: calc(var(--padding)* 3);
+    font-size: 140%;
+    font-weight: 500;
+    opacity: 0.3;
+}
+
+.modal.nft_buy #wallets .wallets_wrapper {}
+
+.modal.nft_buy #wallets .wallets_wrapper .wallet {
+    border: 2px solid rgba(var(--object_color), 0);
+    border-radius: 10px;
+    margin: var(--padding) 0;
+    padding: calc(var(--padding)* 1.5);
+    font-size: 110%;
+    font-weight: 600;
+    color: rgba(var(--font_color), 0.9);
+    position: relative;
+    cursor: pointer;
+    transition: 200ms ease all;
+    background: rgba(var(--object_color), 0.7);
+}
+
+.modal.nft_buy #wallets .wallets_wrapper .wallet .mdi {
+    margin-right: 10px;
+}
+
+.modal.nft_buy #wallets .wallets_wrapper .wallet:hover {
+    border-color: rgb(var(--theme_color));
+}
+
+.modal.nft_buy .content .werror {
+    background: rgba(var(--c_red),0.1);
+    color: rgba(var(--c_red),0.4);
+    font-weight: 700;
+    /* text-align: center; */
+    padding: calc(var(--padding)*1.6);
+    border-radius: 5px;
+    font-size: 120%;
+}
+
+body.user_edit .wallets .wallet {
+    background: rgba(var(--object_color), 0.5);
+    border-radius: 7px;
+    padding: calc(var(--padding)* 2);
+    margin: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    flex-grow: 1;
+    margin-bottom: calc(var(--padding)* 2);
+    align-items: center;
+}
+body.user_edit .wallets .wallet ._n {
+    font-size: 105%;
+    font-weight: 600;
+    opacity: 0.66;
+}
+body.user_edit .wallets .wallet ._d .btn {
+    font-size: 90%;
+    font-weight: 500;
+    padding: 11px 15px 9px;
+    border-width: 2px;
+    color: rgba( var(--font_color), 0.4 );
+}
+body.user_edit .wallets .wallet ._d .btn:hover {
+    color: rgba(var(--c_red),0.5);
+    border-color: rgba(var(--c_red),0.4);
+}

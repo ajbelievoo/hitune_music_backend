@@ -1,0 +1,359 @@
+/* =========== PageBuilder Slider-type Widget =========== */
+.widget .widget_content .slider_wrapper {
+  white-space: nowrap;
+  margin-bottom: calc( var(--padding) * 2 );
+  overflow: auto;
+  position: relative;
+}
+.widget .widget_content .slider_wrapper:last-child {
+  margin-bottom: 0;
+}
+.widget .widget_content .slider_wrapper .item {
+  width: calc( ( ( 100 / var(--slider_med_count ) ) * 0.998% ) - ( var(--padding) * 1 ) - 4px );
+  display: inline-block;
+  margin: calc( var(--padding) * 0.5 );
+  padding: calc( var(--padding) * 2 );
+  background: linear-gradient(12deg, rgba(var(--side_color),0.3), rgba(var(--side_color),0.17));
+  border-radius: 10px;
+  transition: 200ms ease all;
+  cursor: pointer;
+  background: linear-gradient(56deg, rgba(var(--object_color),1), rgba(var(--object_color),0.7));
+  vertical-align: top;
+  position: relative;
+  touch-action: auto !important
+}
+.widget .widget_content .slider_wrapper .item:hover {
+  background: linear-gradient( 246deg, rgba(var(--object_color2),1), rgba(var(--object_color2),0.8) );
+}
+.widget .widget_content .slider_wrapper .item:last-child {
+  margin-right: 0;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper {
+  border-radius: 5px;
+  margin-bottom: calc( var(--padding) * 2 );
+  position: relative;
+  overflow: hidden;
+  box-shadow: -1px 5px 15px 0px rgba( var(--side_color), 0.25 )
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper:after {
+  padding-top: 100%;
+  display: block;
+  content: "";
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .multi {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .multi ._l {
+    width: 50%;
+    height: 50%;
+    position: relative;
+    float: left;
+}
+.widget .widget_content .slider_wrapper .item .data {
+  overflow: hidden;
+}
+.widget .widget_content .slider_wrapper .item .data .title {
+  font-size: 110%;
+  font-weight: 600;
+  margin-bottom: calc( var(--padding) * 1 );
+  white-space: nowrap;
+}
+.widget .widget_content .slider_wrapper .item .data .sub_title {
+  display: flex;
+  white-space: normal;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.widget .widget_content .slider_wrapper .item .data .sub_title a {
+  opacity: 0.6;
+  display: inline-flex;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.widget .widget_content .slider_wrapper .item .data .sub_title .price {
+  display: none;
+  flex: 0 0 auto;
+  margin-left: 10px;
+  font-weight: 700;
+  font-size: 109%;
+  line-height: 1;
+  position: relative;
+  top: 1px;
+}
+.widget .widget_content .slider_wrapper .item.priced .data .sub_title .price {
+    display: inline-flex;
+}
+.widget .widget_content .slider_wrapper .a_row {
+  margin: calc( var(--padding) * -0.5 );
+  margin-bottom: calc( var(--padding) * 0.75 );
+}
+.widget .widget_content .slider_wrapper .a_row:last-child {
+  margin-bottom: 0;
+}
+
+.widget.size_large .widget_content .slider_wrapper .item .cover_wrapper:after {
+  padding-top: 100%;
+}
+.widget.size_large .widget_content .slider_wrapper .item {
+  width: calc( ( ( 100 / var(--slider_lar_count ) ) * 0.998% ) - ( var(--padding) * 1 ) - 2px );
+  font-size: 105%;
+}
+.widget.size_large .widget_content .slider_wrapper .item .data .title {
+  font-size: 125%;
+}
+.widget.size_small .widget_content .slider_wrapper .item {
+  width: calc( ( ( 100 / var(--slider_lar_count ) ) * 0.998% ) - ( var(--padding) * 1 ) - 4px );
+  padding-left: calc( 80px + ( var(--padding) * 3 ) );
+  height: 90px;
+  font-size: 95%;
+}
+.widget.size_small .widget_content .slider_wrapper .item .cover_wrapper {
+  width: 80px;
+  position: absolute;
+  left: calc( var(--padding) * 1.5 );
+  top: calc( var(--padding) * 1.5 );
+  bottom: calc( var(--padding) * 1.5 );
+  margin: auto
+}
+.widget.size_small .widget_content .slider_wrapper .item .data .title {
+  margin-bottom: calc( var(--padding) * 0.5 );
+  word-break: break-all;
+  white-space: normal;
+}
+.widget.size_small .widget_content .slider_wrapper .item .data {
+  overflow: hidden;
+  position: absolute;
+  margin: auto;top: 0;
+  bottom: 0;
+  height: fit-content;
+  width: calc( 100% - ( 80px + ( var(--padding) * 4.5 ) ) );
+  max-height: 50px;
+  overflow: hidden;
+  font-size: 90%;
+}
+.widget.size_small .widget_content .slider_wrapper .item .data .sub_title {
+  display: none;
+}
+.widget.has_bg_img {
+  margin-right: calc( var(--padding) * -3 );
+  margin-left: calc( var(--padding) * -3 );
+  padding: calc( var(--padding) * 3 );
+}
+.widget.has_bg_img .widget_bg:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: linear-gradient(0deg, rgba(var(--bg_color),0.95), rgba(var(--bg_color2),0.8));
+}
+.widget.has_bg_img.i0 {
+    margin-top: -64px;
+    padding-top: calc( (var(--padding)*3) + 64px );
+}
+
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper {
+    opacity: 0;
+    transition: 200ms ease all;
+}
+.widget .widget_content .slider_wrapper .item:hover .cover_wrapper .button_wrapper {
+    opacity: 1;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper .mdi {
+    font-size: 18px;
+    background: rgba( var(--object_color), 0.85 );
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    display: block;
+    text-align: center;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper .mdi.mdi-dots-vertical {
+    transition: 500ms cubic-bezier(0.9, 0.89, 0, 1.25) all;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper .mdi.mdi-dots-vertical:hover {
+    transform: rotate(90deg);
+    background: rgba( var(--object_color), 1 );
+}
+.widget .widget_content .slider_wrapper .item.no_play .cover_wrapper .button_wrapper.play {
+  display: none
+}
+.widget .widget_content .slider_wrapper .item.no_buttons .cover_wrapper .button_wrapper {
+  display: none
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper.play {
+    bottom: calc( var(--padding) * 1 );
+    top: auto;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper.play .mdi {
+    background: rgba( var(--theme_color), 1 );
+    color: #fff
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper.play .mdi:hover {
+    transform: scale(1.15);
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .buttons {
+    position: absolute;
+    height: fit-content;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    text-align: center;
+    margin: auto;
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper .button_wrapper {
+    position: static;
+    display: inline-block;
+}
+
+.widget.mason .widget_content .slider_wrapper .a_row {
+  white-space: normal;
+}
+.widget.mason .widget_content .slider_wrapper .a_row .item {
+  margin-bottom: calc( var(--padding) * 1 );
+}
+.widget.mason .widget_content .slider_wrapper .item .data {
+  white-space: nowrap;
+}
+
+.widget.type_slider  .widget_content .arrows .arrow {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba( var(--font_color), 0.1 );
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 33px;
+    font-size: 23px;
+    transition: 300ms ease all;
+    opacity: 1;
+    visibility: visible;
+    cursor: pointer;
+    color: rgba(var(--font_color),0.5);
+}
+.widget.type_slider .widget_content .arrows .arrow.prev {
+    right: 48px;
+}
+.widget.type_slider:hover .widget_content .arrows .arrow:hover {
+  background: : 1px solid rgba( var(--font_color), 0.15 );
+  border: 1px solid rgba( var(--font_color), 0.3 );
+  color: rgba(var(--font_color),1);
+}
+.widget.type_slider .widget_content .arrows {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+}
+.widget.type_slider.has_sub_data .widget_content .arrows {
+    top: 20px;
+}
+
+.widget.o_type_a_book .widget_content .slider_wrapper .item .cover_wrapper:after {
+    padding-top: 150%;
+}
+body.square_audio_book_cover .widget.o_type_a_book .widget_content .slider_wrapper .item .cover_wrapper:after {
+    padding-top: 100%;
+}
+
+.widget .widget_content .slider_wrapper .item.bof_a_writer .cover_wrapper,
+.widget .widget_content .slider_wrapper .item.bof_user .cover_wrapper,
+.widget .widget_content .slider_wrapper .item.bof_a_narrator .cover_wrapper,
+.widget .widget_content .slider_wrapper .item.bof_a_translator .cover_wrapper {
+    border-radius: 50%;
+}
+
+.widget.size_small .widget_content .slider_wrapper .item.bof_a_writer .cover_wrapper,
+.widget.size_small .widget_content .slider_wrapper .item.bof_a_narrator .cover_wrapper,
+.widget.size_small .widget_content .slider_wrapper .item.bof_a_translator .cover_wrapper {
+    border-radius: 0;
+}
+
+/* =========== Spotify-style home polish (2026) =========== */
+.object_n_page .widget .widget_content > .title,
+.widget .widget_content > .title {
+  font-size: 165%;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  margin-bottom: calc( var(--padding) * 2.2 );
+}
+.widget .widget_content > .title a {
+  color: rgba(var(--font_color),1);
+}
+.widget .widget_content > .title a._more,
+.widget .widget_content > .title ._more {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  opacity: .55;
+  transition: .15s;
+}
+.widget .widget_content > .title a._more:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+.widget .widget_content > .sub_title {
+  font-size: 92%;
+  opacity: .55;
+  margin-top: calc( var(--padding) * -1.5 );
+  margin-bottom: calc( var(--padding) * 2 );
+}
+
+/* card hover lift */
+.widget .widget_content .slider_wrapper .item {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px -12px rgba(0,0,0,.35);
+}
+.widget .widget_content .slider_wrapper .item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px -14px rgba(0,0,0,.5);
+}
+.widget .widget_content .slider_wrapper .item .cover_wrapper {
+  border-radius: 10px;
+}
+
+/* artist widgets = round covers like Spotify */
+.widget .widget_content .slider_wrapper .item.bof_m_artist .cover_wrapper,
+.widget .widget_content .slider_wrapper .item.bof_m_artist .cover_wrapper img {
+  border-radius: 50%;
+}
+.widget .widget_content .slider_wrapper .item.bof_m_artist .data {
+  text-align: center;
+}
+.widget .widget_content .slider_wrapper .item.bof_m_artist .data .title {
+  white-space: normal;
+}
+
+/* slider arrows */
+.widget .arrows .arrow {
+  transition: .15s;
+}
+.widget .arrows .arrow:hover {
+  transform: scale(1.1);
+}

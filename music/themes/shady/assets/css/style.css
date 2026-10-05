@@ -1,0 +1,95 @@
+body.user_library .nada {
+    text-align: center;
+    font-size: 150%;
+    opacity: 0.4;
+    margin: calc(var(--padding)*5) 0;
+}
+body.user_library .nada .mdi {
+    display: block;
+    font-size: 200%;
+    opacity: 0.7;
+    margin-bottom: var(--padding);
+}
+body.user_library .widget .widget_content .table_wrapper table tbody tr td.title .subData {
+    display: none;
+}
+body.mobile.user_library #main {
+}
+
+
+body .noUi-connect {
+    background: rgba(var(--font_color),0.05);
+}
+body .noUi-target {
+    background: rgba(var(--object_color),0.8);
+    border: none;
+    box-shadow: none;
+    opacity: 1;
+    height: 22px;
+    margin: 50px 5px 25px;
+}
+body .noUi-horizontal .noUi-handle {
+    width: 16px;
+    right: -8px;
+    background: rgba(var(--font_color),0.1);
+    box-shadow: none;
+    border: none;
+    height: 30px;
+    top: -4px;
+}
+body .noUi-horizontal .noUi-handle:before,.noUi-horizontal .noUi-handle:after {
+    display: none;
+}
+body .noUi-horizontal .noUi-handle:after {
+    display: block;
+    content: "";
+    background: rgba(var(--object_color2),1);
+    height: auto;
+    width: auto;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+}
+body .noUi-tooltip {
+    background: rgba(var(--font_color),0.06);
+    border: none;
+    color: rgba(var(--font_color),0.4);
+    font-size: 90%;
+    padding: 4px 10px;
+}
+body .noUi-marker {
+    background: none;
+}
+body .noUi-marker-horizontal.noUi-marker-large {
+    background: rgba(var(--font_color),0.1);
+    height: 7px;
+    /* font-size: 90%; */
+}
+body .noUi-value {
+    font-size: 80%;
+    margin-top: 4px;
+}
+
+body #main .content .disclaimer {
+    margin-bottom: calc( var(--padding) * 3 );
+    background: rgba(var(--c_yellow),calc(0.2*var(--opacity)));
+    /* color: #fff; */
+    padding: calc( var(--padding) * 2 );
+    border-radius: 10px;
+    font-weight: 500;
+    opacity: 0.7;
+}
+body #main .content .disclaimer a {
+    color: rgba(var(--c_yellow),calc(1*var(--opacity)));
+    font-weight: 700;
+}
+body #main .content .disclaimer .mdi-alert {
+    color: rgba(var(--c_yellow),calc(1*var(--opacity)));
+    font-size: 140%;
+    line-height: 1;
+    position: relative;
+    bottom: -1px;
+    margin-right: 7px;
+}

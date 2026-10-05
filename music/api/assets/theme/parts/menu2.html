@@ -1,0 +1,113 @@
+<div class="menu_wrapper">
+  $bof if ?$
+  $bof foreach ?$
+
+  <div class="link_wrapper parent$bof if ?^childs$ with_child$!bof if ?^childs$ $bof ? class$">
+
+    <a class="parent $bof if ?^icon$has_icon$!bof if ?^icon$" $bof if ?^href$ href="$bof ? ?$" $!bof if ?^href$>
+      <span class="mdi mdi-$bof ? ?^icon$"></span>
+      <span class="_t">$bof ? ?^title$</span>
+    </a>
+
+    $bof if ?^childs$
+    <div class="children_wrapper">
+      $bof foreach DataPool^?$
+      <div class="link_wrapper child">
+        <a class="child $bof if ?^icon$has_icon$!bof if ?^icon$" href="$bof ? ?^href$">
+          <span class="mdi mdi-$bof ? ?^icon$"></span>
+          <span class="_t">$bof ? ?^title$</span>
+        </a>
+      </div>
+      $!bof foreach DataPool^?$
+    </div>
+    $!bof if ?^childs$
+
+  </div>
+
+  $!bof foreach ?$
+  $!bof if ?$
+
+  <div class="link_wrapper parent home mobile_only $bof if Config^brand^mobile_logo$has_img$!bof if Config^brand^mobile_logo$">
+    <a class="parent" href="/" aria-label="Home">
+      <span class="mob_logo_wrapper"><img src="$bof ? Config^brand^mobile_logo$" srcset="$bof ? Config^brand^mobile_logo$ 50w" sizes="50px" alt='logo' width="50" height="50" loading="lazy" decoding="async"></span>
+      <span class="mdi mdi-home-variant"></span>
+    </a>
+  </div>
+
+  <div class="link_wrapper parent mobile_only dl_parent">
+    <a class="parent download_menu_wrapper dropdown_button" data-dropdown-id="download_drop">
+      <span class="mdi mdi-floppy icon"></span>
+      <span class="_t">$bof ? Lang^downloads __uc=true$</span>
+    </a>
+  </div>
+
+  <div class="bof_dropdown file_list" id="download_drop">
+    <div class="_w">
+      <div class="_title"><span class="mdi mdi-download"></span> $bof ? Lang^downloads __uc=true$</div>
+      <div class="list def_scroll"></div>
+    </div>
+  </div>
+
+  <div class="link_wrapper parent mobile_only nots_parent" >
+    <a class="parent chapar_menu_wrapper dropdown_button" data-dropdown-id="chapar_drop" aria-label="Notifications">
+      <span class="mdi mdi-bell-outline"></span>
+      <span class="_t">$bof ? Lang^notifications __uc=true$</span>
+    </a>
+  </div>
+  <div class="bof_dropdown chapar_msgs" id="chapar_drop">
+
+    <div class="titles">
+      <div class="_m">$bof ? Lang^notifications __uc=true$</div>
+      <div class="_maar">$bof ? Lang^mark_as_read __uc=true$</div>
+      <div class="_ic setting"><span class="mdi mdi-tune"></span></div>
+      <div class="_ic push _en"><span class="mdi mdi-bell-outline"></span></div>
+      <div class="_ic push _ened"><span class="mdi mdi-bell-check-outline"></span></div>
+    </div>
+
+    <div class="chapar_register">
+      $bof ? Lang^not_push_tip$
+      <div class="_actions">
+        <div class="_act" id='chapar_do_register'>$bof ? Lang^turn_on __uc=true$</div>
+        <div class="_act later">$bof ? Lang^maybe_later __uc=true$</div>
+      </div>
+    </div>
+
+    <div class="list def_scroll"></div>
+
+  </div>
+
+  <div class="link_wrapper parent with_child mobile_only user_wrapper">
+
+    <a class="parent" aria-label="User">
+      <div class="avatar">$bof ? Config^user^data^avatar$</div>
+      <span class="mdi mdi-account"></span>
+      <span class="_t">$bof if Config^user^data^name$$bof ? ?$$!bof if Config^user^data^name$$bof if Config^user^data^name false$$bof ? Lang^user __uc=true$$!bof if Config^user^data^name false$</span>
+    </a>
+
+    <div class="children_wrapper user_notLogged">
+      <div class="link_wrapper child _ulb"><a class="child has_icon" href="userAuth"><span class="mdi mdi-login"></span><span class="_t">$bof ? Lang^login __uc=true$</span></a></div>
+      <div class="link_wrapper child"><a class="child has_icon languageSwitch"><span class="mdi mdi-translate"></span><span class="_t">$bof ? Lang^change_language __uc=true$</span></a></div>
+      <div class="link_wrapper child"><a class="child has_icon currencySwitch"><span class="mdi mdi-abacus"></span><span class="_t">$bof ? Lang^change_currency __uc=true$</span></a></div>
+      <div class="link_wrapper child"><a class="child has_icon lightSwitch"><span class="mdi mdi-theme-light-dark"></span><span class="_t">$bof ? Lang^light_toggle __uc=true$</span></a></div>
+    </div>
+
+    <div class="children_wrapper user_logged">
+
+      <div class="link_wrapper child"><a class="child has_icon" href="user_edit"><span class="mdi mdi-cog"></span><span class="_t">$bof ? Lang^setting __uc=true$</span></a></div>
+
+      $bof foreach Config^user_menu$
+      <div class="link_wrapper child $bof ? class$">
+        <a class="child $bof if ?^icon$has_icon$!bof if ?^icon$" $bof if ?^href$ href="$bof ? ?$" $!bof if ?^href$><span class="mdi mdi-$bof ? ?^icon$"></span><span class="_t">$bof ? ?^title$</span></a>
+      </div>
+      $!bof foreach Config^user_menu$
+
+      <div class="link_wrapper child"><a class="child has_icon languageSwitch"><span class="mdi mdi-translate"></span><span class="_t">$bof ? Lang^change_language __uc=true$</span></a></div>
+      <div class="link_wrapper child"><a class="child has_icon currencySwitch"><span class="mdi mdi-abacus"></span><span class="_t">$bof ? Lang^change_currency __uc=true$</span></a></div>
+      <div class="link_wrapper child"><a class="child has_icon lightSwitch"><span class="mdi mdi-theme-light-dark"></span><span class="_t">$bof ? Lang^light_toggle __uc=true$</span></a></div>
+      <div class="link_wrapper child"><a class="child has_icon logout_handler"><span class="mdi mdi-lock-outline"></span><span class="_t">$bof ? Lang^logout __uc=true$</span></a></div>
+
+    </div>
+
+  </div>
+
+</div>

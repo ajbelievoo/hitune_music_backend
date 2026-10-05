@@ -1,0 +1,274 @@
+/* =========================================================
+   HiTune Admin — polish layer (loaded last, overrides theme)
+   ========================================================= */
+
+:root {
+  --hit_radius: 14px;
+  --hit_radius_sm: 10px;
+  --hit_shadow: 0 4px 18px -4px rgba(var(--ui_color), 0.12);
+  --hit_shadow_hover: 0 8px 24px -6px rgba(var(--ui_color), 0.18);
+  --hit_ease: 200ms cubic-bezier(.4, 0, .2, 1);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Sidebar ---------- */
+
+#sidebar {
+  border-right: none;
+  box-shadow: 1px 0 0 0 rgba(var(--ui_color), 0.06),
+              4px 0 24px -8px rgba(var(--ui_color), 0.08);
+  z-index: 20;
+}
+
+#sidebar .links ul li a span .i {
+  width: 46px;
+  height: 46px;
+  background-size: 24px;
+  background-position: center;
+  border-radius: 14px;
+  transition: background-color var(--hit_ease), transform var(--hit_ease);
+}
+
+#sidebar .links ul li a:hover span .i,
+#sidebar .links ul li.active a span .i {
+  background-color: rgba(var(--theme_color), 0.14);
+  transform: translateY(-1px);
+}
+
+#sidebar .links ul li.active a span.title {
+  color: rgba(var(--theme_color), 1);
+  opacity: 1;
+}
+
+#sidebar .links ul li a {
+  margin-bottom: 22px;
+}
+
+#sidebar #light_switch,
+#sidebar #color_switch {
+  opacity: 0.55;
+}
+
+#sidebar #light_switch:hover,
+#sidebar #color_switch:hover {
+  opacity: 0.9;
+}
+
+/* ---------- Highlights column ---------- */
+
+#highlights {
+  box-shadow: 1px 0 0 0 rgba(var(--ui_color), 0.05);
+}
+
+#highlights .section_links .link_group {
+  border: 1px solid rgba(var(--ui_color), 0.08);
+  border-radius: var(--hit_radius);
+  background: rgba(var(--bg_color), 0.6);
+  transition: border-color var(--hit_ease), box-shadow var(--hit_ease), transform var(--hit_ease);
+}
+
+#highlights .section_links a.link_group:hover {
+  border-color: rgba(var(--theme_color), 0.35);
+  box-shadow: var(--hit_shadow);
+  transform: translateY(-1px);
+}
+
+#highlights .section_links .link_group .icon {
+  border-radius: 12px;
+}
+
+#highlights .section_links .link_group:after {
+  border-radius: 12px;
+  opacity: 0.5;
+}
+
+/* ---------- Inputs ---------- */
+
+.bof_input,
+select {
+  border-radius: var(--hit_radius_sm);
+  padding: 8px 12px;
+  transition: border-color var(--hit_ease), box-shadow var(--hit_ease);
+}
+
+.bof_input:focus,
+select:focus {
+  border-color: rgba(var(--theme_color), 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(var(--theme_color), 0.15);
+  outline: none;
+}
+
+.bof_input:hover:not(:focus) {
+  border-color: rgba(var(--ui_color), 0.35);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  border-radius: var(--hit_radius_sm);
+  padding: 10px 18px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: transform var(--hit_ease), box-shadow var(--hit_ease), opacity var(--hit_ease), background var(--hit_ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.btn-primary {
+  box-shadow: 0 4px 12px -4px rgba(var(--theme_color), 0.5);
+}
+
+.btn.btn-primary:hover {
+  box-shadow: 0 6px 16px -4px rgba(var(--theme_color), 0.6);
+}
+
+/* ---------- Dropdowns ---------- */
+
+.bof_dropdown {
+  border-radius: var(--hit_radius);
+  box-shadow: var(--hit_shadow);
+}
+
+.bof_dropdown ul li {
+  transition: background var(--hit_ease);
+}
+
+.bof_dropdown ul li:hover a {
+  background: rgba(var(--theme_color), 0.08);
+}
+
+/* ---------- Checkboxes / radios ---------- */
+
+.checkbox_wrapper .checkbox_mask {
+  border-radius: 7px;
+  transition: border-color var(--hit_ease), background var(--hit_ease);
+}
+
+.checkbox_wrapper input:checked ~ .checkbox_mask {
+  background: rgba(var(--theme_color), 1);
+  border-color: rgba(var(--theme_color), 1);
+}
+
+/* ---------- File input ---------- */
+
+.file_input_wrapper .mask {
+  border-radius: var(--hit_radius);
+  border-style: dashed;
+  transition: border-color var(--hit_ease), background var(--hit_ease);
+}
+
+.file_input_wrapper .mask:hover {
+  border-color: rgba(var(--theme_color), 0.5);
+  background: rgba(var(--theme_color), 0.04);
+}
+
+/* ---------- Content boxes ---------- */
+
+#main .box .box-content,
+#main .box.with-border .box-content {
+  border-radius: var(--hit_radius);
+  border: 1px solid rgba(var(--ui_color), 0.07);
+  box-shadow: var(--hit_shadow);
+}
+
+/* ---------- Tables ---------- */
+
+.content_table_wrapper {
+  border-radius: var(--hit_radius);
+  overflow: hidden;
+  border: 1px solid rgba(var(--ui_color), 0.07);
+  box-shadow: var(--hit_shadow);
+}
+
+.content_table_wrapper table thead tr td {
+  text-transform: uppercase;
+  font-size: 85%;
+  letter-spacing: 0.6px;
+  opacity: 0.55;
+}
+
+.content_table_wrapper table tbody tr {
+  transition: background var(--hit_ease);
+}
+
+.content_table_wrapper table tbody tr:hover td {
+  background: rgba(var(--theme_color), 0.05);
+}
+
+/* ---------- Group tabs (object edit pages) ---------- */
+
+.object_group_tabs,
+.group_tabs,
+.bof_tabs {
+  gap: 8px;
+}
+
+.object_group_tabs .group_tab,
+.group_tabs .group_tab,
+.bof_tabs .bof_tab {
+  border-radius: 999px;
+  padding: 6px 14px;
+  transition: background var(--hit_ease), color var(--hit_ease);
+}
+
+.object_group_tabs .group_tab.active,
+.group_tabs .group_tab.active,
+.bof_tabs .bof_tab.active {
+  background: rgba(var(--theme_color), 1);
+  color: #fff;
+}
+
+/* ---------- Icon chips ---------- */
+
+.icon.bg_orange,
+.icon.bg_yellow,
+.icon.bg_blue,
+.icon.bg_red,
+.icon.bg_green,
+.icon.bg_purple {
+  border-radius: 12px;
+}
+
+/* ---------- Scrollbars ---------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--ui_color), 0.18);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--ui_color), 0.3);
+}
+
+/* ---------- Dark mode tweaks ---------- */
+
+body.dark .content_table_wrapper,
+body.dark #main .box .box-content,
+body.dark #main .box.with-border .box-content {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark #sidebar .links ul li a:hover span .i,
+body.dark #sidebar .links ul li.active a span .i {
+  background-color: rgba(var(--theme_color), 0.22);
+}

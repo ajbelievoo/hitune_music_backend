@@ -1,0 +1,53 @@
+<div class="page_bg dark small">$bof ? single^data^bof_file_bg_img^image_strings^1^html$</div>
+
+<div class="page_content user_content t_user_head $bof ? single^page^classes$">
+
+  <div class="d_head t2 ist2 item" id="bof_main">
+    <div class="cover_wrapper">$bof ? single^data^bof_file_avatar^image_strings^4^html$</div>
+    <div class="detail clearafter">
+
+      <div class="above">
+        <div class="pre det">
+          <a class="_type _uno">$bof ? Lang^profile __uc=true$</a>
+          <a class="_type _uo">$bof ? Lang^own_profile __uc=true$</a>
+          <a>@$bof ? single^data^username$</a>
+        </div>
+        <div class="title">$bof ? single^data^name_styled$
+
+        </div>
+      </div>
+
+      <div class="is clearafter">
+        $bof foreach single^data^stats$
+        <div class="i im_$bof ? icon$">
+          <div class="graphic"><span class="mdi mdi-$bof ? icon$"></span></div>
+          <div class="_t">$bof ? value$</div>
+        </div>
+        $!bof foreach single^data^stats$
+      </div>
+
+      <div class="buttons clearafter">
+        <div onclick="window.app.actions.user.subscribe(null,'user','$bof ? single^data^hash$')" class="button_wrapper _uno _subscribe bof_user_$bof ? single^data^hash$ $bof if single^data^subscribed$subscribed$!bof if single^data^subscribed$ t3">
+          <div class="btn">
+            <span class="mdi mdi-bell-outline unsubscribed"></span>
+            <span class="mdi mdi-bell subscribed"></span>
+            <span class="_t">$bof if single^data^subscribed$Unfollow$!bof if single^data^subscribed$$bof if single^data^subscribed false$Follow$!bof if single^data^subscribed false$</span>
+          </div>
+        </div>
+        <a class="button_wrapper _uo t3" href="user_library"><div class="btn"><span class="mdi mdi-music-box-multiple"></span><span class="_t">$bof ? Lang^library __uc=true$</span></div></a>
+        <a class="button_wrapper _uo t3 t5" href="user_edit"><div class="btn"><span class="mdi mdi-cog"></span><span class="_t">$bof ? Lang^edit_profile __uc=true$</span></div></a>
+        <div class="button_wrapper more"><span class="mdi mdi-dots-horizontal"></span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="user_body t_user_body">
+    $bof if single^widgets$
+      $bof foreach ?$
+        $bof html ? __name=widget$
+      $!bof foreach ?$
+    $!bof if single^widgets$
+  </div>
+
+</div>

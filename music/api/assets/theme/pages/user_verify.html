@@ -1,0 +1,20 @@
+<div class="tabs clearafter hide_scroll">
+  $bof foreach single^tabs$
+  <a href="user_verify?tab=$bof ? ?^0$" class='_$bof ? ?^0$'>$bof ? ?^1$</a>
+  $!bof foreach single^tabs$
+</div>
+
+$bof if single^the_message$
+<div class="form_text success">
+  <div class="title">$bof ? Lang^welcome __uc=true$</div>
+  <div class="text">
+    $bof ? ?$
+  </div>
+</div>
+$!bof if single^the_message$
+
+$bof if single^bofForm$
+  $bof html ? __name=bofForm$
+$!bof if single^bofForm$
+
+$bof ? single^html$

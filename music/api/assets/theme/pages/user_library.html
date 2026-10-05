@@ -1,0 +1,18 @@
+<div class="tabs clearafter hide_scroll">
+  $bof foreach single^tabs$
+  <a href="user_library?tab=$bof ? ?$" class='_$bof ? ?$'>$bof ? ? __turn=true __uc=true$</a>
+  $!bof foreach single^tabs$
+</div>
+
+$bof if single^widgets$
+  $bof foreach ?$
+    $bof html ? __name=widget$
+  $!bof foreach ?$
+$!bof if single^widgets$
+
+$bof if single^widgets false$
+<div class="nada">
+  <span class="mdi mdi-emoticon-sad-outline icon_404"></span>
+  $bof ? Lang^nothing_to_see __uc=true$
+</div>
+$!bof if single^widgets false$

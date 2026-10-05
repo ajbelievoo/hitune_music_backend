@@ -1,0 +1,71 @@
+{
+    "name": "HITUNE MUSIC",
+    "short_name": "hitunemusic",
+    "theme_color": "#0ea5e9",
+    "background_color": "#131513",
+    "display": "fullscreen",
+    "scope": "https://music.hitune.in/",
+    "start_url": "https://music.hitune.in/",
+    "icons": [
+        {
+            "src": "api/assets/images/icon_72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_120.png",
+            "sizes": "120x120",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_152.png",
+            "sizes": "152x152",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_180.png",
+            "sizes": "180x180",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "api/assets/images/icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

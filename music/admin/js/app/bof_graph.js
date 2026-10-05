@@ -1,0 +1,433 @@
+"use strict";
+
+window.bof_graph = {
+
+  load_am4chart: function(){
+
+    var amchart_promise = $.Deferred();
+    window.app._extension("am4chart_core").done(function(){
+      window.app._extension("am4chart").done(function(){
+        amchart_promise.resolve();
+      });
+    });
+    return amchart_promise;
+
+  },
+  load_am5chart: function(){
+
+    var amchart_promise = $.Deferred();
+    window.app._extension("am5chart_core").done(function(){
+      window.app._extension("am5chart").done(function(){
+        am5.ready(function() {
+          amchart_promise.resolve();
+        });
+      });
+    });
+    return amchart_promise;
+
+  },
+
+  xy_basic: function( $container, $data, $args ){
+
+    let style = getComputedStyle(document.body);
+    let lightMode = $("body").hasClass("dark") ? "dark" : "light";
+    let uiColor = style.getPropertyValue('--ui_color').trim();
+    let themeColor = style.getPropertyValue('--theme_color').trim();
+    let themeColor2 = style.getPropertyValue('--theme_color2').trim();
+    let bgColor = style.getPropertyValue('--bg_color').trim();
+
+    var root = am5.Root.new( $container, {} );
+
+    if ( lightMode == "dark" )
+    root.setThemes([ am5themes_Dark.new( root ) ]);
+
+    var chart = root.container.children.push(
+      am5xy.XYChart.new(root, {
+        paddingRight: 0,
+        paddingLeft: 0,
+        paddingBottom: 30,
+        maxTooltipDistance: 0,
+      })
+    );
+
+    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+
+    var xAxisTooltip = am5.Tooltip.new(root, {
+      getFillFromSprite: false
+    })
+    xAxisTooltip.get("background").setAll({
+      fill: am5.color("rgb("+bgColor+")"),
+      fillOpacity: 0.8,
+      strokeWidth: 0
+    });
+
+    var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+      baseInterval: {
+        timeUnit: "day",
+        count: 1
+      },
+      maxDeviation: 0.2,
+      renderer: am5xy.AxisRendererX.new(root, {}),
+      tooltip: xAxisTooltip
+    }));
+    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+      renderer: am5xy.AxisRendererY.new(root, {}),
+    }));
+
+    xAxis.get("renderer").grid.template.setAll({
+      opacity: 0.3,
+    });
+    xAxis.get("renderer").labels.template.setAll({
+      opacity: 0.4,
+      fontSize: "7pt",
+      fontWeight: "900",
+    });
+    yAxis.get("renderer").grid.template.setAll({
+      opacity: 0.3,
+    });
+    yAxis.get("renderer").labels.template.setAll({
+      opacity: 0.3,
+      fontSize: "7pt"
+    });
+
+    var seriesToolTip = am5.Tooltip.new(root, {
+      labelText: "[bold]{valueX}[/]: {valueY}\n[bold]{previousDate}[/]: {previousValue}",
+      getFillFromSprite: false,
+      autoTextColor: false
+    })
+    seriesToolTip.get("background").setAll({
+      fill: am5.color("rgb("+uiColor+")"),
+      fillOpacity: 1
+    });
+    seriesToolTip.label.setAll({
+      fill: am5.color("rgb("+bgColor+")"),
+    });
+
+    var series = chart.series.push(am5xy.SmoothedXLineSeries.new(root, {
+      name: "Series 1",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "value",
+      valueXField: "date",
+      stroke: am5.color("rgb("+themeColor+")"),
+      tooltip: seriesToolTip
+    }));
+
+    series.strokes.template.set( "stroke",  )
+    series.strokes.template.set( "strokeWidth", 4 )
+    series.strokes.template.set( "shadowColor", am5.color("rgb("+themeColor+")") )
+    series.strokes.template.set( "shadowBlur", 11 )
+    series.strokes.template.set( "shadowOpacity", 0.5 )
+
+    var series2 = chart.series.push(am5xy.SmoothedXLineSeries.new(root, {
+      name: "Series 2",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "previousValue",
+      valueXField: "date",
+      stroke: am5.color("rgb("+themeColor2+")"),
+    }));
+
+    root.dateFormatter.setAll({
+      dateFormat: "yyyy-MM-dd",
+      dateFields: ["valueX"]
+    });
+
+    for ( var i=0; i<Object.keys($data).length; i++ ){
+      var dK = Object.keys($data)[i];
+      $data[ dK ][ "previousDate" ] = new Date( $data[ dK ]["previousDate"] );
+    }
+    series.data.setAll($data);
+    series2.data.setAll($data);
+
+    chart.get("cursor").lineX.setAll({
+      stroke: am5.color("rgb("+uiColor+")"),
+      opacity: 0.2,
+      strokeWidth: 1,
+      strokeDashoffset: 11,
+    })
+    chart.get("cursor").lineY.setAll({
+      stroke: am5.color("rgb("+uiColor+")"),
+      opacity: 0.2,
+      strokeWidth: 1,
+      strokeDashoffset: 11,
+    })
+
+    series.appear(1000);
+    series2.appear(1000);
+    chart.appear(1000, 100);
+
+  },
+  xy_stacked: function( $container, $data, $args ){
+
+    let style = getComputedStyle(document.body);
+    let lightMode = $("body").hasClass("dark") ? "dark" : "light";
+    let uiColor = style.getPropertyValue('--ui_color').trim();
+    let themeColor = style.getPropertyValue('--theme_color').trim();
+    let themeColor2 = style.getPropertyValue('--theme_color2').trim();
+    let bgColor = style.getPropertyValue('--bg_color').trim();
+
+    var root = am5.Root.new( $container, {} );
+
+    if ( lightMode == "dark" )
+    root.setThemes([ am5themes_Dark.new( root ) ]);
+
+    var chart = root.container.children.push(
+      am5xy.XYChart.new(root, {
+        paddingRight: 0,
+        paddingLeft: 0,
+        paddingBottom: 30,
+        layout: root.verticalLayout
+      })
+    );
+
+    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+
+    var xRenderer = am5xy.AxisRendererX.new(root, {});
+    var xAxisTooltip = am5.Tooltip.new(root, {
+      getFillFromSprite: false
+    })
+    xAxisTooltip.get("background").setAll({
+      fill: am5.color("rgb("+bgColor+")"),
+      fillOpacity: 0.8,
+      strokeWidth: 0
+    });
+    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+      categoryField: "date",
+      renderer: xRenderer,
+      tooltip: xAxisTooltip
+    }));
+
+    xRenderer.grid.template.setAll({
+      location: 1
+    })
+
+    xAxis.data.setAll($data);
+
+    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+      min: 0,
+      renderer: am5xy.AxisRendererY.new(root, {
+        strokeOpacity: 0.1
+      })
+    }));
+
+    xAxis.get("renderer").grid.template.setAll({
+      opacity: 0.3,
+    });
+    xAxis.get("renderer").labels.template.setAll({
+      opacity: 0.4,
+      fontSize: "7pt",
+      fontWeight: "900",
+    });
+    yAxis.get("renderer").grid.template.setAll({
+      opacity: 0.3,
+    });
+    yAxis.get("renderer").labels.template.setAll({
+      opacity: 0.3,
+      fontSize: "7pt"
+    });
+
+
+    var legend = chart.children.push(am5.Legend.new(root, {
+      centerX: am5.p50,
+      x: am5.p50,
+      opacity: 0.5
+    }));
+
+    legend.markers.template.setAll({
+      width: 14,
+      height: 14,
+    });
+
+    legend.labels.template.setAll({
+      fontSize: 12,
+      fontWeight: "600"
+    });
+
+    function makeSeries(name, fieldName, Color) {
+
+      var seriesTooltip = am5.Tooltip.new(root, {
+        getFillFromSprite: false,
+        autoTextColor: false,
+        labelText: "[bold]{name}[/] : {valueY}" + ( $args.graph_parsed.tooltip_append ? $args.graph_parsed.tooltip_append : "" ),
+        y: am5.percent(10),
+      })
+
+      seriesTooltip.get("background").setAll({
+        fill: am5.color("rgb("+uiColor+")"),
+        fillOpacity: 0.8,
+        stroke: false
+      });
+
+      seriesTooltip.label.setAll({
+        fill: am5.color("rgb("+bgColor+")"),
+      });
+
+      var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+        name: name,
+        stacked: true,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: fieldName,
+        categoryXField: "date",
+      }));
+
+      series.set( "tooltip", seriesTooltip );
+
+      series.columns.template.setAll({
+        fill: am5.color(Color),
+        fillOpacity: 0.9,
+        stroke: false,
+        cornerRadiusBR: 7,
+        cornerRadiusTR: 7,
+        cornerRadiusBL: 7,
+        cornerRadiusTL: 7,
+      });
+
+      series.data.setAll($data);
+      series.appear();
+
+      legend.data.push(series);
+
+    }
+
+    if ( $data ){
+      var fR = Object.keys( $data[ Object.keys( $data )[0] ] );
+      for ( var z=0; z<fR.length; z++ ){
+
+        var colors = [ "orange", "purple", "green", "red", "blue", "yellow" ];
+        var color = colors[z%colors.length];
+        var colorRGB = style.getPropertyValue('--c_'+color).trim();
+
+        if ( fR[z] != "date" )
+        makeSeries( $args.graph_parsed.labels ? ( $args.graph_parsed.labels[ fR[z] ] ? $args.graph_parsed.labels[ fR[z] ] : fR[z] ) : fR[z], fR[z], "rgb("+colorRGB+")" );
+
+      }
+    }
+
+    chart.get("cursor").lineX.setAll({
+      stroke: am5.color("rgb("+uiColor+")"),
+      opacity: 0.2,
+      strokeWidth: 1,
+      strokeDashoffset: 11,
+    })
+    chart.get("cursor").lineY.setAll({
+      stroke: am5.color("rgb("+uiColor+")"),
+      opacity: 0.2,
+      strokeWidth: 1,
+      strokeDashoffset: 11,
+    })
+
+    chart.appear(1000, 100);
+
+  },
+  pie_basic: function( $container, $data, $args ){
+
+    let style = getComputedStyle(document.body);
+    let lightMode = $("body").hasClass("dark") ? "dark" : "light";
+    let uiColor = style.getPropertyValue('--ui_color').trim();
+    let themeColor = style.getPropertyValue('--theme_color').trim();
+    let themeColor2 = style.getPropertyValue('--theme_color2').trim();
+    let bgColor = style.getPropertyValue('--bg_color').trim();
+
+    var root = am5.Root.new( $container, {} );
+
+    if ( lightMode == "dark" )
+    root.setThemes([ am5themes_Dark.new( root ) ]);
+
+    var chart = root.container.children.push(
+      am5percent.PieChart.new( root, {
+      })
+    );
+
+    var series = chart.series.push(
+      am5percent.PieSeries.new( root, {
+        valueField: "_val",
+        categoryField: "_var"
+      })
+    );
+
+    var color_codes = [ "orange", "purple", "green", "red", "blue", "yellow" ];
+    var colors = [];
+    for ( var i=0; i<color_codes.length; i++ ){
+      var color_code = color_codes[i];
+      var color_rgb = style.getPropertyValue('--c_'+color_code).trim();
+      colors.push( am5.color("rgb("+color_rgb+")") )
+    }
+
+    series.get("colors").set( "colors", colors );
+
+    series.slices.template.setAll({
+      fillOpacity: 0.7,
+      stroke: am5.color("rgb("+bgColor+")"),
+      strokeWidth: 1
+    });
+
+    series.slices.template.states.create("active", {
+      fillOpacity:1,
+    });
+
+    series.labels.template.setAll({
+      fontSize: 10,
+      opacity: 0.5
+    });
+
+    series.slices.template.set("tooltipText", "{_var}: [bold]{_val}[/]");
+
+    series.data.setAll($data);
+
+    series.appear(1000, 100);
+
+  },
+  map: function( $container, $data, $args ){
+
+    let style = getComputedStyle(document.body);
+    let lightMode = $("body").hasClass("dark") ? "dark" : "light";
+    let uiColor = style.getPropertyValue('--ui_color').trim();
+    let themeColor = style.getPropertyValue('--theme_color').trim();
+    let themeColor2 = style.getPropertyValue('--theme_color2').trim();
+    let bgColor = style.getPropertyValue('--bg_color').trim();
+
+    var root = am5.Root.new( $container, {} );
+
+    if ( lightMode == "dark" )
+    root.setThemes([ am5themes_Dark.new( root ) ]);
+
+    var chart = root.container.children.push(am5map.MapChart.new(root, {}));
+
+    var polygonSeries = chart.series.push(
+      am5map.MapPolygonSeries.new(root, {
+        geoJSON: am5geodata_worldLow,
+        exclude: ["AQ"],
+        valueField: "value",
+        calculateAggregates: true
+      })
+    );
+
+
+    polygonSeries.mapPolygons.template.setAll({
+      tooltipText: "{id}: {value}",
+      fill: am5.color("rgb("+uiColor+")"),
+      fillOpacity: 0.08,
+      stroke: false
+    });
+
+    polygonSeries.set("heatRules", [{
+      target: polygonSeries.mapPolygons.template,
+      dataField: "value",
+      min: am5.color("rgb("+themeColor+")"),
+      max: am5.color("rgb("+themeColor+")"),
+      key: "fill"
+    },{
+      target: polygonSeries.mapPolygons.template,
+      dataField: "value",
+      min: 0.2,
+      max: 1,
+      key: "fillOpacity"
+    }]);
+
+    polygonSeries.data.setAll( $data );
+
+  },
+
+}

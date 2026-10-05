@@ -1,0 +1,22 @@
+
+<div class="bofForm" ID="$bof ? ID$">
+
+  <form>
+
+    $bof foreach inputs$
+    <div class="input_wrapper">
+      <div class="label">$bof ? label$</div>
+      <div class="_input">$bof html input __name=o_input$</div>
+      $bof if tip$<div class="tip">$bof ? ?$</div>$!bof if tip$
+    </div>
+    $!bof foreach inputs$
+
+  </form>
+
+  <div class="buttons">
+    <div class="btn btn-primary _submit">$bof ? Lang^submit __uc=true$</div>
+  </div>
+
+  <div class="_error"></div>
+
+</div>

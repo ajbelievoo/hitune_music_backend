@@ -1,0 +1,30 @@
+<div class="menu_wrapper">
+  $bof if ?$
+  $bof foreach ?$
+
+  <div class="link_wrapper parent$bof if ?^childs$ with_child$!bof if ?^childs$ $bof ? class$">
+
+    <a class="parent $bof if ?^icon$has_icon$!bof if ?^icon$" $bof if ?^href$ href="$bof ? ?$" $!bof if ?^href$ $bof if ?^external$ data-external="1" $!bof if ?^external$>
+      <span class="mdi mdi-$bof ? ?^icon$"></span>
+      <span class="_t">$bof ? ?^title$</span>
+    </a>
+
+    $bof if ?^childs$
+    <div class="children_wrapper">
+      $bof foreach DataPool^?$
+      <div class="link_wrapper child">
+        <a class="child $bof if ?^icon$has_icon$!bof if ?^icon$" href="$bof ? ?^href$" $bof if ?^external$ data-external="1" $!bof if ?^external$>
+          <span class="mdi mdi-$bof ? ?^icon$"></span>
+          <span class="_t">$bof ? ?^title$</span>
+        </a>
+      </div>
+      $!bof foreach DataPool^?$
+    </div>
+    $!bof if ?^childs$
+
+  </div>
+
+  $!bof foreach ?$
+  $!bof if ?$
+
+</div>

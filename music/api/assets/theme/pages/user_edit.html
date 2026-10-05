@@ -1,0 +1,13 @@
+<div class="tabs clearafter hide_scroll">
+  $bof foreach single^tabs$
+  <a href="user_edit?tab=$bof ? ?$" class='_$bof ? ?$'>$bof ? ? __turn=true __uc=true$</a>
+  $!bof foreach single^tabs$
+</div>
+
+$bof if single^bofForm$
+  $bof html ? __name=bofForm$
+$!bof if single^bofForm$
+
+$bof if single^content$
+  $bof ? ?^html$
+$!bof if single^content$

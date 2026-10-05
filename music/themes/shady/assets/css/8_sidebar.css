@@ -1,0 +1,180 @@
+/* =========== NAVBAR =========== */
+.sidebar_fl {
+  display: none;
+}
+.sidebar {
+  width: var(--sidebar_width);
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: rgb(var(--side_color));
+  z-index: 6;
+  font-size: 110%
+}
+.sidebar .logo_wrapper {
+  margin: calc( var(--padding) * 2 ) var(--padding) calc( var(--padding) * 4 );
+  display: block;
+}
+.sidebar .logo_wrapper img {
+  width: auto;
+  max-width: 100%;
+  max-height: 45px;
+}
+.sidebar .logo_wrapper .logo.secondary {
+    display: none;
+}
+.sidebar .menu_parent {
+  position: relative;
+  height: calc( 100% - ( 20px + ( var(--padding) * 6 ) ) );
+  font-weight: 400;
+  overflow: auto;
+  margin-right: 4px
+}
+body.muse_active:not(.mobile) .sidebar .menu_parent {
+    height: calc( 100% - ( 50px + ( var(--padding) * 6 ) ) );
+}
+.sidebar .menu_parent::-webkit-scrollbar{
+  background: transparent;
+  width: calc(var(--padding)*0.7)
+}
+.sidebar .menu_parent::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0 0 rgba( 255, 255, 255, 0 );
+  background: transparent;
+}
+.sidebar .menu_parent::-webkit-scrollbar-thumb {
+  background: rgba( var(--font_color), 0.05 );
+  border-radius: 4px;
+}
+.sidebar .menu_parent a {
+  padding: 14px 16px 14px 48px;
+  display: block;
+  position: relative;
+}
+.sidebar .menu_parent a .mdi {
+  position: absolute;
+  left: calc( ( var(--padding) * 2 ) - 3px );
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: fit-content;
+  font-size: 14pt;
+  opacity: 0.7;
+}
+.sidebar .menu_parent a.child.has_icon {
+  padding-left: 48px;
+}
+.sidebar .menu_parent a.child {
+  padding-left: 16px;
+}
+.sidebar .menu_parent .link_wrapper.parent {
+  margin-bottom: calc( var(--padding) * 3 );
+}
+.sidebar .menu_parent .link_wrapper.parent:last-child {
+  margin-bottom: 0
+}
+.sidebar .menu_parent .link_wrapper.parent.with_child a.parent {
+  padding: 0 12px;
+  color: rgba(var(--font_color),0.65);
+  padding: 0 16px 10px;
+  font-weight: 500;
+  background: transparent;
+  border-color: transparent;
+  font-size: 9pt;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: .5;
+}
+.sidebar .menu_parent .link_wrapper.parent.with_child a.parent .mdi {
+  display: none;
+}
+.sidebar .menu_parent .link_wrapper.parent.mobile_only {
+  display: none
+}
+.sidebar .menu_parent a.active {
+  font-weight: 600;
+  color: rgba(var(--theme_color),1);
+}
+.sidebar .menu_parent a.active,.sidebar .menu_parent a.active:hover {
+  background: rgba(var(--theme_color),0.1);
+}
+.sidebar .menu_parent a.active .mdi {
+  opacity: 1;
+}
+.sidebar .menu_parent a:hover {
+  background: rgba(var(--font_color),0.03);
+}
+body.muse_active .sidebar .controls {
+  display: none
+}
+.sidebar .controls {
+    margin: 5%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.sidebar .controls .control {
+    width: 48%;
+    float: left;
+    text-align: center;
+    border: 2px solid rgba(var(--font_color),0.4);
+    border-radius: 20px;
+    line-height: 1;
+    padding: 8px 0;
+    font-weight: 600;
+    opacity: 0.35;
+    transition: 200ms ease-in all;
+    cursor: not-allowed
+}
+.sidebar .controls .control:hover {
+    opacity: 1
+}
+.sidebar .controls .control:first-child {
+    margin-right: 4%;
+}
+
+body.no_sidebar {
+  --sidebar_abs_width: 0px;
+}
+body.no_sidebar .sidebar {
+  left: -100%;
+}
+body.no_sidebar .sidebar {
+  top: 64px;
+}
+body.no_sidebar.overlay_sidebar .sidebar {
+  left: 0;
+  background: rgba(var(--side_color2),1);
+}
+body.no_sidebar.overlay_sidebar .header.resting {
+  background: rgba(var(--side_color2),1);
+}
+body.no_sidebar.overlay_sidebar #main {
+  overflow: hidden;
+}
+body.no_sidebar.overlay_sidebar #main .content {
+  transform: translateX( var(--sidebar_width) );
+  filter: blur(3px);
+}
+body.no_sidebar #main .content {
+  transition: 200ms ease transform, 200ms ease filter;
+}
+body.no_sidebar .sidebar {
+  transition: 200ms ease all;
+}
+body.no_sidebar #main {
+  overflow-x: hidden;
+}
+body.no_sidebar.overlay_sidebar .sidebar .logo_wrapper {
+    height: 30px;
+    opacity: 0;
+    margin: 0;
+}
+body.dir_rtl.no_sidebar.overlay_sidebar #main .content {
+  transform: translateX( calc( var(--sidebar_width) * -1 ) );
+}
+body.dir_rtl.no_sidebar.overlay_sidebar .sidebar {
+  right: 0;
+  left: auto;
+}

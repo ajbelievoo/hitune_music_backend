@@ -1,0 +1,343 @@
+body #main .content .transactions {
+  max-width: 1000px;
+  margin: auto
+}
+body #main .content .transactions .transaction ._tw {
+  background: rgba( var(--object_color), 0.5 );
+  border-radius: 5px;
+  padding: calc( var(--padding) * 2 );
+  margin: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin-right: calc( var(--padding) * 2 );
+}
+body #main .content .transactions .transaction ._tw.ss {
+  margin-right: 0
+}
+body #main .content .transactions .transaction ._tw ._item {
+  display: flex;
+  align-items: center;
+  text-align: var(--c_align);
+}
+body #main .content .transactions .transaction ._tw ._item ._ci {
+  height: fit-content;
+  color: rgba( var(--font_color), 0.4 );
+  font-size: 90%;
+}
+body #main .content .transactions .transaction ._tw ._item ._ci b {
+  display: block;
+}
+body #main .content .transactions .transaction ._tw ._item ._cw {
+  width: 40px;
+  height: 40px;
+  background: center center no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  margin-left: 10px;
+  order: 2;
+}
+body #main .content .transactions .transaction ._tw ._item ._ci b {
+  color: rgba( var(--font_color), 0.8 );
+  margin-bottom: 2px;
+  font-size: 110%;
+}
+body #main .content .transactions .transaction ._tw ._item ._ci b:empty {
+  display: none;
+}
+body #main .content .transactions .transaction ._tw ._ds ._type {
+  font-size: 130%;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+body #main .content .transactions .transaction ._tw ._ds ._amount {
+  margin-top: 5px;
+  color: rgba( var(--font_color), 0.2 );
+  font-size: 80%;
+}
+body #main .content .transactions .transaction ._tw ._ds ._amount b {
+  font-size: calc( var(--font_size) );
+  color: rgba( var(--font_color), 0.5 );
+  margin-right: 2px;
+}
+body #main .content .transactions .transaction.type_fund ._tw {
+  background: rgba( var(--theme_color), 0.1 );
+  font-size: 130%;
+  font-weight: 600;
+}
+
+body #main .content .transactions .transaction {
+  display: flex;
+  margin-bottom: calc( var(--padding) * 2 );
+}
+body #main .content .transactions .transaction ._af {
+  background: rgb(var(--theme_color));
+  font-size: 120%;
+  flex-grow: 0;
+  word-break: break-word;
+  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc( var(--padding) * 2 );
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 600;
+  max-width: 100px;
+  box-sizing: content-box;
+  transform: scale(0.96);
+  opacity: 0.8;
+  transition: 200ms ease all
+}
+body #main .content .transactions .transaction ._af:hover {
+  opacity: 1
+}
+
+.bofForm#notifications form .input_wrapper {
+  width: 520px;
+  max-width: 90vw;
+  position: relative;
+  background: rgba(var(--object_color),0.5);
+  padding: calc( var(--padding) * 1.5 );
+  padding-right: calc( var(--padding) * 7 );
+  margin-bottom: calc( var(--padding) * 1.2 );
+  border-radius: 4px;
+}
+.bofForm#notifications form .input_wrapper ._input {
+  position: absolute;
+  right: 14px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: fit-content;
+  width: 50px;
+  height: 30px;
+}
+.bofForm#notifications form .input_wrapper .label {
+  margin: 0;
+  font-weight: 600;
+  font-size: 110%;
+}
+.bofForm#notifications form .input_wrapper .tip {
+  margin-top: calc(var(--padding)*0.6);
+  word-break: normal;
+}
+.bofForm#notifications form .input_wrapper ._input .checkbox_wrapper {
+  position: relative;
+  height: 30px;
+}
+.bofForm#notifications form .input_wrapper ._input .checkbox_wrapper input {
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.bofForm#notifications form .input_wrapper ._input .checkbox_wrapper .checkbox_mask {
+  background: rgba(var(--object_color),1);
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  color: rgba(var(--font_color),0.2);
+  cursor: pointer;
+  transition: 200ms ease-in all;
+}
+.bofForm#notifications form .input_wrapper ._input .checkbox_wrapper .checkbox_mask span:before {
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: 13pt;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: "\F012C";
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  text-align: center;
+  margin: auto;
+  height: fit-content;
+}
+.bofForm#notifications form .input_wrapper ._input .checkbox_wrapper .checkbox_mask:hover {
+  background: rgba(var(--object_color2),1);
+}
+.bofForm#notifications form .input_wrapper ._input .checkbox_wrapper input:checked ~ .checkbox_mask {
+  background: rgba(Var(--theme_color),0.8);
+  color: rgba(Var(--theme_color),1);
+}
+.bofForm#notifications form .input_wrapper:last-child {
+  margin-top: calc(var(--padding)*3);
+}
+.bofForm#notifications form .input_wrapper:last-child .label {
+  color: rgba(var(--theme_color),0.8);
+}
+.bofForm#notifications form {
+  border-bottom: none;
+}
+
+#session_list {
+  border-collapse: collapse;
+  min-width: 600px;
+  font-size: 110%;
+  /* max-width: 95vw; */
+}
+#session_list tr td {
+  padding: calc(var(--padding)*1.25);
+  /* min-width: 120px; */
+  text-transform: capitalize;
+}
+#session_list thead tr td {
+  color: rgba(var(--font_color),0.2);
+  font-weight: 700;
+}
+#session_list tbody tr:nth-child(2n+1) td {
+  background: rgba( var(--object_color), 0.5 );
+}
+#session_list tbody tr.this td {
+  color: rgba(var(--theme_color),1);
+  font-weight: 600;
+}
+#session_list tbody tr.this td.btns span {
+  display: none;
+}
+#session_list tbody tr td.btns {
+  min-width: 0;
+  font-size: 130%;
+  text-align: center;
+}
+#session_list tbody tr td.btns span {
+  color: rgba(var(--font_color),0.4);
+  cursor: pointer;
+  transition: 300ms ease-in all
+}
+#session_list tbody tr td.btns span:hover {
+  color: rgba(var(--c_red),1);
+}
+#session_list tbody tr td.platform {
+  color: rgba(var(--font_color),0.4);
+  font-size: 90%;
+}
+#session_list tbody tr td.time_online {
+  color: rgba(var(--font_color),0.6);
+  font-size: 90%;
+}
+#session_list tbody tr td.ip span {
+  font-family: monospace;
+  font-size: 115%
+}
+#session_list tbody tr td.ip b {
+  display: block;
+  margin-top: 4px;
+  opacity: 0.5;
+  font-weight: 600;
+  font-size: 90%;
+}
+body #main .content ._nada {
+  width: 400px;
+  /* font-size: 200%; */
+  margin: calc(var(--padding) * 6) auto;
+}
+
+body #main .content ._nada span {
+  display: block;
+  text-align: center;
+}
+
+body #main .content ._nada span.mdi {
+  /* text-align: center; */
+  font-size: 380%;
+  opacity: 0.13;
+}
+
+body #main .content ._nada ._title {
+  margin: calc(var(--padding) * 0.4) 0;
+  font-size: 160%;
+  font-weight: 600;
+  opacity: 0.4;
+}
+
+body #main .content ._nada ._det {
+  /* font-size: 50%; */
+  opacity: 0.2;
+}
+
+body #main ._subs {
+  display: flex;
+  margin: calc(var(--padding)*-1);
+}
+
+body #main ._subs ._sub {
+  width: 280px;
+  /* height: 80px; */
+  background: rgba(var(--object_color),0.5);
+  padding: calc( var(--padding) * 2 );
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 110%;
+  border-radius: 5px;
+  margin: calc(var(--padding)*1);
+}
+
+body #main ._subs ._sub ._h {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  /* font-size: 130%; */
+}
+
+body #main ._subs ._sub ._h ._pn {
+  font-weight: 600;
+  /* color: rgba(var(--theme_color),1); */
+  font-size: 130%;
+}
+
+body #main ._subs ._sub ._h ._pp {
+  font-family: monospace;
+  font-size: 110%;
+  opacity: 0.6;
+}
+
+body #main ._subs ._sub ._ps {
+  color: rgba(var(--font_color),0.4);
+  margin-bottom: 2px;
+}
+
+
+body #main ._subs ._sub ._ps b {
+  margin-left: 5px;
+  color: rgba(var(--font_color),1);
+  font-weight: normal;
+}
+
+body #main ._subs ._sub ._btns {
+  margin-top: calc(var(--padding)*1.5);
+  text-align: right;
+}
+
+body #main ._subs ._sub ._btns .btn {
+  border-radius: 4px;
+  background: rgba(var(--c_red),0.2);
+  color: rgba(var(--c_red),1);
+  font-size: var(--font_size);
+  font-weight: 500;
+  padding: 8px 20px;
+  opacity: 0.76;
+}
+
+body #main ._subs ._sub ._btns .btn:hover {
+  opacity: 1;
+}
+
+body.mobile #main ._subs ._sub {
+  padding: calc( var(--padding) * 4 );
+  width: 100%;
+}

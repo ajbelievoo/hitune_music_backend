@@ -1,0 +1,29 @@
+name: Music PHP CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  syntax-and-smoke:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Check PHP syntax
+        run: |
+          find BOF api plugins -name '*.php' -not -path '*/vendor/*' -print0 | xargs -0 -n1 -P4 php -l
+
+      - name: Health endpoint smoke test
+        run: |
+          # Local nginx/PHP environment not available in GitHub Actions;
+          # this is a placeholder for a containerised smoke test.
+          php -r 'echo "Smoke test placeholder\n";'

@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.hitune.app",
+            "sha256_cert_fingerprints": [
+                "EA:28:0C:0B:D5:8A:60:08:AE:99:11:A3:97:F1:9D:87:38:2E:01:E2:E0:E2:DE:1D:18:73:4C:64:FB:67:C1:61"
+            ]
+        }
+    }
+]

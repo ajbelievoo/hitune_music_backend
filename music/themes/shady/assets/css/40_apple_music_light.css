@@ -1,0 +1,1068 @@
+/* Apple Music inspired light theme overrides for Hitune Music */
+
+/* ------------------------------------------------------------------
+   1. Theme palette — applies only in light mode
+   ------------------------------------------------------------------ */
+body.light {
+  --theme_color: 250, 45, 72 !important;          /* Apple Music red */
+  --theme_color2: 250, 80, 100 !important;
+  --font_color: 15, 23, 42 !important;            /* near-black text */
+  --bg_color: 255, 255, 255 !important;             /* white main bg */
+  --bg_color2: 248, 250, 252 !important;            /* subtle slate tint */
+  --side_color: 243, 244, 246 !important;           /* light gray sidebar */
+  --side_color2: 229, 231, 235 !important;
+  --object_color: 243, 244, 246 !important;
+  --object_color2: 229, 231, 235 !important;
+  --dropdown_bg: 255, 255, 255 !important;
+  --player_bg: 255, 255, 255 !important;
+  --player_bg_dyna: 255, 255, 255 !important;
+  --opacity: 1 !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Figtree', 'Segoe UI', Roboto, sans-serif;
+}
+
+body.light a {
+  color: inherit;
+}
+
+/* ------------------------------------------------------------------
+   2. Sidebar — clean Apple Music style
+   ------------------------------------------------------------------ */
+body.light .sidebar {
+  background: rgb(var(--side_color)) !important;
+  border-right: 1px solid rgba(0,0,0,0.05) !important;
+  box-shadow: none !important;
+}
+
+body.light .sidebar .logo_wrapper img {
+  max-height: 38px;
+}
+
+body.light .sidebar .menu_parent a {
+  color: rgba(17, 24, 39, 0.75) !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  margin: 2px 10px !important;
+  padding: 11px 14px 11px 46px !important;
+  transition: 150ms ease background, 150ms ease color;
+}
+
+body.light .sidebar .menu_parent a:hover {
+  background: rgba(0,0,0,0.05) !important;
+  color: #111827 !important;
+}
+
+body.light .sidebar .menu_parent a.active {
+  background: rgba(250, 45, 72, 0.10) !important;
+  color: rgb(250, 45, 72) !important;
+}
+
+body.light .sidebar .menu_parent a.active .mdi {
+  color: rgb(250, 45, 72) !important;
+  opacity: 1 !important;
+}
+
+body.light .sidebar .menu_parent .link_wrapper.parent.with_child a.parent {
+  color: rgba(17, 24, 39, 0.45) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  font-size: 11px !important;
+  margin-top: 14px !important;
+}
+
+/* ------------------------------------------------------------------
+   3. Main content area
+   ------------------------------------------------------------------ */
+body.light #main {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+body.light #main .content {
+  background: transparent !important;
+}
+
+body.light #main .content .page_bg:after {
+  background: linear-gradient(0deg,
+    rgba(255,255,255,0.99),
+    rgba(255,255,255,0.75),
+    rgba(255,255,255,0.55)
+  ) !important;
+}
+
+/* ------------------------------------------------------------------
+   4. Widgets — Apple Music typography and spacing
+   ------------------------------------------------------------------ */
+body.light .widget {
+  padding: 32px 0 !important;
+}
+
+body.light .widget .widget_content > .title {
+  color: #111827 !important;
+  opacity: 1 !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.025em !important;
+  margin-bottom: 18px !important;
+}
+
+body.light .widget .widget_content > .title ._more {
+  color: rgb(250, 45, 72) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: none !important;
+  opacity: 1 !important;
+}
+
+body.light .widget .widget_content > .sub_title {
+  color: #6b7280 !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  margin-top: -10px !important;
+}
+
+/* Section eyebrow labels like "NEW SOUNDTRACK" */
+body.light .widget .widget_content .label,
+body.light .widget .widget_content .tag {
+  color: #6b7280 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+/* ------------------------------------------------------------------
+   5. Home hero CTA widget — big, clean card
+   ------------------------------------------------------------------ */
+body.light.page_home .widget.type_cta.i0 {
+  min-height: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 0 calc( var(--padding) * -3 ) !important;
+  background: #ffffff !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_bg {
+  display: none !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content {
+  position: static !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 72px 24px !important;
+  text-align: center !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .title {
+  display: block !important;
+  color: #111827 !important;
+  font-size: clamp(38px, 6vw, 68px) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.05 !important;
+  margin-bottom: 20px !important;
+  opacity: 1 !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .sub_title {
+  color: #6b7280 !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  line-height: 1.55 !important;
+  max-width: 560px !important;
+  margin: 0 auto 32px auto !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .buttons {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  justify-content: center !important;
+  margin-top: 0 !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .buttons .btn {
+  border-radius: 999px !important;
+  padding: 13px 30px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  transition: 150ms ease transform, 150ms ease filter !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .buttons .btn:hover {
+  transform: translateY(-1px) !important;
+  filter: brightness(1.05) !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .buttons .btn-first {
+  background: rgb(250, 45, 72) !important;
+  color: #fff !important;
+  border-color: rgb(250, 45, 72) !important;
+  box-shadow: 0 8px 24px rgba(250, 45, 72, 0.25) !important;
+}
+
+body.light.page_home .widget.type_cta.i0 .widget_content .buttons .btn-second {
+  background: rgba(0,0,0,0.04) !important;
+  color: #111827 !important;
+  border: none !important;
+}
+
+/* ------------------------------------------------------------------
+   6. Slider / grid items — rounded cards, cleaner shadows
+   ------------------------------------------------------------------ */
+body.light .widget .widget_content .slider_wrapper {
+  padding: 4px 0 !important;
+}
+
+body.light .widget .widget_content .slider_wrapper .item {
+  background: transparent !important;
+  border-radius: 12px !important;
+  transition: 200ms ease transform;
+}
+
+body.light .widget .widget_content .slider_wrapper .item:hover {
+  transform: translateY(-4px);
+}
+
+body.light .widget .widget_content .slider_wrapper .item .cover_wrapper {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+  transition: 200ms ease box-shadow;
+}
+
+body.light .widget .widget_content .slider_wrapper .item:hover .cover_wrapper {
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important;
+}
+
+body.light .widget .widget_content .slider_wrapper .item .data .title {
+  color: #111827 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin-top: 10px !important;
+  margin-bottom: 3px !important;
+}
+
+body.light .widget .widget_content .slider_wrapper .item .data .sub_title {
+  color: #6b7280 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+/* ------------------------------------------------------------------
+   7. Track tables / Latest Songs — grid feel
+   ------------------------------------------------------------------ */
+body.light .widget.type_table .table_wrapper table tr,
+body.light .widget.type_list .list_wrapper .items .item {
+  border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+}
+
+body.light .widget.type_table .table_wrapper table td,
+body.light .widget.type_list .list_wrapper .items .item .title {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+body.light .widget.type_table .table_wrapper table td .sub,
+body.light .widget.type_list .list_wrapper .items .item .sub_title {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+/* ------------------------------------------------------------------
+   8. Global buttons — pill style
+   ------------------------------------------------------------------ */
+body.light .btn.btn-primary {
+  background: rgb(250, 45, 72) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 16px rgba(250, 45, 72, 0.25) !important;
+}
+
+body.light .btn.btn-secondary {
+  background: rgba(0,0,0,0.04) !important;
+  color: #111827 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+}
+
+/* ------------------------------------------------------------------
+   9. Header / top bar
+   ------------------------------------------------------------------ */
+body.light .header {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+body.light .header .i .icon {
+  background: rgba(0,0,0,0.05) !important;
+  color: #111827 !important;
+}
+
+body.light .header .search_form .bof_input {
+  background: rgba(0,0,0,0.06) !important;
+  color: #111827 !important;
+  border-radius: 999px !important;
+}
+
+body.light .header .btn.btn-user {
+  position: relative !important;
+  background: transparent !important;
+  color: #111827 !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  box-shadow: none !important;
+  border-radius: 999px !important;
+  padding: 4px 12px 4px 42px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+  min-height: 34px !important;
+}
+
+body.light .header .btn.btn-user img,
+body.light .header .btn.btn-user .avatar {
+  position: absolute !important;
+  left: 6px !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  margin: auto 0 !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+}
+
+body.light .header .bof_dropdown {
+  background: rgba(255,255,255,0.96) !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: #111827 !important;
+  z-index: 1000 !important;
+  max-width: calc(100vw - 20px) !important;
+}
+
+body.light .header .bof_dropdown#user_dropdown,
+body.light .header .bof_dropdown#chapar_drop {
+  right: 10px !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+body.light .header .bof_dropdown a,
+body.light .header .bof_dropdown .link_wrapper a,
+body.light .header .bof_dropdown ._act {
+  color: #111827 !important;
+  background: transparent !important;
+}
+
+body.light .header .bof_dropdown a:hover,
+body.light .header .bof_dropdown .link_wrapper a:hover,
+body.light .header .bof_dropdown ._act:hover {
+  background: rgba(0,0,0,0.04) !important;
+  color: #000 !important;
+}
+
+body.light .header .bof_dropdown ._seperator {
+  border-color: rgba(0,0,0,0.06) !important;
+}
+
+body.light .header .bof_dropdown .chapar_register {
+  background: transparent !important;
+  border-color: rgba(0,0,0,0.06) !important;
+  color: #111827 !important;
+}
+
+body.light .header .bof_dropdown .chapar_register ._act {
+  background: #fa2d48 !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+}
+
+/* ------------------------------------------------------------------
+   10. Player / bottom bar
+   ------------------------------------------------------------------ */
+body.light #player {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: #111827 !important;
+}
+
+body.light #player .progress_bar .progress {
+  background: rgba(250, 45, 72, 0.85) !important;
+}
+
+body.light #player .controls .control {
+  color: #111827 !important;
+}
+
+body.light #player .controls .control.play_pause {
+  background: rgb(250, 45, 72) !important;
+  color: #fff !important;
+}
+
+/* ------------------------------------------------------------------
+   11. Home page Apple Music layout (New + Latest Songs)
+   ------------------------------------------------------------------ */
+
+/* Scope to home page only */
+body.light.page_name_home #main .content {
+  padding-top: 24px !important;
+  padding-bottom: 60px !important;
+}
+
+body.light.page_name_home #main .content > .widget .widget_content > .title {
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  color: #111827 !important;
+  opacity: 1 !important;
+  margin-bottom: 18px !important;
+  padding: 0 !important;
+}
+
+/* --- "New" album hero cards --- */
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large,
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .widget_content {
+  padding: 0 0 48px 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .widget_content > .title {
+  font-size: 32px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  margin-bottom: 20px !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper {
+  white-space: normal !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  background: transparent !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .arrows {
+  display: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 24px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  border: none !important;
+  background: transparent !important;
+  box-sizing: border-box !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  float: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  aspect-ratio: 16 / 10 !important;
+  background: #000 !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12) !important;
+  transition: transform 200ms ease, box-shadow 200ms ease !important;
+  vertical-align: top !important;
+  box-sizing: border-box !important;
+  touch-action: auto !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.18) !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper::before,
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  pointer-events: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper::after {
+  background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.52) 70%, rgba(0,0,0,0.72) 100%) !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper img,
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper .img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  display: block !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper .buttons {
+  position: absolute !important;
+  bottom: 16px !important;
+  right: 16px !important;
+  z-index: 3 !important;
+  display: flex !important;
+  gap: 8px !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper .buttons .button_wrapper {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 20px !important;
+  opacity: 0 !important;
+  transform: scale(0.9) !important;
+  transition: all 150ms ease !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item:hover .cover_wrapper .buttons .button_wrapper {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .cover_wrapper .buttons .button_wrapper.play {
+  background: #fa2d48 !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .data {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  padding: 24px !important;
+  z-index: 2 !important;
+  overflow: visible !important;
+  background: transparent !important;
+  text-align: left !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .data .title,
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .data .title a {
+  color: #fff !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
+  margin: 0 0 4px 0 !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.35) !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  text-decoration: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .data .sub_title,
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .data .sub_title a {
+  color: rgba(255,255,255,0.82) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.35) !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  text-decoration: none !important;
+}
+
+/* small eyebrow labels per card */
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item .data::before {
+  content: "" !important;
+  display: block !important;
+  color: rgba(255,255,255,0.85) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 8px !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4) !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item:first-child .data::before {
+  content: "New Release" !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row .item:nth-child(2) .data::before {
+  content: "Featured" !important;
+}
+
+/* --- "Latest Songs" track list grid --- */
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3,
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .widget_content {
+  padding: 0 0 48px 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .widget_content > .title {
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.025em !important;
+  margin-bottom: 18px !important;
+  color: #111827 !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 12px 24px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  float: none !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  transition: background 150ms ease !important;
+  cursor: pointer !important;
+  position: relative !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item:hover {
+  background: rgba(0,0,0,0.04) !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .cover_wrapper {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+  background: transparent !important;
+  flex: 0 0 52px !important;
+  z-index: 1 !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .cover_wrapper::before,
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .cover_wrapper::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  pointer-events: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .cover_wrapper::after {
+  background: rgba(0,0,0,0.35) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/22px no-repeat !important;
+  opacity: 0 !important;
+  transition: opacity 150ms ease !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item:hover .cover_wrapper::after {
+  opacity: 1 !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .cover_wrapper img,
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .cover_wrapper .img {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  display: block !important;
+  z-index: 0 !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .data {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  z-index: auto !important;
+  opacity: 1 !important;
+  text-align: left !important;
+  overflow: hidden !important;
+  flex: 1 1 auto !important;
+  background: transparent !important;
+  font-size: inherit !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .data .title,
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .data .title a {
+  color: #111827 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  margin: 0 0 3px 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
+  text-decoration: none !important;
+}
+
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .data .sub_title,
+body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper .item .data .sub_title a {
+  color: #6b7280 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: block !important;
+  opacity: 1 !important;
+  text-decoration: none !important;
+}
+
+/* Responsive: 2 columns on tablet, 1 on mobile */
+@media (max-width: 1100px) {
+  body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 680px) {
+  body.light.page_name_home #main .content > .widget.o_type_m_album.type_slider.size_large .slider_wrapper .a_row {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  body.light.page_name_home #main .content > .widget.o_type_m_track.type_list.cols_3 .list_wrapper {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   12. Mobile player / queue now-playing (Apple Music style)
+   ------------------------------------------------------------------ */
+
+/* Mini player bottom bar */
+body.light.mobile.muse_active #player {
+  background: rgba(255,255,255,0.98) !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+  bottom: 78px !important;
+  left: 10px !important;
+  right: 10px !important;
+  width: calc(100% - 20px) !important;
+  --player_height: 64px !important;
+}
+
+body.light.mobile.muse_active #player .data_wrapper {
+  padding-left: 8px !important;
+  height: 100% !important;
+  align-items: center !important;
+}
+
+body.light.mobile.muse_active #player .data_wrapper .source_data {
+  padding-left: 52px !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+body.light.mobile.muse_active #player .data_wrapper .source_data .cover_holder {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+body.light.mobile.muse_active #player .data_wrapper .source_data ._title {
+  color: #111827 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+body.light.mobile.muse_active #player .data_wrapper .source_data ._sub_title {
+  color: #6b7280 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+body.light.mobile.muse_active #player .controls_wrapper .control.play .mdi {
+  color: #111827 !important;
+  font-size: 32pt !important;
+}
+
+/* Full-screen now playing (queue active) */
+body.light.mobile.que_active #player {
+  background: linear-gradient(0deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.82) 32%, rgba(255,255,255,0.35) 68%, rgba(255,255,255,0) 100%) !important;
+  pointer-events: none !important;
+}
+
+body.light.mobile.que_active #player > div {
+  pointer-events: auto !important;
+}
+
+/* Action buttons (Like, Mute, Infinite, Repeat, Shuffle) -> move to bottom */
+body.light.mobile.que_active #player .buttons_wrapper {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 30px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 10px 18px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+body.light.mobile.que_active #player .buttons_wrapper .button {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  color: #111827 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+}
+
+body.light.mobile.que_active #player .buttons_wrapper .button .mdi {
+  font-size: 22px !important;
+  opacity: 0.85 !important;
+  color: #111827 !important;
+  line-height: 1 !important;
+}
+
+body.light.mobile.que_active #player .buttons_wrapper .button ._t {
+  color: #6b7280 !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+}
+
+/* Playback controls (prev / play / next) */
+body.light.mobile.que_active #player .controls_wrapper {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 120px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  max-width: 320px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 28px !important;
+}
+
+body.light.mobile.que_active #player .controls_wrapper .control {
+  color: #111827 !important;
+  opacity: 0.75 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+body.light.mobile.que_active #player .controls_wrapper .control .mdi {
+  font-size: 28pt !important;
+  color: #111827 !important;
+}
+
+body.light.mobile.que_active #player .controls_wrapper .control.play {
+  opacity: 1 !important;
+  width: 64px !important;
+  height: 64px !important;
+  background: #fa2d48 !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+body.light.mobile.que_active #player .controls_wrapper .control.play .mdi {
+  color: #fff !important;
+  font-size: 34pt !important;
+  margin-left: 2px !important;
+}
+
+body.light.mobile.que_active #player .controls_wrapper .control.shuffle,
+body.light.mobile.que_active #player .controls_wrapper .control.repeat {
+  opacity: 0.6 !important;
+  transform: none !important;
+  order: -1 !important;
+}
+
+body.light.mobile.que_active #player .controls_wrapper .control.repeat {
+  order: 99 !important;
+}
+
+/* Progress bar just above controls */
+body.light.mobile.que_active #player .progress_bar {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 225px !important;
+  left: 30px !important;
+  right: 30px !important;
+  width: auto !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+body.light.mobile.que_active #player .progress_bar .progress {
+  margin: 0 !important;
+  height: 4px !important;
+  border-radius: 2px !important;
+  background: rgba(0,0,0,0.08) !important;
+}
+
+body.light.mobile.que_active #player .progress_bar .progress .progress_e {
+  background: #fa2d48 !important;
+  border-radius: 2px !important;
+}
+
+body.light.mobile.que_active #player .progress_bar .progress .time {
+  color: #6b7280 !important;
+  opacity: 1 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  top: 12px !important;
+}
+
+/* Improve queue preview text readability */
+body.light.mobile.que_active .queue #preview .text_wrapper > a.title {
+  color: #111827 !important;
+  font-weight: 800 !important;
+}
+
+body.light.mobile.que_active .queue #preview .text_wrapper > a.sub_title {
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+body.light.mobile.que_active .queue #preview .bg_image_wrapper:before {
+  backdrop-filter: blur(24px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(1.2) !important;
+  background: rgba(255,255,255,0.05) !important;
+}
+
+body.light.mobile.que_active .queue #preview .bg_image_wrapper:after {
+  background: linear-gradient(0deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.7) 45%, rgba(255,255,255,0.15) 100%) !important;
+}
+
+body.light.mobile.que_active .queue #preview .graph_wrapper {
+  max-width: min(55vw, 260px) !important;
+  max-height: min(55vw, 260px) !important;
+  margin: 70px auto 0 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15) !important;
+}
+
+body.light.mobile.que_active .queue #preview .graph_wrapper.type_audio,
+body.light.mobile.que_active .queue #preview .graph_wrapper.type_video.hls_audio {
+  max-width: min(55vw, 260px) !important;
+}

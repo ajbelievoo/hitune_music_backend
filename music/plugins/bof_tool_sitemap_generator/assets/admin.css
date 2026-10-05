@@ -1,0 +1,40 @@
+body.page_sitemap_generator .settings_wrapper #save_button,
+body.page_sitemap_generator .settings_wrapper #exe_button {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+body.page_sitemap_generator .state {
+    margin-bottom: calc(var(--padding)*3);
+    background: rgba(var(--theme_color), 0.1);
+    padding: calc(var(--padding)*2);
+    border-radius: 8px;
+    border: 3px solid rgba(var(--theme_color), 0.04);
+    color: rgba(var(--theme_color), 0.7);
+    font-size: 110%;
+}
+
+body.page_sitemap_generator .state.state_i0 {
+    opacity: 0.5;
+}
+
+body.page_sitemap_generator .state .sT {
+    font-size: 140%;
+    font-weight: 600;
+    margin-bottom: calc(var(--padding)*1);
+}
+
+body.page_sitemap_generator .state .btn {
+    margin-top: calc(var(--padding)*2);
+    padding: 4px 15px;
+    border-radius: 7px;
+    background: rgba(var(--theme_color), 0.1);
+    color: rgba(var(--theme_color), 0.8);
+    border: 2px solid rgba(var(--theme_color), 0.04);
+    opacity: 0.6;
+    transition: 150ms ease-in opacity;
+}
+
+body.page_sitemap_generator .state .btn:hover {
+    opacity: 1;
+}

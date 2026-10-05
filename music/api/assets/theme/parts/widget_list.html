@@ -1,0 +1,19 @@
+<div class="list_wrapper clearafter">
+
+  $bof foreach items$
+
+  <div class="item bof_$bof ? ot$_$bof ? hash$" id="bof_$bof ? id$">
+    $bof if cover$
+    <div class="cover_wrapper">$bof ? ?$</div>
+    $!bof if cover$
+    <div class="data">
+      <a href='$bof ? url$' class='title'>$bof ? title$</a>
+      $bof if sub_data$
+      <a href="$bof ? Parent^DataPool^sub_link$" class="sub_title">$bof ? ?$</a>
+      $!bof if sub_data$
+    </div>
+  </div>
+
+  $!bof foreach items$
+
+</div>

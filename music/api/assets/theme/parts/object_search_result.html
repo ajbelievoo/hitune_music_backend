@@ -1,0 +1,21 @@
+$bof if ?$
+  <div class="search_objects_wrapper">
+  $bof foreach ?$
+  <div class="search_object_wrapper$bof if image$ has_image$!bof if image$" data-id="$bof ? ID$">
+    $bof if image$
+      <div class="_image_wrapper">
+        <div class="_image" style="background-image:url('$bof ? ?$')"></div>
+      </div>
+    $!bof if image$
+    <div class="_title">$bof ? title$</div>
+    <div class="mdi mdi-check _select" data-title="$bof ? title$" data-id="$bof ? ID$" data-image="$bof ? image$"></div>
+  </div>
+  $!bof foreach ?$
+  </div>
+$!bof if ?$
+$bof if ? false$
+<div class="empty">
+  <span class="mdi mdi-emoticon-sad-outline"></span>
+  Not found
+</div>
+$!bof if ? false$

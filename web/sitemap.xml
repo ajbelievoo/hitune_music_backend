@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://distribution.hitune.in/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=about</loc><priority>0.8</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=pricing</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=services</loc><priority>0.8</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=sell</loc><priority>0.8</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=stores</loc><priority>0.7</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=accelerator</loc><priority>0.7</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=contact</loc><priority>0.6</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=help</loc><priority>0.6</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=careers</loc><priority>0.5</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=signup</loc><priority>0.8</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=login</loc><priority>0.5</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=terms</loc><priority>0.3</priority></url>
+  <url><loc>https://distribution.hitune.in/index.php?q=cookies</loc><priority>0.3</priority></url>
+</urlset>

@@ -1,0 +1,52 @@
+<div class="other_app_single">
+
+  $bof if single^data$
+    <div class="head">
+      <div class="icon">
+        <img src="$bof ? single^data^icon$" alt="$bof ? single^data^name$">
+      </div>
+      <div class="meta">
+        <div class="title">$bof ? single^data^name$</div>
+        <div class="sub">
+          <span class="pkg">$bof ? single^data^package_id$</span>
+          <span class="dot">•</span>
+          <span class="rating">$bof ? single^data^rating$ <span class="mdi mdi-star"></span></span>
+          <span class="dot">•</span>
+          <span class="downloads">$bof ? single^data^downloads$ downloads</span>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="$bof ? single^data^url$" target="_blank" rel="noopener">Install</a>
+          <a class="btn btn-secondary" href="playstore-apps">Back</a>
+        </div>
+      </div>
+    </div>
+  $!bof if single^data$
+
+  $bof if single^data false$
+    <div class="no_apps">
+      <span class="mdi mdi-emoticon-sad-outline icon_404"></span>
+      Not found
+    </div>
+  $!bof if single^data false$
+
+</div>
+
+<style>
+  .other_app_single { max-width: 1100px; margin: 40px auto; padding: 0 20px; font-family: "Google Sans", Roboto, Arial, sans-serif; }
+  .head { display: flex; gap: 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 18px; }
+  .icon { width: 96px; height: 96px; flex: 0 0 96px; }
+  .icon img { width: 100%; height: 100%; border-radius: 20px; object-fit: cover; display: block; }
+  .meta { min-width: 0; }
+  .title { font-size: 26px; font-weight: 600; color: #fff; }
+  .sub { margin-top: 8px; color: rgba(255,255,255,0.7); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .dot { opacity: 0.5; }
+  .rating .mdi { font-size: 15px; color: #ffb400; vertical-align: -1px; }
+  .pkg { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; opacity: 0.85; }
+  .actions { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .no_apps { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.6); }
+  .no_apps .icon_404 { display: block; font-size: 46px; margin-bottom: 10px; }
+  @media (max-width: 600px) {
+    .head { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+

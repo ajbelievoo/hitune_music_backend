@@ -1,0 +1,31 @@
+#item_features .fts .ft {
+  position: relative;
+  padding-right: 120px;
+  min-height: 30px;
+  margin-bottom: 15px;
+}
+#item_features .fts .ft .ft_buttons {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+#item_features .fts .ft .ft_buttons .btn {
+  font-size: 90%;
+  padding: 3px 10px;
+}
+#item_features .fts .ft .ft_desc {
+  font-size: 80%;
+  opacity: 0.6;
+  font-weight: 400;
+  margin-top: 4px;
+  max-height: 30px;
+  overflow: hidden;
+}
+#item_features .fts .ft .ft_desc:empty {
+  display: none;
+}
+#item_features .btn-primary {
+  padding: 2px 20px;
+  font-size: 90%;
+  border-radius: 10px;
+}

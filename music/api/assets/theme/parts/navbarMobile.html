@@ -1,0 +1,14 @@
+<div class="sidebar_fl">
+
+  <a class="logo_wrapper" href="/">
+    $bof if Config^brand^logo$
+    <img class="logo main" src='$bof ? ?$' srcset='$bof ? ?$ 50w' sizes='50px' alt='logo' width="50" height="50" loading="eager" decoding="async">
+    $!bof if Config^brand^logo$
+    $bof if Config^brand^secondary_logo$
+    <img class="logo secondary" src='$bof ? ?$' srcset='$bof ? ?$ 50w' sizes='50px' alt='secondary_logo' width="50" height="50" loading="eager" decoding="async">
+    $!bof if Config^brand^secondary_logo$
+  </a>
+
+  <div class="_bof_sidebar_fl menu_parent unloaded"></div>
+
+</div>

@@ -1,0 +1,30 @@
+# Only HiTune backend codebases live in this repo
+/*
+!.gitignore
+!/music/
+!/web/
+
+# --- secrets (never committed) ---
+music/.env
+music/.env.*
+music/api/app/*service-account*.json
+music/api/app/*.pem
+web/config.php
+web/admin/config.php
+web/.env*
+web/*.pem
+web/*.key
+
+# --- user uploads / runtime data ---
+music/files/
+web/uploads/
+music/sessions/
+music/cache/
+music/tmp/
+
+# --- junk ---
+untitled file
+*.log
+*.swp
+*~
+.DS_Store

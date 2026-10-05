@@ -1,0 +1,13 @@
+Options -Indexes
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?q=$1 [NC,L,QSA]
+
+AddDefaultCharset utf-8
+AddCharset utf-8 .html .css .js .xml
+DefaultLanguage en-US
+
+ErrorDocument 404 /index.php

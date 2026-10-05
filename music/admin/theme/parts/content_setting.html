@@ -1,0 +1,36 @@
+<div class="settings_wrapper">
+  <form id="setting_form">
+  <div class="row cols_padding cols_padding_2x">
+    $bof foreach setting^groups$
+    $bof if size$
+    <div class="col $bof ? ?$">
+    $!bof if size$
+    $bof if size false$
+    <div class="col col-lg-6 col-12">
+    $!bof if size false$
+
+      <div class="setting_group">
+        <div class="group_title">
+          <span class="material-icons-outlined">$bof ? icon$</span>
+          $bof ? title$
+          $bof if tip$
+          <div class="group_tip">$bof ? ?$</div>
+          $!bof if tip$
+        </div>
+        $bof foreach inputs$
+        <div class="setting_wrapper type_$bof ? input^type$ id_$bof ? input^ID$ name_$bof ? input^name$" id="item_$bof ? input^name$">
+          <div class="title">$bof ? title$</div>
+          <div class="input_wrapper">
+            $bof html input __name=o_input$
+          </div>
+          $bof if html$$bof ? ?$$!bof if html$
+          <div class="detail">$bof ? tip$</div>
+        </div>
+        $!bof foreach inputs$
+      </div>
+    </div>
+    $!bof foreach setting^groups$
+  </div>
+  </form>
+  <div class="btn btn-primary t2" id="save_button">$bof ? setting^action_btn_title$</div>
+</div>

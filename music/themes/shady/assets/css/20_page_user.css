@@ -1,0 +1,23 @@
+/* =========== User & playlist =========== */
+body.object_n_user .page_content ._uo {
+    display: none !important;
+}
+body.object_n_user .page_content.owner ._uo {
+    display: block !important;
+}
+body.object_n_user .page_content.owner ._uno {
+    display: none !important;
+}
+
+body.object_n_ugc_playlist .page_content ._uo {
+    display: none !important;
+}
+body.object_n_ugc_playlist .page_content.owner ._uo {
+    display: block !important;
+}
+body.object_n_ugc_playlist .page_content.owner ._uno {
+    display: none !important;
+}
+body.user_library #main .content .widget {
+    padding: 0;
+}

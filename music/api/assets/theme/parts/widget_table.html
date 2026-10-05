@@ -1,0 +1,22 @@
+<div class="table_wrapper clearafter">
+
+  <table>
+    <thead>
+      <tr>
+        $bof foreach display^table_labels$
+        <td  $bof if class$ class="$bof ? ?$"$!bof if class$>$bof ? val$</td>
+        $!bof foreach display^table_labels$
+      </tr>
+    </thead>
+    <tbody>
+      $bof foreach items$
+      <tr class="item bof_$bof ? ot$_$bof ? hash$" id="bof_$bof ? id$">
+        $bof foreach tds$
+        <td $bof if class$ class="$bof ? ?$"$!bof if class$ $bof if attr$$bof ? ?$$!bof if attr$>$bof ? val$</td>
+        $!bof foreach tds$
+      </tr>
+      $!bof foreach items$
+    </tbody>
+  </table>
+
+</div>

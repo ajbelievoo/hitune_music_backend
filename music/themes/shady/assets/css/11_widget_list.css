@@ -1,0 +1,92 @@
+/* =========== PageBuilder List-type Widget =========== */
+.widget .widget_content .list_wrapper {
+  margin-bottom: calc( var(--padding) * -2 );
+}
+.widget .widget_content .list_wrapper .item {
+  height: 120px;
+  position: relative;
+  margin-bottom: calc( var(--padding) * 2 );
+  text-align: center;
+}
+.widget .widget_content .list_wrapper .item .cover_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1;
+}
+.widget .widget_content .list_wrapper .item .cover_wrapper:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: radial-gradient(rgba(var(--bg_color),0.85), rgba(var(--bg_color2),0.7));
+}
+body.light .widget .widget_content .list_wrapper .item .cover_wrapper:after {
+  background: radial-gradient(rgba(var(--bg_color),0.65), rgba(var(--bg_color2),0.45));
+}
+.widget .widget_content .list_wrapper .item .cover_wrapper img {
+  min-width: 100%;
+  object-fit: cover;
+  max-width: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+.widget .widget_content .list_wrapper .item .data {
+  position: absolute;
+  z-index: 2;
+  height: fit-content;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  font-size: 105%;
+  opacity: 0.85;
+  max-width: 80%
+}
+.widget .widget_content .list_wrapper .item .data .title {
+  font-weight: 600;
+  font-size: 120%;
+  margin-bottom: calc( var(--padding) * 1 );
+}
+.widget .widget_content .list_wrapper .item .data .sub_title {
+  font-size: 90%;
+  opacity: 0.5;
+  font-weight: 600;
+  display: block;
+}
+.widget.cols_1 .widget_content .list_wrapper .item {
+  height: 160px;
+}
+.widget.cols_2 .widget_content .list_wrapper .item {
+  width: calc( 50% - ( var(--padding) ) );
+  margin-right: calc( var(--padding) * 2 );
+  float: left;
+}
+.widget.cols_2 .widget_content .list_wrapper .item:nth-child(2n) {
+  margin-right: 0
+}
+.widget.cols_3 .widget_content .list_wrapper .item {
+  width: calc( 33.333% - ( var(--padding) * 1.333 ) );
+  margin-right: calc( var(--padding) * 2 );
+  float: left;
+}
+.widget.cols_3 .widget_content .list_wrapper .item:nth-child(3n+3) {
+  margin-right: 0
+}

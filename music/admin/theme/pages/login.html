@@ -1,0 +1,34 @@
+<div class="form">
+<form data-endpoint="login" data-callbefore="app.pages.login.functions.beforeSubmit" data-callback="app.pages.login.functions.checkResult" class="bof">
+
+  <div class="form_logo __fo">
+    <img src="$bof ? Config^logo$" alt="admin logo" width="64" height="64">
+  </div>
+
+  <div class="form_content __fo2">
+
+    <div class="form_title __fo">
+      Login
+    </div>
+
+    <div class="inputs __fo">
+      <div class="input_wrapper">
+        <div class="label"><span class="material-symbols-outlined">email</span></div>
+        <input name="__email__" type="email" placeholder="Email">
+      </div>
+      <div class="input_wrapper">
+        <div class="label"><span class="material-symbols-outlined">lock</span></div>
+        <input name="__password__" type="password" placeholder="Password">
+      </div>
+    </div>
+
+    <a href="../userAuth" class="text __fo" target='_blank'>Not an admin? Click here to login</a>
+
+    <div class="buttons __fo">
+      <input class="btn btn-primary" id="login_btn" type="submit" value="Continue">
+    </div>
+
+  </div>
+
+</form>
+</div>

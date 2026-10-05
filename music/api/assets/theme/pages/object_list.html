@@ -1,0 +1,10 @@
+$bof html single^widgets^0 __name=widget$
+
+<div class="pages">
+  $bof if single^pages^prev$
+  <a href="$bof ? ?$" class="page prev">$bof ? Lang^previous __uc=true$</a>
+  $!bof if single^pages^prev$
+  $bof if single^pages^next$
+  <a href="$bof ? ?$" class="page next">$bof ? Lang^next __uc=true$</a>
+  $!bof if single^pages^next$
+</div>

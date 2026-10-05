@@ -1,0 +1,55 @@
+.widget.type_steps_list .widget_content {
+  max-width: var(--container);
+  margin: calc( var(--padding) * 4 ) auto;
+}
+.widget.type_steps_list .widget_content .steps_list {
+  position: relative;
+  margin-top: calc( var(--padding) * 5 );
+}
+.widget.type_steps_list .widget_content .steps_list .step_list {
+  position: relative;
+  padding-left: calc( var(--padding) * 7 );
+  margin-bottom: calc( var(--padding) * 4 );
+}
+.widget.type_steps_list .widget_content .steps_list:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 5px;
+  background: rgba(var(--theme_color),0.2);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+.widget.type_steps_list .widget_content .steps_list .step_list:last-child {
+  margin-bottom: 0;
+}
+.widget.type_steps_list .widget_content .steps_list .step_list .i {
+  width: calc( var(--padding) * 5 );
+  height: calc( var(--padding) * 5 );
+  border-radius: 50%;
+  background: rgba(var(--theme_color),0.2);
+  color: #fff;
+  text-align: center;
+  line-height: calc( var(--padding) * 5 );
+  font-weight: 700;
+  font-size: calc( var(--padding) * 2 );
+  position: absolute;
+  left: 0;
+}
+.widget.type_steps_list .widget_content .steps_list .step_list .icon {
+  display:none
+}
+.widget.type_steps_list .widget_content .steps_list .step_list .title {
+  font-size: 180%;
+  font-weight: 500;
+  margin-bottom: calc( var(--padding) * 0.5 );
+}
+.widget.type_steps_list .widget_content .steps_list .step_list .text {
+  font-size: 120%;
+  opacity: 0.6;
+  letter-spacing: 0.6px;
+  line-height: 1.5;
+  word-break: break-word
+}

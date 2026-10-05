@@ -1,0 +1,60 @@
+<div class="stats_head clearafter">
+  <div class="_t">$bof ? stats^title$</div>
+  <div class="_fs">
+    <div class="_f sfr">
+      <span class="_face">Range <span class="material-icons-outlined">calendar_month</span></span>
+      <input type="text" class="bof_input bof_time_range" value="$bof ? stats^range_hr$">
+    </div>
+  </div>
+</div>
+
+$bof foreach stats^structure_re$
+  <div class="row cols_padding cols_padding_3x boxes">
+    $bof foreach ?$
+    <div class="col col-$bof ? args^size$">
+      $bof foreach items$
+      <div class="box type_$bof ? type$ name_$bof ? ID$">
+        $bof if title$<div class="box-title">$bof ? ?$</div>$!bof if title$
+        $bof if tip$<div class="box-tip">$bof ? ?$</div>$!bof if tip$
+        <div class="box-content">
+          $bof if type = cards$
+          <div class="section_stats">
+            <div class="row cols_padding cols_padding_2x">
+              $bof foreach Parent^DataPool^cards$
+              <div class="col col-3">
+                <div class="section_stat">
+                  <span class="icon bg_auto"><span class="material-icons-outlined">$bof ? icon$</span></span>
+                  <span class="title">$bof ? title$</span>
+                  <span class="value _n">$bof ? value$</span>
+                </div>
+              </div>
+              $!bof foreach Parent^DataPool^cards$
+            </div>
+          </div>
+          $!bof if type = cards$
+          $bof if type = graph$
+          <div id="$bof ? Parent^DataPool^ID$" style="height: $bof ? Parent^DataPool^graph_parsed^height$px; width: 100%"></div>
+
+          $bof if Parent^DataPool^graph_legends$
+          <div class="s_legends">
+            <div class="row">
+              $bof foreach ?^?$
+              <div class="col col-$bof ? size$">
+                <div class="s_legend">
+                  <div class="value _n">$bof ? value$</div>
+                  <div class="label">$bof ? title$</div>
+                </div>
+              </div>
+              $!bof foreach ?^?$
+            </div>
+          </div>
+          $!bof if Parent^DataPool^graph_legends$
+
+          $!bof if type = graph$
+        </div>
+      </div>
+      $!bof foreach items$
+    </div>
+    $!bof foreach ?$
+  </div>
+$!bof foreach stats^structure_re$

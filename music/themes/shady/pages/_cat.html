@@ -1,0 +1,23 @@
+$bof if single^data^background$
+<div class="page_bg medium blur dark">$bof ? ?$</div>
+$!bof if single^data^background$
+
+<div class="page_content cat $bof ? single^data^ot$_content tag $bof ? single^page^classes$">
+
+  <div class="d_head ts item" id="bof_main">
+    <div class="detail clearafter">
+      <div class="title">$bof ? single^data^title$</div>
+    </div>
+  </div>
+
+  <div class="$bof ? single^data^ot$_body t_tag_body">
+
+    $bof if single^widgets$
+      $bof foreach ?$
+        $bof html ? __name=widget$
+      $!bof foreach ?$
+    $!bof if single^widgets$
+
+  </div>
+
+</div>

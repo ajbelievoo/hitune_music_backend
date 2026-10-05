@@ -1,0 +1,1 @@
+console.log('<span style="color:green">Node.js is running successfully!</span>');

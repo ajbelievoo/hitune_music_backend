@@ -1,0 +1,22 @@
+Options -Indexes
+AddDefaultCharset utf-8
+DefaultLanguage en-US
+RewriteEngine On
+
+# Pass the Authorization header through to PHP (Bearer tokens for /api/v1/*)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Public Developer API v1 - already handled by root .htaccess, remove duplicate
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteRule ^v1/(.*)$ ../v1.php/$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^be/(.*)$ admin.php?q=$1 [NC,L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?q=$1 [NC,L,QSA]
+
+ErrorDocument 404 /index.php

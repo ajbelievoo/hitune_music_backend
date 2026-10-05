@@ -1,0 +1,57 @@
+<div class="widgetItemButtons_hover $bof ? class$"></div>
+<div class="widgetItemButtons $bof ? class$" style="top: $bof ? y$px ;left: $bof ? x$px">
+
+  <div class="data">
+    $bof if buttons^data^_cover$
+    <div class="_cw">$bof ? ?$</div>
+    $!bof if buttons^data^_cover$
+    <div class="_t">$bof ? buttons^data^_title$</div>
+  </div>
+
+  <div class="buttons">
+    $bof foreach buttons^items$
+    <div class="button $bof if class$$bof ? ?$$!bof if class$"
+    $bof if action$data-action="$bof ? ?$"$!bof if action$
+    $bof if attr$$bof ? ?$$!bof if attr$
+    >
+    
+      $bof if url$
+      <a href='$bof ? ?$'
+      $bof if Parent^DataPool^_blank$
+      target="_blank"
+      $!bof if Parent^DataPool^_blank$
+      >
+      $!bof if url$
+
+      $bof if icon$
+      <span class="mdi mdi-$bof ? ?$"></span>
+      $!bof if icon$
+
+      $bof if title$
+      <span class="_t">$bof ? ?$</span>
+      $!bof if title$
+
+      $bof if url$
+      </a>
+      $!bof if url$
+
+      $bof if html$
+      $bof ? ?$
+      $!bof if html$
+
+      $bof if childs$
+      <div class="children">
+        $bof foreach Parent^DataPool^childs$
+        <a class="child"
+        $bof if action$data-action="$bof ? ?$"$!bof if action$
+        $bof if attr$$bof ? ?$$!bof if attr$
+        href="$bof ? url$">$bof ? title$</a>
+        $!bof foreach Parent^DataPool^childs$
+      </div>
+      $!bof if childs$
+
+    </div>
+    $!bof foreach buttons^items$
+  </div>
+
+</div>

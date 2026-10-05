@@ -1,0 +1,149 @@
+<div class="header resting clearafter">
+
+  <div class="align clearafter">
+
+    <div class="i notLoggedIn notLoggedInLogin mobileObjectDisplay">
+      <a href="userAuth" class="btn btn-secondary" aria-label="Login"><span class='_t'>$bof ? Lang^login __uc=true$</span><span class="mdi mdi-key"></span></a>
+    </div>
+
+    <div class="i notLoggedIn dropdown_button guest_dropdownHandler mobileObjectDisplay" data-dropdown-id="guest_dropdown">
+      <div class="icon smaller"><span class="mdi mdi-tune-variant"></span></div>
+    </div>
+
+    <div class="bof_dropdown" id="guest_dropdown">
+      <div class="_links specialButtons">
+        <a class="languageSwitch"><span class="mdi mdi-translate"></span><span class="_text">$bof ? Lang^change_language __uc=true$</span></a>
+        <a class="currencySwitch"><span class="mdi mdi-abacus"></span><span class="_text">$bof ? Lang^change_currency __uc=true$</span></a>
+        <a class="lightSwitch"><span class="mdi mdi-theme-light-dark"></span><span class="_text">$bof ? Lang^light_toggle __uc=true$</span></a>
+      </div>
+    </div>
+
+    <div class="i loggedIn mobileObjectDisplay">
+
+      $bof if Config^theme^setting^upload_button = onuse$
+        $bof if Parent^Config^user^extra^roles^upload$
+        <a href="upload" class="btn btn-secondary _btn-upload"><span class='_t'>$bof ? Lang^upload __uc=true$</span><span class="mdi mdi-tray-arrow-up"></span></a>
+        $!bof if Parent^Config^user^extra^roles^upload$
+      $!bof if Config^theme^setting^upload_button = onuse$
+
+      <!-- Distribution Upload Button for Non-Admin -->
+      $bof if Config^theme^setting^upload_button = onuse$
+        $bof if !Parent^Config^user^extra^roles^upload$
+        <a href="distribution/submit" class="btn btn-secondary _btn-distribution" data-external="1"><span class='_t'>Distribution Upload</span><span class="mdi mdi-rocket-launch"></span></a>
+        $!bof if !Parent^Config^user^extra^roles^upload$
+      $!bof if Config^theme^setting^upload_button = onuse$
+
+      $bof if Config^theme^setting^upgrade_button = always$
+        <a href="subscription_plans" class="btn btn-secondary _btn-upgrade mobileObjectDisplay"><span class='_t'>$bof ? Lang^upgrade __uc=true$</span><span class="mdi mdi-star-outline"></span></a>
+      $!bof if Config^theme^setting^upgrade_button = always$
+      $bof if Config^theme^setting^upgrade_button = onuse$
+        $bof if Parent^Config^user^extra^roles^premium = none$
+        <a href="subscription_plans" class="btn btn-secondary _btn-upgrade mobileObjectDisplay"><span class='_t'>$bof ? Lang^upgrade __uc=true$</span><span class="mdi mdi-star-outline"></span></a>
+        $!bof if Parent^Config^user^extra^roles^premium = none$
+      $!bof if Config^theme^setting^upgrade_button = onuse$
+
+      <a class="btn btn-primary btn-user dropdown_button mobileObjectDisplay" data-dropdown-id="user_dropdown">
+        $bof ? Config^user^data^avatar$
+        <span class="_u">$bof ? Config^user^data^name$</span>
+      </a>
+
+      <div class="bof_dropdown" id="user_dropdown">
+        <div class="_userHead">
+          <div class="_avatar">$bof ? Config^user^data^avatar$</div>
+          <div class="_data">
+            <div class="_name">$bof ? Config^user^data^name$</div>
+            <a href="user_edit">$bof ? Lang^account_setting __uc=true$</a>
+          </div>
+        </div>
+        <div class="_seperator"></div>
+        <div class="_links">
+          $bof foreach Config^user_menu$
+          <div class="link_wrapper child $bof ? class$">
+            <a class="child" $bof if ?^href$ href="$bof ? ?$" $!bof if ?^href$><span class="mdi mdi-$bof ? ?^icon$"></span><span class="_t">$bof ? ?^title$</span></a>
+          </div>
+          $!bof foreach Config^user_menu$
+        </div>
+        <div class="_seperator specialButtons_separator"></div>
+        <div class="_links specialButtons">
+          <a class="languageSwitch"><span class="mdi mdi-translate"></span><span class="_text">$bof ? Lang^change_language __uc=true$</span></a>
+          <a class="currencySwitch"><span class="mdi mdi-abacus"></span><span class="_text">$bof ? Lang^change_currency __uc=true$</span></a>
+          <a class="lightSwitch"><span class="mdi mdi-theme-light-dark"></span><span class="_text">$bof ? Lang^light_toggle __uc=true$</span></a>
+        </div>
+        <div class="_seperator"></div>
+        <div class="_links">
+          <a class="logout_handler"><span class="mdi mdi-lock-outline"></span><span class="_text">$bof ? Lang^logout __uc=true$</span></a>
+        </div>
+      </div>
+
+    </div>
+    <div class="i download_menu_wrapper dropdown_button" data-dropdown-id="download_drop">
+      <div class="icon smaller"><span class="mdi mdi-content-save-outline"></span></div>
+    </div>
+    <div class="bof_dropdown file_list" id="download_drop">
+      <div class="_title"><span class="mdi mdi-download"></span> $bof ? Lang^downloads __uc=true$</div>
+      <div class="list def_scroll"></div>
+    </div>
+    <div class="i chapar_menu_wrapper dropdown_button" data-dropdown-id="chapar_drop">
+      <div class="icon smaller"><span class="mdi mdi-bell-outline"></span></div>
+    </div>
+    <div class="bof_dropdown chapar_msgs" id="chapar_drop">
+
+      <div class="titles">
+        <div class="_m">$bof ? Lang^notifications __uc=true$</div>
+        <div class="_maar">$bof ? Lang^mark_as_read __uc=true$</div>
+        <div class="_ic setting"><span class="mdi mdi-tune"></span></div>
+        <div class="_ic push _en"><span class="mdi mdi-bell-outline"></span></div>
+        <div class="_ic push _ened"><span class="mdi mdi-bell-check-outline"></span></div>
+      </div>
+
+      <div class="list def_scroll"></div>
+
+      <div class="chapar_register">
+        $bof ? Lang^not_push_tip$
+        <div class="_actions">
+          <div class="_act" id='chapar_do_register'>$bof ? Lang^turn_on __uc=true$</div>
+          <div class="_act later">$bof ? Lang^maybe_later __uc=true$</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <a class="logo_wrapper" href="/">
+    $bof if Config^brand^logo$
+    <img class="logo main" src='$bof ? ?$' srcset='$bof ? ?$ 50w' sizes='50px' alt='logo' width="50" height="50" loading="eager" decoding="async">
+    $!bof if Config^brand^logo$
+    $bof if Config^brand^secondary_logo$
+    <img class="logo secondary" src='$bof ? ?$' srcset='$bof ? ?$ 50w' sizes='50px' alt='secondary_logo' width="50" height="50" loading="eager" decoding="async">
+    $!bof if Config^brand^secondary_logo$
+  </a>
+
+  <div class="counterAlign clearafter">
+    <div class="i openSidebar">
+      <div class="icon"><span class="mdi mdi-menu"></span></div>
+    </div>
+    <div class="i pre_wrapper">
+      <div class="icon pre"></div>
+    </div>
+    <div class="i search_wrapper">
+      <a class="icon" href='search' aria-label="Search"><span class="mdi mdi-magnify"></span></a>
+    </div>
+    <div class="i dist_link_wrapper">
+      <a class="icon" href='/distribution' aria-label="Music Distribution" data-external="1"><span class="mdi mdi-rocket-launch"></span></a>
+    </div>
+    <div class="i dist_link_wrapper">
+      <a href='/distribution' class="btn btn-secondary _btn-distribution" data-external="1"><span class='_t'>Distribution</span><span class="mdi mdi-rocket-launch"></span></a>
+    </div>
+    <div class="i dist_link_wrapper">
+      <a href='/developer' class="btn btn-secondary _btn-developer" data-external="1"><span class='_t'>Developer API</span><span class="mdi mdi-code-braces"></span></a>
+    </div>
+    <div class="i playHead_wrapper item" id="bof_main">
+      <div class="playHead">
+        <div class="icon_btn button_wrapper play"><span class="mdi mdi-play"></span></div>
+        <div class="title"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

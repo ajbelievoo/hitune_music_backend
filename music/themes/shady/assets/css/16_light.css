@@ -1,0 +1,117 @@
+/* =========== Light mode =========== */
+
+body.light .sidebar .menu_parent .link_wrapper.parent.with_child a.parent {
+    /* color: #000; */
+    font-weight: 600;
+}
+body.light .header .i .icon, .header .i .icon_btn {
+    background: rgba( var(--font_color), 0.06 );
+    opacity: 1;
+    color: rgba(var(--font_color),0.5);
+}
+body.light .header .i .btn.btn-primary {
+    background: rgba( var(--font_color), 0.06 );
+}
+body.light .sidebar .menu_parent a {
+  font-weight: 500;
+  color: rgba(var(--font_color),0.94);
+}
+body.light .widget .widget_content > .title ._more {
+    font-weight: 500;
+}
+body.light .widget .widget_content > .sub_title {
+    font-weight: 500;
+    font-size: 105%;
+    color: rgba( var(--font_color), 0.6 );
+}
+body.light .d_head .cover_wrapper {
+    box-shadow: 0 4px 60px rgb(0 0 0 / 10%);
+}
+body.light .widgetItemButtons {
+    box-shadow: 0 3px 6px 0 hsl(0deg 0% 0% / 15%);
+}
+body.light .widgetItemButtons .buttons .button {
+    font-weight: 600;
+}
+body.light .search_form .bof_input {
+    background: rgba( var(--font_color), 0.17 );
+}
+body.light .queue .data_wrapper .list .items .item .detail {
+    font-weight: 500;
+    color: rgba( var(--font_color), 0.7 );
+}
+body.light .queue #preview .text_wrapper > a.sub_title {
+    opacity: 0.7;
+    font-weight: 500;
+}
+body.light .queue .data_wrapper .list .items .item .duration {
+    font-weight: 500;
+}
+body.light #main .content .page_bg:after {
+  background: -webkit-linear-gradient(0deg, rgba(var(--bg_color),0.99), rgba(var(--bg_color),0.6), rgba(var(--bg_color),0.6), rgba(var(--bg_color),0.55));
+  background: linear-gradient(0deg, rgba(var(--bg_color),0.99), rgba(var(--bg_color),0.6), rgba(var(--bg_color),0.6), rgba(var(--bg_color),0.55))
+}
+body.light .sidebar .logo_wrapper .logo.secondary {
+    display: block;
+}
+body.light .sidebar .logo_wrapper .logo.main {
+    display: none;
+}
+body.light .queue.second_tab .data_wrapper .tBody .lyrics .text {
+  font-weight: 500
+}
+body.light .queue .data_wrapper .tabs .tab {
+  font-weight: 600
+}
+body.light #player .progress_bar .progress .progress_e {
+  opacity: 0.8
+}
+body.light .d_head.t2 .detail .is {
+    font-weight: 700;
+}
+body.light .d_head.t2 .detail .above .nex {
+  font-weight: 600
+}
+
+
+
+body #main .content .page_bg.colorOnly:after {
+  background: -webkit-linear-gradient(0deg,
+    rgba(var(--bg_color),0.75),
+    rgba(var(--bg_color),0.17)
+  );
+  background: linear-gradient(0deg,
+    rgba(var(--bg_color),0.75),
+    rgba(var(--bg_color),0.17)
+  );
+}
+body.light #main .content .page_bg.colorOnly:after {
+  background: -webkit-linear-gradient(0deg,
+    rgba(var(--bg_color),0.8),
+    rgba(var(--bg_color),0.25)
+  );
+  background: linear-gradient(0deg,
+    rgba(var(--bg_color),0.8),
+    rgba(var(--bg_color),0.25)
+  );
+}
+body #main .content .page_bg.dropColor {
+    top: 336px;
+    height: 180px;
+}
+body.mobile #main .content .page_bg.dropColor {
+  height: 120px;
+}
+body #main .content .page_bg.dropColor:after {
+  display: none;
+}
+body.light #main .content .page_bg.dropColor:after {
+  background: -webkit-linear-gradient(0deg,
+    rgba(var(--bg_color),1),
+    rgba(var(--bg_color),0.85)
+  );
+  background: linear-gradient(0deg,
+    rgba(var(--bg_color),1),
+    rgba(var(--bg_color),0.85)
+  );
+}

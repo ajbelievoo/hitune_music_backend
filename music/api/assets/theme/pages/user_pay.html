@@ -1,0 +1,34 @@
+<div class='add_fund_wrapper'>
+  <div class='title'>$bof ? Lang^add_funds __uc=true$</div>
+  <div class='pgts_wrapper'>
+    <div class='stitle'>$bof ? Lang^pay_method __uc=true$</div>
+    <div class='pgts def_scroll'>
+      $bof foreach single^gateways$
+      <div class='pgt $bof ? code$ icon_t_$bof ? icon_t$' data-name='$bof ? name$' data-code='$bof ? code$'>
+        <span class='name'>$bof ? title$</span>
+        <span class='pgt_fee'>$bof ? fee$%</span>
+        $bof if icon_t = icon$
+        <span class="mdi mdi-$bof ? Parent^DataPool^icon_v$"></span>
+        $!bof if icon_t = icon$
+        $bof if icon_t = image$
+        <img src='$bof ? Parent^DataPool^icon_v$'>
+        $!bof if icon_t = image$
+      </div>
+      $!bof foreach single^gateways$
+    </div>
+    <div class='stitle __amount'>$bof ? Lang^amount __uc=true$</div>
+    <div class='is_wrapper'>
+      <div class='i_wrapper'>
+        <span class='currency'>$bof ? single^currency^iso_code$</span>
+        <input type='text' class='bof_input' name='amount' value='100'>
+      </div>
+      <div class="details">
+        <span>$bof ? Lang^service_fee __uc=true$: <b id='amount_fee'><i class="c">?</i> $bof ? single^currency^symbol$</b></span>
+        <span>$bof ? Lang^service_fee_ced __uc=true$: <b id='amount_full'><i class="c">?</i> $bof ? single^currency^symbol$</b></span>
+      </div>
+    </div>
+    <div class='btns_wrapper'>
+      <a class='btn btn-primary'>$bof ? Lang^pay __uc=true$ <span class='the_full_here'></span></a>
+    </div>
+  </div>
+</div>

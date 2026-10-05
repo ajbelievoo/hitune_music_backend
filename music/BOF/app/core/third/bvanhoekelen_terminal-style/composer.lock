@@ -1,0 +1,78 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "5c0a550302caa16ebd4bcb1bc40ff39d",
+    "packages": [
+        {
+            "name": "bvanhoekelen/terminal-style",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bvanhoekelen/terminal-style.git",
+                "reference": "4afb08b4a005b1159f45deaf3b96531f852654cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bvanhoekelen/terminal-style/zipball/4afb08b4a005b1159f45deaf3b96531f852654cc",
+                "reference": "4afb08b4a005b1159f45deaf3b96531f852654cc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "larapack/dd": "1.*",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/terminal-style.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "B. van Hoekelen",
+                    "homepage": "https://github.com/bvanhoekelen/terminal-style"
+                }
+            ],
+            "description": "Return your terminal message in style! Change the text style, text color and text background color form the terminal interface with ANSI color codes. The terminal style tool support Laravel and Composer.",
+            "keywords": [
+                "8-bits background color",
+                "ANSI color codes",
+                "ansi",
+                "bash",
+                "colors",
+                "command line",
+                "command line colors",
+                "command line style",
+                "php",
+                "php terminal colors",
+                "php terminal style",
+                "terminal",
+                "terminal colors"
+            ],
+            "support": {
+                "issues": "https://github.com/bvanhoekelen/terminal-style/issues",
+                "source": "https://github.com/bvanhoekelen/terminal-style/tree/develop"
+            },
+            "time": "2020-01-31T17:57:04+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

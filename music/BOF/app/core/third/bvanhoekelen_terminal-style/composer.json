@@ -1,0 +1,5 @@
+{
+    "require": {
+        "bvanhoekelen/terminal-style": "^1.0"
+    }
+}

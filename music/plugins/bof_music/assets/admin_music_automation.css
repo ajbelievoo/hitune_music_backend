@@ -1,0 +1,35 @@
+.settings_wrapper .setting_group .setting_wrapper .detail #yt_test {
+  padding: 4px 15px;
+  text-decoration: none;
+}
+.settings_wrapper .setting_group .setting_wrapper .detail #yt_test:hover {
+  transform: scale(1.06);
+}
+#yt_test_result {
+  margin: calc( var(--padding) * -3 ) calc( var(--padding) * -3.5 );
+  max-height: 70vh;
+  overflow: auto;
+}
+#yt_test_result p {
+  margin: 0;
+  padding-left: 10px;
+  position: relative;
+  display: block;
+  padding: 10px calc( var(--padding) * 3.5 );
+  border-bottom: 2px dotted rgba(var(--ui_color),0.05);
+  user-select: all;
+}
+#yt_test_result p:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 14px;
+  top: 18px;
+  width: 13px;
+  height: 3px;
+  background: rgba(var(--ui_color),0.1);
+  border-radius: 0px;
+}
+#yt_test_result p:last-child {
+  border: none;
+}

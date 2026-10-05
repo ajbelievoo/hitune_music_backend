@@ -1,0 +1,44 @@
+<div id="plans_wrapper">
+  <div class="title">$bof ? Lang^plans_title __uc=true$</div>
+  <div class="sub_title">$bof ? Lang^plans_subtitle __uc=true$</div>
+  <div id="plans" class="count_$bof ? single^plans_count$">
+    <div class="plans_wrapper main_one def_scroll">
+      $bof foreach single^plans$
+      <div class="plan_wrapper id_$bof ? hash$ $bof if discount$discounted$!bof if discount$" data-hash="$bof ? hash$" >
+        <div class="title">$bof ? name$</div>
+        <div class="periods">
+          $bof foreach periods$
+          <div class="period _$bof ? ?$" data-range="$bof ? ?$">$bof ? ? __turn=true$</div>
+          $!bof foreach periods$
+        </div>
+        <div class="detail">$bof ? html$</div>
+        <ul class="plan_features">$bof foreach features_list$<li>$bof ? ?$</li>$!bof foreach features_list$</ul>
+        <div class="ai_quota_line">$bof if ai_quota$$bof ? ai_quota$ AI generations / day$!bof if ai_quota$</div>
+        <div class="price"><span class="_n">$bof ? prices^min$</span></div>
+      </div>
+      $!bof foreach single^plans$
+    </div>
+    <div class="plans_wrapper simpler def_scroll">
+      $bof foreach single^plans$
+      <div class="plan_wrapper id_$bof ? hash$ $bof if discount$discounted$!bof if discount$" data-hash="$bof ? hash$" >
+        <div class="title">$bof ? name$<span class="comment">$bof ? comment$</span></div>
+        <div class="price">
+          <div class="_d">
+            $bof if discount$
+            <span class="old">$bof ? Parent^DataPool^prices^min_original$</span>
+            $!bof if discount$
+            <span class='_n'>$bof ? prices^min$</span>
+          </div>
+          <span class='pname'>$bof ? period_first __turn=true$</span>
+        </div>
+      </div>
+      $!bof foreach single^plans$
+    </div>
+  </div>
+  <div class="continue_wrapper">
+    <div class="selected_plan"><span class="label">$bof ? Lang^plan __uc=true$:</span><span class="val"></span></div>
+    <div class="selected_plan_period"><span class="label">$bof ? Lang^period __uc=true$:</span><span class="val"></span></div>
+    <div class="selected_plan_price"><span class="label">$bof ? Lang^price __uc=true$:</span><span class="val"></span></div>
+    <div class="button_wrapper"><div class="btn btn-primary">$bof ? Lang^confirm __uc=true$</div></div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "macroman/terminal-progress-bar": "^0.1.3"
+    }
+}

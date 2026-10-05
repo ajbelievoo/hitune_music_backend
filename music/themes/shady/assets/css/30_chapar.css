@@ -1,0 +1,286 @@
+.bof_dropdown#chapar_drop {
+  padding: calc( var(--padding) * 2 ) calc( var(--padding) * 1.7 );
+  padding-bottom: 0;
+}
+.bof_dropdown#chapar_drop .list {
+  max-height: 400px;
+  overflow: auto;
+  margin: -10px calc( var(--padding) * -1.7 );
+  padding: 15px calc( var(--padding) * 1.7 ) 0;
+  border-top: 1px solid rgba( var(--font_color), 0.06 );
+}
+.chapar_menu_wrapper.has_unseen {
+  position: relative;
+}
+.chapar_menu_wrapper.has_unseen ._count {
+  content: "6";
+  display: block;
+  width: 14px;
+  line-height: 14px;
+  height: 14px;
+  background: rgb(var(--theme_color));
+  border-radius: 50%;
+  position: absolute;
+  right: -2px;
+  top: -2px;
+  margin: auto;
+  font-size: 6pt;
+  text-align: center;
+  color: #fff;
+  font-weight: 500;
+}
+
+
+.chapar_msgs .titles {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  font-size: 115%;
+  margin-bottom: calc(var(--padding)*3);
+}
+.chapar_msgs .titles > div {
+  flex-grow: 0;
+  align-self: center;
+}
+.chapar_msgs .titles ._m {
+  flex-grow: 1;
+}
+.chapar_msgs .titles ._maar {
+  margin-right: var(--padding);
+  padding-right: var(--padding);
+  border-right: 1px solid rgba(var(--font_color),0.15);
+  font-size: 80%;
+  color: rgba(var(--font_color),0.2);
+  text-decoration: underline;
+  cursor: pointer;
+  display: none
+}
+.chapar_msgs.has_unseen .titles ._maar {
+  display: block;
+}
+.chapar_msgs .titles ._ic {
+  font-size: 120%;
+  cursor: pointer;
+}
+.chapar_msgs .titles ._ic.setting {
+  display: none
+}
+.chapar_msgs .titles ._ic.push {
+  margin-left: calc( var(--padding) * 0.5 );
+  display: none;
+}
+.chapar_msgs.push_supported .titles ._ic.push._en {
+  display: block;
+}
+.chapar_msgs.push_supported.push_enabled .titles ._ic.push._en {
+  display: none;
+}
+.chapar_msgs.push_supported.push_enabled .titles ._ic.push._ened {
+  display: block;
+  opacity: 0.3;
+}
+
+.chapar_msgs .chapar_register {
+  margin: calc( var(--padding) * 3 ) 0;
+  padding: calc( var(--padding) * 1.4 );
+  background: linear-gradient(11deg, rgba(var(--theme_color),0.5), rgba(var(--theme_color),0.8));
+  border-radius: 10px;
+  font-size: 110%;
+  font-weight: 500;
+  color: #fff;
+  box-shadow: 0 3px 19px rgba(var(--theme_color),0.3);
+  display: none
+}
+.chapar_msgs.push_suggest_registering .chapar_register {
+  display: block;
+}
+.chapar_msgs .chapar_register ._actions {
+  margin-top: 20px;
+  display: flex;
+}
+.chapar_msgs .chapar_register ._actions ._act {
+  font-size: calc( var(--font_size) );
+  align-self: center;
+  cursor: pointer;
+  opacity: 0.9;
+}
+.chapar_msgs .chapar_register ._actions ._act#chapar_do_register {
+  margin-right: 20px;
+  color: rgb(var(--theme_color));
+  background: #fff;
+  padding: 5px 22px;
+  border-radius: 11px;
+  font-weight: 700;
+}
+.chapar_msgs .chapar_register ._actions ._act:hover {
+  opacity: 1;
+}
+
+.chapar_msgs .empty .mdi {
+  display: block;
+  font-size: 400%;
+  opacity: 0.1;
+}
+.chapar_msgs .empty {
+  text-align: center;
+  margin-bottom: calc( var(--padding) * 3 );
+}
+.chapar_msgs .empty ._t {
+  display: block;
+  margin: 10px 0;
+  font-size: 110%;
+  font-weight: 600;
+  opacity: 0.8;
+}
+.chapar_msgs .empty ._te {
+  width: 70%;
+  display: inline-block;
+  opacity: 0.3;
+  font-weight: 400;
+  font-size: 90%;
+  line-height: 0.95
+}
+
+.chapar_msgs #chapar_list .payam_wrapper {
+  margin: 0 calc(var(--padding)*-1.7);
+  padding: calc(var(--padding)*1) calc(var(--padding)*1.7);
+  transition: 200ms ease all;
+  cursor: pointer;
+}
+.chapar_msgs #chapar_list .payam_wrapper:last-child {
+  margin-bottom: calc( var(--padding) * 1 );
+}
+.chapar_msgs #chapar_list .payam_wrapper:hover {
+  background: rgba( var(--font_color), 0.025 );
+}
+.chapar_msgs #chapar_list .payam {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+}
+.chapar_msgs #chapar_list .payam .img_wrapper {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  left: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  top: 0
+}
+.chapar_msgs #chapar_list .payam .img_wrapper img {
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+.chapar_msgs #chapar_list .payam .c {
+  font-weight: 300;
+  color: rgba(var(--font_color),0.5);
+}
+.chapar_msgs #chapar_list .payam .time {
+  word-spacing: 2px;
+  font-size: 80%;
+  opacity: 0.33;
+  margin-top: 4px;
+}
+.chapar_msgs #chapar_list .payam.img_yes {
+  padding-left: 50px;
+  min-height: 36px;
+}
+.chapar_msgs #chapar_list .payam .c b {
+  color: rgba(var(--font_color),0.8);
+}
+.chapar_msgs #chapar_list .payam:last-child {
+  margin-bottom: 0
+}
+.chapar_msgs #chapar_list .payam.img_no.seen_no {
+  padding-left: 20px;
+}
+.chapar_msgs #chapar_list .payam.seen_no:after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 5px;
+  background: rgb(var(--theme_color));
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.chapar_msgs #chapar_list .payam.img_yes.seen_no {
+  padding-left: 65px;
+}
+.chapar_msgs #chapar_list .payam.seen_no .img_wrapper {
+  left: 15px;
+}
+
+.chapar_msgs .more.chapar_more {
+  text-align: center;
+  padding: calc( var(--padding) * 2 );
+  font-weight: 600;
+  color: rgba(var(--font_color),0.6);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 200ms ease all;
+  margin: calc( var(--padding) * 2 ) calc( var(--padding) * -1.7 ) 0;
+  background: rgba(var(--font_color),0.05);
+  font-size: 110%;
+}
+.chapar_msgs .more.chapar_more:hover {
+  opacity: 1;
+}
+
+.ph_skel_wrapper .skel {
+  margin-bottom: calc(var(--padding)*1.5);
+  display: flex;
+  flex-wrap: nowrap;
+}
+.ph_skel_wrapper .skel .avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex-grow: 0;
+  margin-right: 10px;
+}
+.ph_skel_wrapper .skel .line {
+  height: 20px;
+  border-radius: 6px;
+}
+.ph_skel_wrapper .skel > div {
+  flex-shrink: 0;
+  flex-grow: 1;
+  align-self: center;
+  background: rgba(var(--font_color),0.03);
+  position: relative;
+  overflow: hidden;
+}
+.ph_skel_wrapper .skel > div:after {
+  content: "";
+  display: block;
+  background: linear-gradient(90deg,  transparent, rgba(var(--font_color),0.04), transparent);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: skel_flash infinite 2000ms;
+}
+
+@keyframes skel_flash {
+  from {
+    transform: translateX(-100%)
+  }
+  to {
+    transform: translateX(100%)
+  }
+}
+
+body.light .chapar_msgs .titles ._maar {
+  color: rgba(var(--font_color),0.7);
+}

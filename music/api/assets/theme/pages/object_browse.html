@@ -1,0 +1,34 @@
+<div class="bb_filters">
+
+  <div class="bb_title">$bof ? Lang^browse __uc=true$</div>
+  <div class="bb_sub_title">$bof ? single^title$ <span class='count'>$bof ? single^count$</span></div>
+
+  <div class="bb_items">
+    $bof foreach single^filters$
+    <div class="bb_item">
+      <div class="bb_label">$bof ? title$</div>
+      <div class="bb_input">$bof html input __name=o_input$</div>
+    </div>
+    $!bof foreach single^filters$
+  </div>
+
+  <div class="bb_buttons">
+    <div class="btn btn-primary _apply">$bof ? Lang^filter __uc=true$</div>
+  </div>
+
+</div>
+<div class="bb_content">
+
+  $bof html single^widgets^0 __name=widget$
+
+  <div class="pages">
+    $bof if single^pagination^prev$
+    <a class="prev page" href='$bof ? ?$'>Previous</a>
+    $!bof if single^pagination^prev$
+    $bof if single^pagination^next$
+    <a class="next page" href='$bof ? ?$'>Next</a>
+    <a class="total page">$bof ? Parent^DataPool^single^pagination^cur$ / $bof ? Parent^DataPool^single^pagination^total$</a>
+    $!bof if single^pagination^next$
+  </div>
+
+</div>

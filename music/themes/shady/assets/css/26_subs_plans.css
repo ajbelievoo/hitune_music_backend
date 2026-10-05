@@ -1,0 +1,339 @@
+body #main .content #plans_wrapper {
+  text-align: center;
+}
+body #main .content #plans_wrapper > .title {
+  padding: calc( var(--padding) * 7.5 ) 0 0;
+  font-size: 200%;
+  font-weight: 600
+}
+body #main .content #plans_wrapper > .sub_title {
+  margin: 0 0 calc( var(--padding) * 6 );
+  font-size: 120%;
+}
+body #main .content #plans {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 780px;
+  justify-content: space-between;
+  padding: 0 0 calc( ( var(--padding) * 6 ) + 120px );
+  margin: 0 auto;
+  text-align: var(--align);
+}
+body #main .content #plans .plans_wrapper {
+  width: calc( 50% - ( var(--padding) * 1.5 ) );
+}
+body #main .content #plans .plans_wrapper {
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 10px;
+}
+body #main .content #plans .plans_wrapper::-webkit-scrollbar-track {
+  background: rgba( var(--font_color), 0.00 );
+}
+body #main .content #plans .plans_wrapper::-webkit-scrollbar-thumb {
+  background: rgba( var(--font_color), 0.04 );
+  border-radius: 10px;
+}
+body #main .content #plans .plans_wrapper.main_one {
+  background: rgba( var(--object_color), 1 );
+  padding: calc( var(--padding) * 4 );
+  border-radius: 10px;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper {
+  display: none;
+  position: relative;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper.active {
+  display: block;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .periods {
+  border-radius: 5px;
+  overflow: hidden;
+  width: auto;
+  white-space: nowrap;
+  margin-bottom: calc( var(--padding) * 4 );
+  display: flex;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .title {
+  display: none;
+  font-size: 160%;
+  font-weight: 600;
+  margin-bottom: calc( var(--padding) * 3 );
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .periods .period {
+  background: rgba( var(--bg_color), 1 );
+  padding: 10px 12px;
+  font-size: 85%;
+  font-weight: 600;
+  position: relative;
+  z-index: 2;
+  color: rgba( var(--font_color), 0.6 );
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 1;
+  flex-grow: 1;
+  text-align: center;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .periods .period.active {
+  color: #fff !important;
+  font-weight: 500;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .periods .period.active:after {
+  content: "";
+  background: rgba( var(--theme_color), 1 );
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  border-radius: 2px;
+  width: auto;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .periods .period:hover {
+  color: rgba( var(--font_color), 1 );
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i {
+  font-weight: 500;
+  font-size: 105%;
+  margin-bottom: calc( var(--padding) * 3 );
+  position: relative;
+  padding-left: 20px;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i:before {
+    display: none;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .periods .period:last-child {
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .price {
+  display: none;
+  font-size: 140%;
+  font-weight: 600;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i span._icon:before {
+  display: none
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i span._icon {
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: 11pt;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  left: 0;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i span._icon:after {
+  content: "\F012C";
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i.checked span._icon:after {
+  color: rgba( var(--theme_color), 1 )
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i.unchecked span._icon:after {
+  content: "\F015A";
+  opacity: 0.4;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail ._cl ._cl_i:last-child {
+  margin-bottom: 0;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper {
+  border: 2px solid rgba( var(--object_color), 1 );
+  border-radius: 10px;
+  margin-bottom: calc( var(--padding) * 3 );
+  padding: calc( var(--padding) * 3 );
+  padding-right: calc( 80px + ( var(--padding) * 3 ) );
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  position: relative;
+  cursor: pointer;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper.active .title {
+  font-weight: 600;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper.active {
+  border-color: rgba( var(--theme_color), 1 );
+  color: rgba( var(--theme_color), 1 );
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .title {
+  font-size: 120%;
+  font-weight: 500;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .title:before {
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: 11pt;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  content: "\F043D";
+  position: relative;
+  bottom: 0px;
+  margin-right: 10px;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper:last-child {
+  margin-bottom: 0;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper.active .title:before {
+  content: "\F043E"
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .price {
+  text-align: var(--c_align);
+  color: rgba( var(--font_color), 1 );
+  font-weight: 400;
+  position: absolute;
+  right: calc( var(--padding) * 3 );
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  height: 40px;
+  height: fit-content;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .price ._d {
+  display: flex;
+  justify-content: center;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .price ._n {
+  font-size: 150%;
+  font-weight: 800;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .price .old {
+  text-decoration: line-through;
+  opacity: 0.5;
+  font-size: 120%;
+  font-weight: 400;
+  margin-right: 4px;
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .title span.comment {
+  display: block;
+  font-size: calc( var(--font_size) * 0.9 );
+  font-weight: 600;
+  opacity: 0.4;
+  margin-top: 10px;
+  line-height: 1;
+  word-break: break-word
+}
+body #main .content #plans .plans_wrapper.simpler .plan_wrapper .title span.comment:empty {
+  display: none;
+}
+body #main .content .continue_wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin: 0 auto;
+  border-top: 1px solid rgb(var(--object_color));
+  padding-top: calc( var(--padding) * 2 );
+  position: relative;
+  position: fixed;
+  right: 0;
+  left: var(--sidebar_abs_width);
+  bottom: 0;
+  align-items: center;
+  background: rgb(var(--bg_color));
+  padding: calc( var(--padding) * 3 );
+}
+body #main .content .continue_wrapper > div .label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  opacity: 0.2;
+}
+body #main .content .continue_wrapper > div .val {
+  display: block;
+  font-weight: 600;
+  font-size: 130%;
+}
+body #main .content .continue_wrapper > div {
+  text-align: var(--align);
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 25%
+}
+body #main .content .continue_wrapper .button_wrapper {
+  text-align: var(--c_align);
+}
+body #main .content .continue_wrapper .button_wrapper .btn {
+  border-radius: 1px;
+  background: rgba( var(--theme_color), 1 );
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px 50px;
+}
+body #main .content .continue_wrapper .selected_plan_price .val {
+  font-size: 200%;
+}
+body #main .content .continue_wrapper .selected_plan_price .val .old {
+  font-size: 60%;
+  text-decoration: line-through;
+  margin-right: 10px;
+  opacity: 0.4;
+  font-weight: 500;
+  display: block;
+}
+
+/*
+body.no_sidebar:not(.fw_container) #main .content #plans {
+    max-width: 94vw;
+}
+body.no_sidebar:not(.fw_container) #main .content #plans .plans_wrapper.simpler {
+    width: calc( 35% - ( var(--padding) * 1.5 ) );
+}
+body.no_sidebar:not(.fw_container) #main .content #plans .plans_wrapper.simpler .plan_wrapper {
+    padding: calc( var(--padding) * 2 );
+}
+body.no_sidebar:not(.fw_container) #main .content #plans .plans_wrapper.simpler .plan_wrapper .price {
+    display: none;
+}
+body.no_sidebar:not(.fw_container) #main .content #plans .plans_wrapper.main_one {
+    width: calc( 65% - ( var(--padding) * 1.5 ) );
+}
+body.no_sidebar:not(.fw_container) #main .content .continue_wrapper .selected_plan_period {
+    display: none;
+}
+body.no_sidebar:not(.fw_container) #main .content .continue_wrapper > div {
+    width: 33.33%;
+}
+*/
+
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .title,
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .price {
+  display: block
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .detail {
+    word-break: normal !important;
+}
+
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .plan_features {
+  list-style: none;
+  margin: calc( var(--padding) * 2 ) 0 0;
+  padding: 0;
+  text-align: var(--align);
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .plan_features li {
+  position: relative;
+  padding: 6px 0 6px 26px;
+  font-size: 92%;
+  opacity: .88;
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .plan_features li:before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 12px;
+  width: 12px;
+  height: 7px;
+  border-left: 2px solid var(--success_color, #2ecc71);
+  border-bottom: 2px solid var(--success_color, #2ecc71);
+  transform: rotate(-45deg);
+}
+body #main .content #plans .plans_wrapper.main_one .plan_wrapper .ai_quota_line {
+  margin: calc( var(--padding) * 1.5 ) 0 0;
+  font-size: 86%;
+  font-weight: 600;
+  color: var(--main_color, #c4427c);
+}

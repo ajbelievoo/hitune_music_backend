@@ -1,0 +1,79 @@
+<div class="other_apps_wrapper">
+  $bof if other_apps_data^items$
+    <div class="playstore_container">
+      <h1 class="playstore_title">Other Apps</h1>
+      <div class="playstore_grid">
+        $bof foreach ?$
+          <div class="playstore_card">
+            <a href="$bof ? url$" target="_blank" rel="noopener" class="card_main">
+              <div class="app_icon_wrapper">
+                <img src="$bof ? icon$" alt="$bof ? name$" class="app_icon">
+              </div>
+              <div class="app_details">
+                <div class="app_name">$bof ? name$</div>
+                <div class="app_meta">
+                  <span class="app_rating">$bof ? rating$ <span class="mdi mdi-star"></span></span>
+                  <span class="app_downloads">$bof ? downloads$ downloads</span>
+                </div>
+              </div>
+            </a>
+            <a class="card_details" href="other_app/$bof ? ID$">Details</a>
+          </div>
+        $!bof foreach ?$
+      </div>
+    </div>
+  $!bof if other_apps_data^items$
+  
+  $bof if not other_apps_data^items$
+    $bof if content^items$
+      <div class="playstore_container">
+        <h1 class="playstore_title">Other Apps</h1>
+        <div class="playstore_grid">
+          $bof foreach ?$
+            <div class="playstore_card">
+              <a href="$bof ? url$" target="_blank" rel="noopener" class="card_main">
+                <div class="app_icon_wrapper">
+                  <img src="$bof ? icon$" alt="$bof ? name$" class="app_icon">
+                </div>
+                <div class="app_details">
+                  <div class="app_name">$bof ? name$</div>
+                  <div class="app_meta">
+                    <span class="app_rating">$bof ? rating$ <span class="mdi mdi-star"></span></span>
+                    <span class="app_downloads">$bof ? downloads$ downloads</span>
+                  </div>
+                </div>
+              </a>
+              <a class="card_details" href="other_app/$bof ? ID$">Details</a>
+            </div>
+          $!bof foreach ?$
+        </div>
+      </div>
+    $!bof if content^items$
+    
+    $bof if not content^items$
+      <div class="no_apps">No apps found.</div>
+    $!bof if not content^items$
+  $!bof if not other_apps_data^items$
+</div>
+
+<style>
+  .playstore_container { max-width: 1200px; margin: 40px auto; padding: 0 20px; font-family: "Google Sans", Roboto, Arial, sans-serif; }
+  .playstore_title { font-size: 24px; color: #fff; margin-bottom: 30px; font-weight: 500; }
+  .playstore_grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .playstore_card { background: rgba(255,255,255,0.05); border-radius: 12px; transition: background 0.2s; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+  .playstore_card:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.15); }
+  .card_main { display: flex; align-items: center; padding: 15px; text-decoration: none; color: inherit; }
+  .card_details { display: block; padding: 10px 15px; text-decoration: none; border-top: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); font-size: 13px; }
+  .card_details:hover { color: #fff; }
+  .app_icon_wrapper { width: 64px; height: 64px; margin-right: 15px; flex-shrink: 0; }
+  .app_icon { width: 100%; height: 100%; border-radius: 12px; object-fit: cover; }
+  .app_details { overflow: hidden; }
+  .app_name { font-size: 16px; color: #fff; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+  .app_meta { font-size: 13px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 10px; }
+  .app_rating { display: flex; align-items: center; gap: 2px; }
+  .app_rating .mdi { font-size: 14px; color: #ffb400; }
+  .no_apps { text-align: center; padding: 50px; color: rgba(255,255,255,0.5); }
+  @media (max-width: 600px) {
+    .playstore_grid { grid-template-columns: 1fr; }
+  }
+</style>

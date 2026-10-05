@@ -1,0 +1,30 @@
+$bof if DataPool^entity^request^type = new$
+$bof html Becli^? __name=content_single$
+$!bof if DataPool^entity^request^type = new$
+
+$bof if DataPool^entity^request^type != new$
+<div class="lang_table_wrapper">
+  <table>
+    <thead>
+      <tr>
+        <td>Key</td>
+        <td>English</td>
+        $bof if Parent^DataPool^entity^lang_name$
+        <td>$bof ? ?$</td>
+        $!bof if Parent^DataPool^entity^lang_name$
+      </tr>
+    </thead>
+    <tbody>
+      $bof foreach Parent^DataPool^entity^_items$
+      <tr>
+        <td>$bof ? hook$</td>
+        <td><input type="text" placeholder="-- edit --" name="en_$bof ? hook$" value="$bof ? text_en$"></td>
+        $bof if text_lang_code2$
+        <td><input type="text" placeholder="-- edit --" name="$bof ? ?$_$bof ? Parent^DataPool^hook$" value="$bof ? Parent^DataPool^text$"></td>
+        $!bof if text_lang_code2$
+      </tr>
+      $!bof foreach Parent^DataPool^entity^_items$
+    </tbody>
+  </table>
+</div>
+$!bof if DataPool^entity^request^type != new$

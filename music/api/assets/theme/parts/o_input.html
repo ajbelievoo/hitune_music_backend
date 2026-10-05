@@ -1,0 +1,181 @@
+$bof if type = select$
+<select class="bof_select bof_input" name="$bof ? Parent^DataPool^name$">
+  $bof foreach Parent^DataPool^options$
+  <option value="$bof ? ?^0$" $bof ? ?^2$
+  $bof if ?^0 = BOF_Parent^Parent^DataPool^value$
+  selected='selected'
+  $!bof if ?^0 = BOF_Parent^Parent^DataPool^value$
+  >$bof ? ?^1$</option>
+  $!bof foreach Parent^DataPool^options$
+</select>
+$!bof if type = select$
+
+$bof if type = select_i$
+  <div class="select_i_wrapper">
+  $bof foreach Parent^DataPool^options$
+  <div class="select_i">
+    <input type="radio" name="$bof ? Parent^Parent^DataPool^name$" class="bof_input" value="$bof ? ?^0$" $bof ? ?^2$
+    $bof if ?^0 = BOF_Parent^Parent^DataPool^value$
+    checked='checked'
+    $!bof if ?^0 = BOF_Parent^Parent^DataPool^value$
+    >
+    <div class="mask">$bof ? ?^1$</div>
+  </div>
+  $!bof foreach Parent^DataPool^options$
+  </div>
+$!bof if type = select_i$
+
+$bof if type = select_m$
+  <div class="select_i_wrapper">
+  $bof foreach Parent^DataPool^options$
+  <div class="select_i">
+    <input type="checkbox" name="$bof ? Parent^Parent^DataPool^name$_$bof ? ?^0$" class="bof_input"  $bof ? ?^2$
+    $bof if ?^0 in_array BOF_Parent^Parent^DataPool^value$
+    checked='checked'
+    $!bof if ?^0 in_array BOF_Parent^Parent^DataPool^value$
+    >
+    <div class="mask">$bof ? ?^1$</div>
+  </div>
+  $!bof foreach Parent^DataPool^options$
+  </div>
+$!bof if type = select_m$
+
+$bof if type = text$
+  <div class="text_wrapper">
+    <input class="bof_text bof_input" type="text" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" placeholder="$bof ? Parent^DataPool^placeholder$" $bof if Parent^DataPool^disabled$ disabled $!bof if Parent^DataPool^disabled$>
+  </div>
+$!bof if type = text$
+
+$bof if type = password$
+  <div class="text_wrapper">
+    <input class="bof_text bof_input" type="password" name="$bof ? Parent^DataPool^name$">
+  </div>
+$!bof if type = password$
+
+$bof if type = email$
+  <div class="text_wrapper">
+    <input class="bof_text bof_email bof_input" type="email" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" placeholder="$bof ? Parent^DataPool^placeholder$" >
+  </div>
+$!bof if type = email$
+
+$bof if type = time_range$
+  <div class="text_wrapper">
+    <input class="bof_text bof_input bof_time_range" type="text" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" placeholder="$bof ? Parent^DataPool^placeholder$" >
+  </div>
+$!bof if type = time_range$
+
+$bof if type = time$
+  <div class="text_wrapper">
+    <input class="bof_text bof_input $bof if Parent^DataPool^time_type$$bof ? ?$$!bof if Parent^DataPool^time_type$" type="datetime" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" placeholder="$bof ? Parent^DataPool^placeholder$" >
+  </div>
+$!bof if type = time$
+
+$bof if type = hidden$
+<input class="bof_input" type="hidden" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" >
+$!bof if type = hidden$
+
+$bof if type = range$
+<input class="bof_input" type="range" min="$bof ? Parent^DataPool^min$" max="$bof ? Parent^DataPool^max$" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" >
+$!bof if type = range$
+
+$bof if type = range_two$
+<input class="bof_input" type="hidden" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" >
+<div class="range_custom" id="range_$bof ? Parent^DataPool^name$" min="$bof ? Parent^DataPool^min$" max="$bof ? Parent^DataPool^max$"></div>
+$!bof if type = range_two$
+
+$bof if type = textarea$
+  <div class="text_wrapper">
+    <textarea class="bof_textarea bof_input" name="$bof ? Parent^DataPool^name$" placeholder="$bof ? Parent^DataPool^placeholder$">$bof ? Parent^DataPool^value$</textarea>
+  </div>
+$!bof if type = textarea$
+
+$bof if type = digit$
+  <div class="text_wrapper">
+    <input class="bof_text bof_digit bof_input" type="number" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" placeholder="$bof ? Parent^DataPool^placeholder$" >
+  </div>
+$!bof if type = digit$
+
+$bof if type = checkbox$
+<div class="checkbox_wrapper">
+  <input type="checkbox" class="bof_input" name="$bof ? Parent^DataPool^name$"
+  $bof if Parent^DataPool^data +$
+  checked="checked"
+  $!bof if Parent^DataPool^data +$
+  $bof if Parent^DataPool^value +$
+  checked="checked"
+  $!bof if Parent^DataPool^value +$
+  >
+  <span class="checkbox_mask"><span></span></span>
+</div>
+$!bof if type = checkbox$
+
+$bof if type = bof_file$
+<div class="file_input_wrapper
+$bof if Parent^DataPool^preview$
+has_preview
+$!bof if Parent^DataPool^preview$
+"
+data-type="$bof ? Parent^DataPool^bof_file_type$"
+data-object-type="$bof ? Parent^DataPool^bof_file_object_type$"
+data-accept="$bof ? Parent^DataPool^accept$"
+data-chunk="$bof ? Parent^DataPool^chunk$"
+data-chunk-size="$bof ? Parent^DataPool^chunk_size$"
+$bof if Parent^DataPool^max_files$data-max_files="$bof ? ?$"$!bof if Parent^DataPool^max_files$
+>
+
+<div class="preview_wrapper">
+  <div class="preview" style="background-image:url('$bof ? Parent^DataPool^preview$')"></div>
+  <div class="preview_buttons">
+    <span class="delete mdi mdi-close"></span>
+    <span class="open mdi mdi-fullscreen"></span>
+  </div>
+</div>
+
+<input type="hidden" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" class="bof_input bof_hidden ci">
+<input type="hidden" name="$bof ? Parent^DataPool^name$_pass" value="$bof ? Parent^DataPool^bof_file_pass$" class="bof_input bof_hidden cp">
+<div class="mask">
+  <span class="mdi mdi-cloud ico"></span> <span class='mask_text'>$bof ? Lang^upload __uc=true$</span>
+  <div class="progress"></div>
+</div>
+
+</div>
+$!bof if type = bof_file$
+
+$bof if type = bof_object$
+<div class="object_input_wrapper">
+  <input type="hidden" name="$bof ? Parent^DataPool^name$" value="$bof ? Parent^DataPool^value$" class="_ids">
+  <div class="objects_wrapper $bof if Parent^DataPool^bof_items$has_items$!bof if Parent^DataPool^bof_items$ $bof ? Parent^DataPool^bof_s_type$ clearafter">
+  $bof if Parent^DataPool^bof_items$
+    $bof foreach ?$
+    <div class="object_wrapper$bof if image$ has_image$!bof if image$" data-id="$bof ? ID$">
+      $bof if image$
+        <div class="_image_wrapper">
+          <div class="_image" style="background-image:url('$bof ? ?$')"></div>
+        </div>
+      $!bof if image$
+      <div class="_title">$bof ? title$</div>
+      <div class="mdi mdi-close _close"></div>
+    </div>
+    $!bof foreach ?$
+  $!bof if Parent^DataPool^bof_items$
+    <div class="object_wrapper new" data-id="new" >
+      <span class="__search">$bof ? Lang^search __uc=true$</span>
+      <div class="mdi mdi-plus _add dropdown_button" data-dropdown-id="ip_$bof ? Parent^DataPool^name$"></div>
+    </div>
+  </div>
+  <div class="bof_dropdown object_dropdown" ID="ip_$bof ? Parent^DataPool^name$">
+    <div class="search_input_wrapper">
+        <input type="hidden" class="bofInput_object_sub_type" value='$bof ? Parent^DataPool^bof_object_sub$'>
+        <input type="hidden" class="bofInput_object_type" value='$bof ? Parent^DataPool^bof_object$' >
+        <input type="text" class="bof_input type_text bofInput_bof_query" placeholder="$bof ? Lang^search_placeholder __uc=true$">
+        <div class="btn btn-primary">$bof ? Lang^search __uc=true$</div>
+        <div class="btn btn-secondary">$bof ? Lang^back __uc=true$</div>
+    </div>
+    <div class="search_results_wrapper"></div>
+  </div>
+</div>
+$!bof if type = bof_object$
+
+$bof if type = text_editor$
+<div id="editor_js_child" data-name="$bof ? Parent^DataPool^name$"></div>
+$!bof if type = text_editor$

@@ -1,0 +1,76 @@
+
+<div class="page_bg small colorOnly" style='background-color:rgb($bof ? single^data^background_color$)'></div>
+<div class="page_bg small colorOnly dropColor" style='background-color:rgb($bof ? single^data^background_color$)'></div>
+
+$bof if single^data^background$
+<div class="page_bg small blur dark">$bof ? ?$</div>
+$!bof if single^data^background$
+
+<div class="page_content single $bof ? single^data^ot$_content $bof ? single^page^classes$">
+
+  <div class="d_head item bof_$bof ? single^data^ot$_$bof ? single^data^hash$" id="bof_main">
+
+    $bof if single^data^cover$
+    <div class="cover_wrapper">$bof ? ?$</div>
+    $!bof if single^data^cover$
+
+    <div class="detail clearafter">
+
+      <div class="is clearafter">
+        <div class="i _type">$bof ? single^data^object_name$</div>
+        $bof foreach single^data^before_stats$
+        <a class="i" href='$bof ? url$'>$bof ? name$</a>
+        $!bof foreach single^data^before_stats$
+      </div>
+
+      <div class="title">$bof ? single^data^title$</div>
+
+      <div class="is second clearafter">
+        $bof foreach single^data^stats$
+        <div class="i">
+          <div class="graphic"><span class="mdi mdi-$bof ? icon$"></span></div>
+          <div class="_t">$bof ? value$</div>
+        </div>
+        $!bof foreach single^data^stats$
+        $bof if single^data^sub_title$
+        <a href="$bof ? Parent^DataPool^single^data^sub_link$" class="i img">
+          $bof if Parent^DataPool^single^data^sub_cover$
+          <div class="graphic">$bof ? ?$</div>
+          $!bof if Parent^DataPool^single^data^sub_cover$
+          $bof ? Parent^DataPool^single^data^sub_title$
+        </a>
+        $!bof if single^data^sub_title$
+      </div>
+
+      <div class="buttons clearafter">
+        $bof if single^data^price$
+        <div class="button_wrapper purchase" onclick="window.app.actions.get_unlock_solution('$bof ? Parent^DataPool^single^data^ot$','$bof ? Parent^DataPool^single^data^hash$')">
+          <span class="mdi mdi-cart"></span>
+        </div>
+        $!bof if single^data^price$
+
+        <div class="button_wrapper play _play"><span class="mdi mdi-play"></span></div>
+        <div onclick="window.app.actions.user.like(null,'$bof ? single^data^ot$','$bof ? single^data^hash$')" class="button_wrapper _like bof_$bof ? single^data^ot$_$bof ? single^data^hash$ $bof if single^data^liked$liked$!bof if single^data^liked$"><span class="mdi mdi-heart-outline like"></span><span class="mdi mdi-heart unlike"></span></div>
+        <div class="button_wrapper more"><span class="mdi mdi-dots-vertical"></span></div>
+      </div>
+
+    </div>
+  </div>
+
+  $bof if single^data^copyright$
+  <div class="disclaimer"><span class="mdi mdi-alert"></span>$bof ? ?$</div>
+  $!bof if single^data^copyright$
+
+  <div class="$bof ? single^data^ot$_body t_s_body">
+
+    $bof if single^widgets$
+      $bof foreach ?$
+
+        $bof html ? __name=widget$
+
+      $!bof foreach ?$
+    $!bof if single^widgets$
+
+  </div>
+
+</div>

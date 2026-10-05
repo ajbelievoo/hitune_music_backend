@@ -1,0 +1,227 @@
+.user_name_wrapper {
+  --badge_size: 14px;
+  --badge_bg: rgba(var(--font_color),1);
+  position: relative;
+  display: inline-block;
+  padding-right: 22px;
+  min-height: 17px
+}
+.user_name_wrapper .badges {
+  width: 16px;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0px;
+  bottom: 0;
+  margin: auto;
+  height: fit-content;
+  line-height: 0;
+  text-align: right;
+}
+.user_name_wrapper .badges:after {
+  content: "";
+  display: block;
+  clear: both;
+  float: none;
+}
+.user_name_wrapper .badges .badge {
+  display: inline-block;
+  color: rgba(var(--bg_color),1);
+  width: var(--badge_size);
+  height: var(--badge_size);
+  text-align: center;
+  font-size: calc( var(--badge_size) * 0.86 );
+  flex-shrink: 0;
+  float: right;
+  opacity: 0.8;
+  position: relative;
+  cursor: pointer;
+  transition: 100ms ease-out all
+}
+.user_name_wrapper .badges .badge:nth-child(n+2) {
+  display: none
+}
+.user_name_wrapper .badges .badge span.mdi {
+  line-height: calc( var(--badge_size) * 0.97 );
+  position: relative;
+}
+.user_name_wrapper .badges .badge:hover {
+  opacity: 1;
+}
+
+.user_name_wrapper .badges .badge .hs {
+  width: var(--badge_size);
+  height: var(--badge_size);
+  display: block;
+  position: absolute;
+  z-index: -1;
+}
+.user_name_wrapper .badges .badge .hs .h1:before,
+.user_name_wrapper .badges .badge .hs .h1:after,
+.user_name_wrapper .badges .badge .hs .h2:before,
+.user_name_wrapper .badges .badge .hs .h2:after,
+.user_name_wrapper .badges .badge .hs .h3:before,
+.user_name_wrapper .badges .badge .hs .h3:after{
+  width: calc( var(--badge_size) * .7 );
+  height: calc( var(--badge_size) * .7 );
+  background: var(--badge_bg);
+  display: block;
+  content: "";
+  position: absolute;
+  transform: rotate(-33deg);
+  border-radius: calc( var(--badge_size)*0.1);
+}
+.user_name_wrapper .badges .badge .hs .h1:before {
+  left: calc( var(--badge_size) * 0.055 );
+}
+.user_name_wrapper .badges .badge .hs .h1:after {
+  right: calc( var(--badge_size) * 0.055 );
+  transform: rotate(33deg);
+}
+.user_name_wrapper .badges .badge .hs .h2:before {
+  left: calc( var(--badge_size) * 0.055 );
+  bottom: 0;
+  transform: rotate(33deg)
+}
+.user_name_wrapper .badges .badge .hs .h2:after {
+  bottom: 0;
+  right: calc( var(--badge_size) * 0.055 );
+  transform: rotate(-33deg);
+}
+.user_name_wrapper .badges .badge .hs .h3:before {
+  right: calc( var(--badge_size) * -0.06 );
+  transform: rotate(0);
+  bottom: 0;
+  margin: auto;
+  top: 0;
+  height: calc( var(--badge_size) * .57 );
+}
+.user_name_wrapper .badges .badge .hs .h3:after {
+  transform: rotate(0);
+  bottom:0;
+  margin: auto;
+  left: calc( var(--badge_size) * -0.06 );
+  top:0;
+  height: calc( var(--badge_size) * .57 );
+}
+.user_name_wrapper .badges .badge.isImg .imgHolder {
+    width: calc( var(--badge_size) * 0.77 );
+    height: calc( var(--badge_size) * 0.77 );
+    background: center center no-repeat;
+    background-size: cover;
+    display: block;
+    position: absolute;;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.d_head .user_name_wrapper {
+  --badge_size: 30px;
+  padding-right: 114px;
+  min-height: 0
+}
+.d_head .user_name_wrapper .badges {
+  width: calc( ( var(--badge_size) + 6px ) * 3 );
+}
+.d_head .user_name_wrapper .badges .badge {
+  font-size: calc( var(--badge_size) * 0.8 );
+  margin-left: 6px;
+  opacity: 0.6;
+}
+.d_head .user_name_wrapper .badges .badge:hover {
+  opacity: 1;
+}
+.d_head .user_name_wrapper .badges .badge:nth-child(n+2) {
+  display: block
+}
+.d_head .user_name_wrapper .badges .badge:nth-child(n+4) {
+  position: relative;
+  right: calc( 9px + ( var(--badge_size)*.30 ) );
+  top: -2px;
+}
+.d_head .user_name_wrapper .badges .badge:nth-child(n+6) {
+  display: none
+}
+.d_head .user_name_wrapper .badges .badge.hasBg {
+  opacity: 1
+}
+.d_head .user_name_wrapper {
+  padding-right: calc( ( var(--badge_size) + 6px ) * 3 + 10px );
+}
+.d_head .user_name_wrapper .badges {
+  width: calc( ( var(--badge_size) + 6px ) * 3 );
+}
+.d_head .user_name_wrapper.c1 {
+  padding-right: calc( ( var(--badge_size) + 6px ) * 1 + 10px );
+}
+.d_head .user_name_wrapper.c1 .badges {
+  width: calc( ( var(--badge_size) + 6px ) * 1 );
+  top: -24px
+}
+.d_head .user_name_wrapper.c2 {
+  padding-right: calc( ( var(--badge_size) + 6px ) * 2 + 10px );
+}
+.d_head .user_name_wrapper.c2 .badges {
+  width: calc( ( var(--badge_size) + 6px ) * 2 );
+  top: -24px
+}
+.d_head .user_name_wrapper.c3 {
+  padding-right: calc( ( var(--badge_size) + 6px ) * 2 + 10px );
+}
+.d_head .user_name_wrapper.c3 .badges {
+  width: calc( ( var(--badge_size) + 6px ) * 2 );
+}
+.d_head .user_name_wrapper.c3 .badges .badge:nth-child(n+3) {
+  position: relative;
+  right: calc( 9px + ( var(--badge_size)*.30 ) );
+  top: -2px;
+}
+
+.modal_wrapper.user_badges {
+  width: 440px;
+}
+.modal.user_badges .content .fBw {
+  position: relative;
+  padding-left: 50px;
+  min-height: 40px;
+  margin-top: calc( var(--padding) * 1.5 );
+  display: flex;
+}
+.modal.user_badges .content .fBw .user_name_wrapper {
+  --badge_size: 30px;
+  width: 34px;
+  padding: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 38px;
+  transform: scale(1.2);
+}
+.modal.user_badges .content .fBw:last-child {
+  margin-bottom: 0;
+}
+.modal.user_badges .content .fBw ._nd {
+  display: block;
+  height: fit-content;
+  margin: auto 0;
+}
+.modal.user_badges .content .fBw ._nd > span {
+  display: block;
+}
+.modal.user_badges .content .fBw ._nd ._n {
+  font-size: 130%;
+  font-weight: 600;
+}
+.modal.user_badges .content .fBw ._nd ._d {
+  font-weight: 300;
+  font-size: 95%;
+  margin-top: 2px;
+  opacity: 0.4;
+}
+.modal.user_badges .content .def_scroll{
+  max-height: 0.6 * var(--window_height);
+  overflow: auto
+}

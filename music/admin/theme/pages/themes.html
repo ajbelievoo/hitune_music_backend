@@ -1,0 +1,33 @@
+<div class="box">
+
+  <div class="box-content">
+
+    <div class="row themes cols_padding" id="themes">
+
+      $bof foreach themes^list$
+      <div class="col col-12 col-lg-6">
+        <div class="theme $bof if active$active$!bof if active$">
+          <div class="preview_wrapper" style="background-image:url('$bof if cover$$bof ? ?$$!bof if cover$')"></div>
+          <div class="name">$bof ? name$ <span class='price'>$bof ? price_label$</span></div>
+          <div class="detail">$bof if detail$$bof ? ?$$!bof if detail$</div>
+          <div class="buttons">
+
+            <div class="btn btn-secondary dropdown_button" data-dropdown-id="dd_p_$bof ? code$">$bof ? btn^title$</div>
+
+            <div class="bof_dropdown" id="dd_p_$bof ? code$">
+              <ul>
+                $bof foreach btn^childs$
+                <li><a href='$bof ? link$' class='$bof ? class$' $bof ? attr$>$bof ? title$</a></li>
+                $!bof foreach btn^childs$
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      $!bof foreach themes^list$
+
+    </div>
+
+  </div>
+</div>

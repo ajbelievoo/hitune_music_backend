@@ -1,0 +1,3594 @@
+"use strict";
+
+window.app = {
+
+  cache: {
+    sb_family: false,
+    sb_family_loaded: false,
+    sb_family_highlight_xhr_client: null,
+    sb_data: null,
+    dark: false,
+    last_unload_time: null,
+    version_check_timer: null,
+    nots_page: 1,
+    extensions: []
+  },
+
+  _pre_defined_extensions: {
+
+    bof_input: {
+      type: "js",
+      name: "bof_input",
+      path: "app/bof_input.js"
+    },
+    bof_modal: {
+      type: "js",
+      name: "bof_modal",
+      path: "app/bof_modal.js"
+    },
+    bof_graph: {
+      type: "js",
+      name: "bof_graph",
+      path: "app/bof_graph.js"
+    },
+    bof_pageBuilder: {
+      type: "js",
+      name: "bof_pageBuilder",
+      path: "app/bof_pageBuilder.js"
+    },
+    bof_menuBuilder: [
+      {
+        type: "js",
+        name: "bof_menuBuilder",
+        path: "app/bof_menuBuilder.js"
+      },
+      {
+        type: "css",
+        name: "mdi",
+        path: "https://cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css",
+        dir: false,
+        use_base: false
+      }
+    ],
+    bof_dropdown: {
+      type: "js",
+      name: "bof_dropdown",
+      path: "app/bof_dropdown.js"
+    },
+    bof_content_table: {
+      type: "js",
+      name: "bof_content_table",
+      path: "app/bof_content_table.js"
+    },
+    bof_content_single: {
+      type: "js",
+      name: "bof_content_single",
+      path: "app/bof_content_single.js"
+    },
+    bof_content_setting: {
+      type: "js",
+      name: "bof_content_setting",
+      path: "app/bof_content_setting.js"
+    },
+    bof_content_stats: {
+      type: "js",
+      name: "bof_content_stats",
+      path: "app/bof_content_stats.js"
+    },
+    jquery_ui_custom: {
+      type: "js",
+      name: "jquery_ui_custom",
+      path: "third/jquery-ui-1.13.0.custom/jquery-ui.min.js",
+      skipNameCheck: true,
+      base: "bof_assets"
+    },
+    moment_js: {
+      type: "js",
+      name: "moment_js",
+      path: "third/daterangepicker/moment.min.js",
+      skipNameCheck: true,
+      base: "bof_assets"
+    },
+    daterangepicker: [
+      {
+        type: "js",
+        name: "moment_js",
+        path: "third/daterangepicker/moment.min.js",
+        skipNameCheck: true,
+        base: "bof_assets"
+      },
+      {
+        type: "js",
+        name: "daterangepicker_js",
+        path: "third/daterangepicker/daterangepicker.js",
+        skipNameCheck: true,
+        base: "bof_assets"
+      },
+      {
+        type: "css",
+        name: "daterangepicker_css",
+        path: "js/third/daterangepicker/daterangepicker.css",
+        dir: false,
+        base: "bof_assets"
+      },
+      {
+        type: "css",
+        name: "daterangepicker_custom_css",
+        path: "js/third/daterangepicker/_custom.css",
+        dir: false,
+        base: "bof_assets"
+      }
+    ],
+    editorjs: [
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/editorjs@2.28.2",
+        name: "editorjs",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/header@latest",
+        name: "editorjs_header",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest",
+        name: "editorjs_delimiter",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/list@1.9.0",
+        name: "editorjs_list",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest",
+        name: "editorjs_checklist",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/quote@latest",
+        name: "editorjs_quote",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/code@latest",
+        name: "editorjs_code",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/table@latest",
+        name: "editorjs_table",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/link@latest",
+        name: "editorjs_link",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/warning@latest",
+        name: "editorjs_warning",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/editorjs-button@latest",
+        name: "editorjs_button",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/image@latest",
+        name: "editorjs_image",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/embed@latest",
+        name: "editorjs_embed",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/editorjs-paragraph-with-alignment@3.0.0/dist/bundle.min.js",
+        name: "editorjs-paragraph-with-alignment",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/editorjs-text-color-plugin@2.0.4/dist/bundle.min.js",
+        name: "editorjs-text-color-plugin",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/editorjs-inline-font-size-tool@1.0.1/dist/bundle.min.js",
+        name: "editorjs-inline-font-size-tool",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "css",
+        name: "editorjs-inline-font-size-tool_css",
+        path: "https://cdn.jsdelivr.net/npm/editorjs-inline-font-size-tool@1.0.1/src/index.min.css",
+        dir: false,
+      },
+      {
+        type: "js",
+        name: "editorjs_video_bundle",
+        path: "js/third/editorjs_video_bundle.js",
+        dir: false,
+        base: "bof_assets",
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/marker@latest",
+        name: "editorjs_marker",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/@editorjs/underline@latest",
+        name: "editorjs_underline",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        path: "https://cdn.jsdelivr.net/npm/editorjs-style@latest",
+        name: "editorjs_style",
+        dir: false,
+        skipNameCheck: true
+      },
+    ],
+    am5chart_core: {
+      type: "js",
+      name: "am5chart_core",
+      path: "https://cdn.amcharts.com/lib/5/index.js",
+      dir: false,
+      skipNameCheck: true
+    },
+    am5chart: [
+      {
+        type: "js",
+        name: "am5chart_core",
+        path: "https://cdn.amcharts.com/lib/5/index.js",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        name: "am5chart_xy",
+        path: "https://cdn.amcharts.com/lib/5/xy.js",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        name: "am5chart_percent",
+        path: "https://cdn.amcharts.com/lib/5/percent.js",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        name: "am5chart_map",
+        path: "https://cdn.amcharts.com/lib/5/map.js",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        name: "am5chart_worldLow",
+        path: "https://cdn.amcharts.com/lib/5/geodata/worldLow.js",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "js",
+        name: "am5chart_theme",
+        path: "https://cdn.amcharts.com/lib/5/themes/Dark.js",
+        dir: false,
+        skipNameCheck: true
+      },
+    ],
+
+    masonry: {
+      type: "js",
+      name: "masonryJS",
+      path: "third/masonry.pkgd.min.js",
+      skipNameCheck: true,
+      base: "bof_assets"
+    },
+    coloris: [
+      {
+        type: "js",
+        name: "coloris_js",
+        path: "https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js",
+        dir: false,
+        skipNameCheck: true
+      },
+      {
+        type: "css",
+        name: "coloris_css",
+        path: "https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css",
+        dir: false,
+      },
+    ],
+
+  },
+
+  events: {
+
+    bof_ready: function(){
+
+      window.app.ui.light_mode( window.cache.get( "light_mode", false ), false );
+
+      $.when(
+        window.app._extension( "bof_input" ),
+        window.app._extension( "bof_dropdown" ),
+        window.app._extension( "bof_modal" ),
+        window.app._extension( "bof_graph" ),
+        window.ui.theme.part( "parts/highlights", {} ),
+        window.ui.theme.part( "parts/sidebar", {} ),
+        window.ui.theme.part( "parts/header", { target: "body #main" } ),
+        window.app.getConfig()
+      ).done(function(){
+
+        // window.bof_graph.load_am4chart().done(function(){
+
+          var action;
+
+          if ( !window.user.logged() )
+          action = window.ui.page.load( "login" );
+
+          else if ( $_bof_config.requested_url )
+          action = window.ui.link.navigate( $_bof_config.requested_url );
+
+          if ( !action )
+          action = window.ui.link.navigate( "index" );
+
+          var __bootFinalize = function(){
+
+            window.ui.link.listen();
+            window.ui.history.listen();
+            window.app.ui.head.listen();
+            window.bof_dropdown.listen();
+            window.bof_input.listen();
+
+            window.app.events.version_check(true);
+            window.app.events.nots_check(true);
+
+            $(document).on( "click", "#highlights .section_links div.link_group", function(){
+
+              var opened = false;
+              if( $(this).hasClass("opened") )
+              opened = true;
+
+              $("#highlights .section_links div.link_group.opened").removeClass("opened");
+
+              if ( !opened )
+              $(this).addClass("opened");
+
+            } );
+            $(document).on( "click", "#sidebar .links ul li a", function(e){
+              window.app.ui.side.set( $(this).data("sb-name") );
+            } );
+            $(document).on( "click", "#main #header .menu .item.ups", function(e){
+              window.app.events.version_check();
+              window.app.events.ups();
+            } );
+            $(document).on( "click", "#main #header .menu .item.nots", function(e){
+              window.app.events.nots_check(false,1);
+              window.app.events.nots();
+            } );
+            $(document).on( "click", ".nots_wrapper .load_more", function(e){
+              window.app.events.nots_check(false,window.app.cache.nots_page+1);
+              window.app.events.nots();
+            } );
+            $(document).on( "click", "#sidebar #logo img", function(e){
+              window.open($_bof_config.web_address.substr(0,$_bof_config.web_address.length-6));
+            } );
+            window.ui.body.removeSplashClasses();
+
+          };
+
+          action
+          .done(function(){
+            __bootFinalize();
+          })
+          .fail(function(){
+            try {
+              window.user.loggedOut( false );
+            } catch( e ){}
+
+            var fallback = window.ui.page.load( "login" );
+            if ( fallback && typeof( fallback.always ) === "function" ){
+              fallback.always(function(){
+                __bootFinalize();
+              });
+            } else {
+              __bootFinalize();
+            }
+          });
+
+        // });
+
+      });
+
+      $("#main").scroll( function(){
+        window.ui.history.record( "scrollTop", $("#main").scrollTop() );
+      } );
+
+    },
+    lock: {
+
+      first_on: function( $name ){},
+      on: function( $name ){},
+      off: function( $name ){},
+      all_off: function( $name ){}
+
+    },
+    version_check: function( $initial ){
+
+      if ( window.user.logged() ){
+        window.becli.exe({
+          endpoint: "check_version",
+          callBack: function( sta, data ){
+            if ( sta ){
+              window.app.check_cache = data;
+              window.app.events.ups();
+              if ( data.has_update ){
+                $(document).find("#main #header .menu .item.ups").addClass("has_update");
+              } else {
+                $(document).find("#main #header .menu .item.ups").removeClass("has_update");
+              }
+            }
+          }
+        })
+      }
+
+      if ( window.app.cache.version_check_timer )
+      clearTimeout( window.app.cache.version_check_timer );
+
+      window.app.cache.version_check_timer = setTimeout( function(){
+        window.app.events.version_check();
+      }, 10*60*1000 );
+
+    },
+    nots_check: function( $initial, $page ){
+
+      window.app.cache.nots_page = $page;
+      if ( window.user.logged() ){
+        window.becli.exe({
+          endpoint: "notifications",
+          post: {
+            page: $page
+          },
+          callBack: function( sta, data ){
+            if ( sta ){
+              window.app.nots_cache = data;
+              window.app.events.nots();
+              if ( data.has_update ){
+                $(document).find("#main #header .menu .item.nots").addClass("has_update");
+              } else {
+                $(document).find("#main #header .menu .item.nots").removeClass("has_update");
+              }
+            }
+          }
+        })
+      }
+
+    },
+    ups: function(){
+      var _html = "<div class='nots_wrapper'><div class='nada'>Nothing to show</div></div>";
+      if ( window.app.check_cache ? ( window.app.check_cache.ups ? window.app.check_cache.ups.length : false ) : false ){
+        _html = "<div class='nots_wrapper'>";
+        for ( var i=0; i<window.app.check_cache.ups.length; i++ ){
+          var not = window.app.check_cache.ups[i];
+          _html += "<div class='not_wrapper'>";
+            _html += "<div class='icon_wrapper'><span class='material-icons-outlined'>"+not.icon+"</span></div>";
+            _html += "<div class='text_wrapper'><span class='title'>"+not.title+"</span>"+not.text+"</div>";
+            if ( not.buttons ? not.buttons.length : false ){
+              _html += "<div class='buttons_wrapper'>";
+              for ( var z=0; z<not.buttons.length; z++ ){
+                _html += "<a class='btn btn-"+not.buttons[z][0]+"' href='"+not.buttons[z][2]+"'>"+not.buttons[z][1]+"</a>";
+              }
+              _html += "</div>";
+            }
+          _html += "</div>";
+        }
+        _html = _html;
+        _html += "</div>";
+      }
+      $(document).find(".bof_dropdown#aups").html( _html );
+    },
+    nots: function(){
+      var _html = "<div class='nots_wrapper'><div class='nada'>Nothing to show</div></div>";
+      if ( window.app.nots_cache ? ( window.app.nots_cache.ups ? window.app.nots_cache.ups.length : false ) : false ){
+        _html = "<div class='nots_wrapper'>";
+        for ( var i=0; i<window.app.nots_cache.ups.length; i++ ){
+          var not = window.app.nots_cache.ups[i];
+          _html += "<div class='not_wrapper'>";
+            _html += "<div class='icon_wrapper'><span class='material-icons-outlined'>"+not.icon+"</span></div>";
+            _html += "<div class='text_wrapper'><span class='title'>"+not.title+"</span>"+not.text+"</div>";
+            if ( not.buttons ? not.buttons.length : false ){
+              _html += "<div class='buttons_wrapper'>";
+              for ( var z=0; z<not.buttons.length; z++ ){
+                _html += "<a class='btn btn-"+not.buttons[z][0]+"' href='"+not.buttons[z][2]+"'>"+not.buttons[z][1]+"</a>";
+              }
+              _html += "</div>";
+            }
+          _html += "</div>";
+        }
+        if ( window.app.nots_cache.has_next ){
+          _html += "<div class='load_more'>";
+          _html += "<div>Load more</div>";
+          _html += "</div>";
+        }
+        _html += "</div>";
+      }
+      $(document).find(".bof_dropdown#anots").html( _html );
+    },
+    page_unloading: function( $args ){
+
+      $("#main .content").stop(true).fadeOut( 200 );
+      window.app.cache.last_unload_time = Date.now();
+
+      window.bof_input.unhook();
+
+      if ( !window.ui.page.curr().o_args )
+      return;
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_table" || window.ui.page.curr().args.theme_file_executer == "content_table" : false )
+      window.bof_content_table.unloading();
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_single" : false )
+      window.bof_content_single.unloading();
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_setting" : false )
+      window.bof_content_setting.unloading();
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_stats" : false )
+      window.bof_content_stats.unloading();
+
+      var curPage_sb_family = window.app.cache.sb_family;
+      if ( curPage_sb_family ? $args.urlData : false ){
+        var reqPage_sb_family = window.app.pages[ $args.urlData.page ].__sb_family
+        if ( reqPage_sb_family != curPage_sb_family ){
+          window.app.ui.side.unload();
+        }
+      }
+
+    },
+    page_displaying: function( $args ){
+
+      if ( $args.urlData ? !window.app.pages[ $args.urlData.page ] : true )
+      return;
+
+      var _p = $.Deferred();
+      if ( window.app.pages[ $args.urlData.page ].theme_file == "parts/content_setting" ){
+        window.app._extension( "bof_content_setting" ).done(function(){
+          window.bof_content_setting.displaying().done(function(){
+            _p.resolve();
+          });
+        });
+      }
+      else if ( window.app.pages[ $args.urlData.page ].theme_file == "parts/content_table" || window.app.pages[ $args.urlData.page ].theme_file_executer == "content_table" ){
+        window.app._extension( "bof_content_table" ).done(function(){
+          window.bof_content_table.displaying().done(function(){
+            _p.resolve();
+          });
+        });
+      }
+      else if ( window.app.pages[ $args.urlData.page ].theme_file == "parts/content_single" ){
+        window.app._extension( "bof_content_single" ).done(function(){
+          window.bof_content_single.displaying().done(function(){
+
+            if ( $args.name == "up_badge" )
+            window.app._extension( "coloris" )
+
+            _p.resolve();
+
+          });
+        });
+      }
+      else if ( window.app.pages[ $args.urlData.page ].theme_file == "parts/content_stats" ){
+        window.app._extension( "bof_content_stats" ).done(function(){
+          window.bof_content_stats.displaying().done(function(){
+            _p.resolve();
+          });
+        });
+      }
+      else {
+        _p.resolve();
+      }
+      return _p;
+
+    },
+    page_ready: function( $args ){
+
+      if ( window.user.logged ){
+
+        if ( !$(document).find("#side"+"bar #l"+"ogo").length )
+        $(document).find("#sidebar ").prepend("<div id='logo'><img src='"+window.app.config.logo+"'></diV>")
+
+      }
+
+      $("#main .content").stop(true).fadeIn( 1200 );
+      window.app.ui.head.set();
+      window.app.ui.side.set();
+      window.bof_input.hook();
+      window.app.ui.icon_auto_bg_color();
+      window.app.ui.becli._alert_reset();
+
+      var stateData = window.ui.page.curr().stateData;
+      $("#main").scrollTop( stateData.scrollTop > 0 ? stateData.scrollTop : 0 );
+
+      window.ui.body.removeClass( "p_content_setting", true );
+      window.ui.body.removeClass( "p_content_table", true );
+      window.ui.body.removeClass( "p_content_single", true );
+      window.ui.body.removeClass( "p_content_stats", true );
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_setting" : false ){
+        window.bof_content_setting.ready();
+        window.ui.body.addClass( "p_content_setting", true );
+      }
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_table" || window.ui.page.curr().args.theme_file_executer == "content_table" : false ){
+        window.bof_content_table.ready();
+        window.ui.body.addClass( "p_content_table", true );
+      }
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_single" : false ){
+        window.bof_content_single.ready();
+        window.ui.body.addClass( "p_content_single", true );
+      }
+
+      if ( window.ui.page.curr().args ? window.ui.page.curr().args.theme_file == "parts/content_stats" : false ){
+        window.bof_content_stats.ready();
+        window.ui.body.addClass( "p_content_stats", true );
+      }
+
+    },
+
+  },
+  _pages_g: {
+
+    _extensions: {
+      ready: function(){
+        $(document).on("click",".action_submit_ppc",function(){
+          window.bof_modal.create({
+            class: "ppc no_groups",
+            title: "Enter purchase code",
+            inputs: {
+              ppc: {
+                title: "The code",
+                tip: "Enter the purchase code you received from Envato",
+                input: {
+                  type: "text",
+                  name: "ppc",
+                },
+                group: "a"
+              }
+            },
+            buttons: [
+              [ "btn-primary", "Submit", "window.app._pages_g._extensions.submit_ppc()" ]
+            ],
+          })
+        });
+      },
+      unloading: function(){
+        $(document).off("click",".action_submit_ppc");
+      },
+      submit_ppc: function(){
+
+        var modalData = window.bof_modal.get();
+        var ppc = modalData[0].value;
+
+        window.app.ui.becli.exe(
+          "button",
+          {
+            dom: $(document).find( ".modal .buttons .button .btn-primary" ),
+          },
+          {
+            endpoint: "extension_submit_ppc",
+            post: {
+              ppc: ppc
+            },
+          }
+        );
+
+      }
+    },
+
+  },
+  pages: {
+
+    login: {
+
+      title: "Login",
+      url: "^login$",
+      link: "login",
+      theme_file: "pages/login",
+      theme_args: {},
+      body_class: [ "noParts", "noPaddings" ],
+      becli: [],
+      events: {},
+      functions:{
+        beforeSubmit: function(){
+
+          $(document).find("#login_btn").attr("disabled",true).addClass("loading").val( "Wait please" );
+
+        },
+        checkResult: function( sta, data, args ){
+
+          $(document).find("#login_btn").removeClass("loading");
+
+          if ( sta ? data.sess_id && data.sess_key : false ){
+
+            $(document).find("#login_btn").addClass("success").val( "Welcome, Wait please" );
+
+            cache.set( "sess_id", data.sess_id );
+            cache.set( "sess_key", data.sess_key );
+
+            setTimeout(function(){
+              window.ui.link.navigate(
+                data.redirect
+              );
+            },500);
+
+          }
+          else {
+
+            $(document).find("#login_btn").attr("disabled",false).addClass("failure").val( "Try again" );
+
+          }
+
+        }
+      },
+
+    },
+
+    // Dashboard
+    index: {
+
+      title: "Dashboard",
+      url: "^index$",
+      link: "index",
+      theme_file: "parts/content_stats",
+      theme_args: {},
+      becli: [
+        {
+          endpoint: "bofAdmin/stats/dashboard/?\$bof ? urlData^url^query_s\$",
+          key: "stats"
+        }
+      ],
+      events: {},
+      __sb_family: "dashboard",
+
+    },
+    stat: {
+      title: "Statistics",
+      url: "^stat\/(.*?)$",
+      link: "stat_visits",
+      theme_file: "parts/content_stats",
+      theme_args: {},
+      becli: [
+        {
+          endpoint: "bofAdmin/stats/\$bof ? urlData^url^match^0\$/?\$bof ? urlData^url^query_s\$",
+          key: "stats"
+        }
+      ],
+      events: {},
+      __sb_family: "dashboard",
+    },
+
+    // Content
+    blog_posts: {
+
+      title: "Blog Posts",
+      url: "^blog_posts$",
+      link: "blog_posts",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/b_post/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "content",
+
+    },
+    blog_post: {
+
+      title: "Blog Post",
+      url: "^blog_post\/(.*?)$",
+      link: "blog_post",
+      link_par: "blog_posts",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/b_post/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "content",
+
+    },
+    blog_categories: {
+
+      title: "Blog Categories",
+      url: "^blog_categories$",
+      link: "blog_categories",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/b_category/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "content",
+
+    },
+    blog_category: {
+
+      title: "Blog Category",
+      url: "^blog_category\/(.*?)$",
+      link: "blog_category",
+      link_par: "blog_categories",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/b_category/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "content",
+
+    },
+    blog_tags: {
+
+      title: "Blog Tags",
+      url: "^blog_tags$",
+      link: "blog_tags",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/b_tag/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "content",
+
+    },
+    blog_tag: {
+
+      title: "Blog Tag",
+      url: "^blog_tag\/(.*?)$",
+      link: "blog_tag",
+      link_par: "blog_tags",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/b_tag/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "content",
+
+    },
+
+    // Users
+    users: {
+
+      title: "Users",
+      url: "^user_list$",
+      link: "user_list",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/user/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+    user: {
+
+      title: "User",
+      url: "^user\/(.*?)$",
+      link: "user",
+      link_par: "user_list",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/user/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+    user_roles: {
+
+      title: "Roles & Access",
+      url: "^user_roles$",
+      link: "user_roles",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/user_role/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+    user_role: {
+
+      title: "Role",
+      url: "^user_role\/(.*?)$",
+      link: "user_role",
+      link_par: "user_roles",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/user_role/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        ready: function(){
+
+          window.app.pages.user_role._data = {
+            bofAdmin_access_decoded: {
+              objects: [],
+              objects_args: {}
+            }
+          };
+
+          try {
+            window.app.pages.user_role._data = window.ui.page.curr().data.becli.entity.request.content[ window.ui.page.curr().data.becli.entity.request.IDS[0] ];
+            window.app.pages.user_role._data.bofAdmin_access_decoded.objects = window.app.pages.user_role._data.bofAdmin_access_decoded.objects ? window.app.pages.user_role._data.bofAdmin_access_decoded.objects : [];
+            window.app.pages.user_role._data.bofAdmin_access_decoded.objects_args = window.app.pages.user_role._data.bofAdmin_access_decoded.objects_args ? window.app.pages.user_role._data.bofAdmin_access_decoded.objects_args : {};
+          } catch( e ){
+            window.app.pages.user_role._data = {
+              bofAdmin_access_decoded: {
+                objects: [],
+                objects_args: {}
+              }
+            };
+          }
+
+
+          $(document).on("click","span._setting",function(e){
+
+            var _object_name = $(this).data("object");
+            var _object_groups = window.ui.page.curr().data.becli.entity._u_groups;
+            var _object_group = _object_groups[ _object_name ];
+
+            window.bof_modal.create({
+              inputs: _object_group,
+              title: "Configure " + _object_name,
+              groups: {
+                a: [ "a", "CRUD access" ],
+                b: [ "b", "Limits" ]
+              },
+              buttons: [
+                [ "btn-primary", "Save", "window.app.pages.user_role._handle_change(\""+_object_name+"\")"  ]
+              ]
+            });
+
+          });
+
+        },
+        unloading: function(){
+          $(document).off("click","span._setting");
+        }
+      },
+      __sb_family: "users",
+
+      _data: { bofAdmin_access_decoded: {} },
+      _handle_change: function( objectName ){
+
+        var objectGroup = window.ui.page.curr().data.becli.entity._u_groups[ objectName ];
+        for ( var i=0; i<Object.keys( objectGroup ).length; i++ ){
+          var objectGroupInputKey = Object.keys( objectGroup )[ i ];
+          var objectGroupInput = objectGroup[ objectGroupInputKey ];
+          delete objectGroupInput["input"]["value"];
+        }
+
+        var modalData = window.bof_modal.get();
+        var modalDataSimplified = {};
+        for ( var i=0; i<modalData.length; i++ ){
+          var _m = modalData[i];
+          if ( _m.value == "__all__" || _m.value === "" ) continue;
+          modalDataSimplified[ _m.name ] = _m.value
+          objectGroup[ _m.name ][ "input" ][ "value" ] = _m.value;
+        }
+
+        window.app.pages.user_role._data.bofAdmin_access_decoded[ "objects_args" ][ objectName ] = modalDataSimplified;
+        window.bof_modal.close();
+        $(document).find( ".settings_wrapper #save_button" ).click();
+
+      },
+      _single_before_submit: function(){
+
+        var _inputs = $("#single_form").serializeArray();
+        var _datas = [];
+        var _objects = [];
+
+        for ( var i=0; i<_inputs.length; i++ ){
+          var _input = _inputs[i];
+          if ( _input.name.substr( 0, "_u_r_m_a_".length ) == "_u_r_m_a_" ){
+            _objects.push( _input.name.substr( "_u_r_m_a_".length ) );
+          }
+          else {
+            _datas.push( _input );
+          }
+        }
+
+        _datas.push({
+          name: "bofAdmin_access_objects_args",
+          value: JSON.stringify( window.app.pages.user_role._data.bofAdmin_access_decoded.objects_args )
+        });
+
+        _datas.push({
+          name: "bofAdmin_access_objects",
+          value: JSON.stringify( _objects )
+        });
+
+        return _datas;
+
+      }
+
+    },
+    user_playlists: {
+
+      title: "User-Generated Playlists",
+      url: "^user_playlists$",
+      link: "user_playlists",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/ugc_playlist/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+    user_playlist: {
+
+      title: "User-Generated Playlist",
+      url: "^user_playlist\/(.*?)$",
+      link: "user_playlist",
+      link_par: "user_playlists",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/ugc_playlist/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+      },
+      __sb_family: "users",
+
+    },
+    user_preoperties: {
+
+      title: "User Properties",
+      url: "^user_properties$",
+      link: "user_properties",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/ugc_property/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+    user_preoperty: {
+
+      title: "User Property",
+      url: "^user_property\/(.*?)$",
+      link: "user_property",
+      link_par: "user_properties",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/ugc_property/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+      },
+      __sb_family: "users",
+
+    },
+    user_requests: {
+
+      title: "User requests",
+      url: "^user_requests$",
+      link: "user_requests",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/user_request/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+    user_withdraws: {
+
+      title: "User Withdrawals",
+      url: "^user_withdraws$",
+      link: "user_withdraws",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/user_withdraw/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "users",
+
+    },
+
+    // Business
+    gateway_offline: {
+
+      title: "Offline Payment Gateway",
+      url: "^gateway_offline$",
+      link: "gateway_offline",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/gateway_offline/"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    gateway_paypal: {
+
+      title: "Paypal Payment Gateway",
+      url: "^gateway_paypal$",
+      link: "gateway_paypal",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/gateway_paypal/"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    gateway_stripe: {
+
+      title: "Stripe Payment Gateway",
+      url: "^gateway_stripe$",
+      link: "gateway_stripe",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/gateway_stripe/"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    subs_plans:{
+
+      title: "Subscription Plans",
+      url: "^user_subs_plans$",
+      link: "user_subs_plans",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/user_subs_plan/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    subs_plan: {
+
+      title: "Subscription Plan",
+      url: "^user_subs_plan\/(.*?)$",
+      link: "user_subs_plan",
+      link_par: "user_subs_plans",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/user_subs_plan/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    subs:{
+
+      title: "Subscriptions",
+      url: "^user_subs$",
+      link: "user_subs",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/user_subs/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    sub_plan: {
+
+      title: "Subscription Plan",
+      url: "^user_sub\/(.*?)$",
+      link: "user_sub",
+      link_par: "user_subs",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/user_subs/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    payments:{
+
+      title: "Payments",
+      url: "^payments$",
+      link: "payments",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/payment/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    transactions:{
+
+      title: "Transactions",
+      url: "^transactions$",
+      link: "transactions",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/transaction/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    currencies:{
+
+      title: "Currencies",
+      url: "^currencies$",
+      link: "currencies",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/currency/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    currency: {
+
+      title: "Currency",
+      url: "^currency\/(.*?)$",
+      link: "currency",
+      link_par: "currencies",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/currency/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    ads_setting: {
+
+      title: "Advertisement Setting",
+      url: "^ads_setting$",
+      link: "ads_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/ads/"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    ads_list:{
+
+      title: "Advertisement List",
+      url: "^ads_list$",
+      link: "ads_list",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/ads/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+    ads: {
+
+      title: "Advertisement",
+      url: "^ads\/(.*?)$",
+      link: "ads",
+      link_par: "ads_list",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/ads/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "business",
+
+    },
+
+    // Setting ( custom )
+    plugins: {
+
+      title: "Plugins",
+      url: "^plugins$",
+      link: "plugins",
+      theme_file: "pages/plugins",
+      theme_args: {},
+      becli: [
+        {
+          key: "plugins",
+          endpoint: "plugin_list?type=plugin",
+        }
+      ],
+      events: {
+        ready: function(){
+          window.app._pages_g._extensions.ready();
+        },
+        unloading: function(){
+          window.app._pages_g._extensions.unloading();
+        }
+      },
+      __sb_family: "extensions",
+
+    },
+    tools: {
+
+      title: "Tools",
+      url: "^tools$",
+      link: "tools",
+      theme_file: "pages/plugins",
+      theme_args: {},
+      becli: [
+        {
+          key: "plugins",
+          endpoint: "plugin_list?type=tool&scrapper=no",
+        }
+      ],
+      events: {
+        ready: function(){
+          window.app._pages_g._extensions.ready();
+        },
+        unloading: function(){
+          window.app._pages_g._extensions.unloading();
+        }
+      },
+      __sb_family: "extensions",
+
+    },
+    scrappers: {
+
+      title: "Scrappers",
+      url: "^scrappers$",
+      link: "scrappers",
+      theme_file: "pages/plugins",
+      theme_args: {},
+      becli: [
+        {
+          key: "plugins",
+          endpoint: "plugin_list?type=tool&scrapper=yes",
+        }
+      ],
+      events: {
+        ready: function(){
+          window.app._pages_g._extensions.ready();
+        },
+        unloading: function(){
+          window.app._pages_g._extensions.unloading();
+        }
+      },
+      __sb_family: "extensions",
+
+    },
+    extension: {
+
+      title: "Extension",
+      url: "^extension\/(.*?)$",
+      link: "extension",
+      theme_file: "pages/extension",
+      theme_args: {},
+      becli: [],
+      events: {
+
+        ready: function(){
+          window.becli.exe({
+            endpoint: "extension?name=" + window.ui.page.curr().args.urlData.url.match[0],
+            callBack: function( sta, data ){
+              window.app.pages.extension.functions.set_message( "txt", data.messages[0] );
+              if ( sta ){
+
+                if ( data.byCronjob )
+                window.app.pages.extension.functions.set_message( "txt", data.byCronjob, true );
+                else 
+                window.app.pages.extension.functions.set_message( "txt", "Executing the process", true );
+
+                window.app.pages.extension.functions.ID = data.process;
+                window.app.pages.extension.functions.check_logs()
+                window.becli.exe({
+                  timeout: 1000000,
+                  endpoint: "extension_process_exe",
+                  post:{
+                    ID: data.process
+                  }
+                })
+              }
+            }
+          })
+        },
+        unloading: function(){
+          try {
+            window.app.pages.extension.functions.xhr.abort();
+            clearTimeout( window.app.pages.extension.functions.timer );
+          } catch( $err ){}
+        },
+
+      },
+      functions: {
+        xhr: null,
+        timer: null,
+        ID: null,
+        logID: null,
+        set_message: function( $type, $txt, $append ){
+          $(document).find("#process_placeholder").html( ( $append === true ? $(document).find("#process_placeholder").html() : "" ) + "<div class='log t_"+$type+"'>"+$txt+"</div>" );
+        },
+        check_logs: function(){
+          var process_ID = window.app.pages.extension.functions.ID;
+          window.app.pages.extension.functions.xhr = window.becli.exe({
+            endpoint: "extension_process_logs",
+            post:{
+              ID: process_ID,
+              logID: window.app.pages.extension.functions.logID
+            },
+            callBack: function( sta, data ){
+              if ( sta ){
+
+                if ( data.logs ? data.logs.length : false ){
+                  window.app.pages.extension.functions.logID = data.logID;
+                  for ( var i=0; i<data.logs.length; i++ ){
+                    var _log = data.logs[i];
+                    window.app.pages.extension.functions.set_message( _log.type, _log.text, true );
+                  }
+                }
+                else if ( data.finished ){
+                  $(document).find("#process_placeholder").removeClass("active").addClass( data.p_success ? "ok" : "failed" );
+                  return;
+                }
+
+              }
+              window.app.pages.extension.functions.timer = setTimeout( function(){
+                window.app.pages.extension.functions.check_logs()
+              }, 1500 );
+            }
+          }).client;
+        }
+      },
+      __sb_family: "extensions",
+
+    },
+    themes: {
+
+      title: "Themes",
+      url: "^themes$",
+      link: "themes",
+      theme_file: "pages/themes",
+      theme_args: {},
+      becli: [
+        {
+          key: "themes",
+          endpoint: "theme_list"
+        },
+      ],
+      events: {
+        ready: function(){
+          $(document).on( "click", ".theme .activate", function(){
+
+            var themeID = $(this).attr("data-theme-id");
+            window.app.ui.becli.exe( "alert", {
+            }, {
+              reload_after: true,
+              endpoint: "theme_activate",
+              post: {
+                ID: themeID,
+              }
+            } );
+
+          } );
+          window.app._pages_g._extensions.ready();
+        },
+        unloading: function(){
+          $(document).off( "click", ".theme .activate" );
+          window.app._pages_g._extensions.unloading();
+        }
+      },
+      __sb_family: "extensions",
+
+    },
+    theme: {
+
+      title: "Theme Setting",
+      url: "^theme_setting$",
+      link: "theme_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/theme/"
+        }
+      ],
+      events: {
+        displaying: function(){
+
+          return window.app._extension( "coloris" )
+
+        },
+      },
+      __sb_family: "extensions",
+
+    },
+    cronjobs:{
+
+      title: "Cronjob runs",
+      url: "^cronjobs$",
+      link: "cronjobs",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/cronjob/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        ready: function(){
+          $(document).on( "click", ".content_table_wrapper table tbody tr td.type_simple.a_btn .btn", function(e){
+
+            var gid = $(this).attr("data-gid");
+            window.app.ui.becli.exe( "alert", {
+            }, {
+              reload_after: false,
+              endpoint: "bofAdmin/object/cronjob/?bof=submitting&IDs=" + gid,
+              post: {
+                __action: "logs",
+              },
+              c_callback: function( sta, data ){
+                if ( sta ){
+
+                  var logs_raw = data.logs;
+                  var logs = [];
+                  if ( !logs_raw ){
+                    logs.push( "Nothing to see" );
+                  } else {
+                    for ( var i=0; i<logs_raw.length; i++ ){
+                      var log_raw = logs_raw[i];
+                      logs.push( "<time>"+ log_raw.time_add +"</time>"+ log_raw.text  );
+                    }
+                  }
+
+                  for ( var i=0; i<logs.length; i++ ){
+                    logs[i] = "<div class='log_i'>"+ logs[i] +"</div>";
+                  }
+
+                  window.bof_modal.create({
+                    title: "Logs",
+                    class: "logs",
+                    content: logs.join("")
+                  });
+
+                }
+              }
+            } );
+
+          } );
+        },
+        unloading: function(){
+          $(document).off( "click", ".content_table_wrapper table tbody tr td.type_simple.a_btn .btn" );
+        }
+      },
+      __sb_family: "setting",
+
+    },
+    error_logs:{
+
+      title: "Error Logs",
+      url: "^error_logs$",
+      link: "error_logs",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      events: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/error_log/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      __sb_family: "dashboard",
+
+    },
+
+    // Setting ( file )
+    storage_setting: {
+
+      title: "Storage Setting",
+      url: "^storage_setting$",
+      link: "storage_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/storage/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    upload_setting: {
+
+      title: "Upload Setting",
+      url: "^upload_setting$",
+      link: "upload_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/upload/"
+        }
+      ],
+      events: {
+        ready: function(){
+          $(document).on( "click", "body.page_upload_setting .settings_wrapper .setting_group .group_title", function(e){
+            var group = $(this).parents(".setting_group").toggleClass("active");
+            window.bof_content_setting.masonry();
+          });
+        },
+        unloading: function(){
+          $(document).off( "click", "body.page_upload_setting .settings_wrapper .setting_group .group_title");
+        }
+      },
+      __sb_family: "setting",
+
+    },
+
+    // Setting ( setting )
+    brand_setting: {
+
+      title: "Brand Setting",
+      url: "^brand_setting$",
+      link: "brand_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/brand/"
+        }
+      ],
+      events: {
+        displaying: function(){
+
+          return window.app._extension( "coloris" )
+
+        },
+      },
+      __sb_family: "setting",
+
+    },
+    seo_setting: {
+
+      title: "SEO Setting",
+      url: "^seo_setting$",
+      link: "seo_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/seo/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    session_setting: {
+
+      title: "Session Setting",
+      url: "^session_setting$",
+      link: "session_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/session/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    email_setting: {
+
+      title: "Email Setting",
+      url: "^email_setting$",
+      link: "email_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/email/"
+        }
+      ],
+      f: {
+        send: function(){
+          if ( $(document).find(".modal .buttons .button .btn.btn-primary").hasClass("wait") ) return;
+          $(document).find(".modal #res").remove();
+          $(document).find(".modal .buttons .button .btn.btn-primary").text("Wait ...").addClass("wait");
+          window.becli.exe({
+            endpoint: "email_test",
+            post: window.bof_modal.get(true),
+            callBack: function( sta, data ){
+              $(document).find(".modal .buttons .button .btn.btn-primary").removeClass("wait").text("retry");
+              if ( !sta ){
+                $(document).find(".modal .buttons").append("<div id='res' style='margin-top:10px; '>"+data.messages[0]+"</div>")
+              } else {
+                $(document).find(".modal .buttons").append("<div id='res' style='margin-top:10px; '>Sent. Check your email</div>")
+              }
+            }
+          })
+        }
+      },
+      events: {
+        ready: function(){
+          $(document).find(".settings_wrapper #save_button.t2").text("Save Setting").after('<div class="btn btn-primary t2" id="exe_button">Send test email</div>');
+          $(document).on("click","#exe_button",function(){
+
+            window.bof_modal.create({
+              title: "Send test email",
+              inputs: {
+                receiver: {
+                  title: "Receiver email",
+                  input: {
+                    type: "text",
+                    name: "receiver",
+                    placeholder: "you@gmail.com"
+                  },
+                  group: "a"
+                },
+                text: {
+                  title: "Text",
+                  tip: "Save setting before testing",
+                  input: {
+                    type: "textarea",
+                    name: "text",
+                    value: "Hello. Testing 1, 2, 3"
+                  },
+                  group: "a"
+                }
+              },
+              buttons: [
+                [ "btn-primary", "Send", "window.app.pages.email_setting.f.send()" ]
+              ],
+            });
+
+          });
+        },
+        unloading: function(){
+          $(document).off("click","#exe_button");
+        }
+      },
+      __sb_family: "setting",
+
+    },
+    browse_setting: {
+
+      title: "Browse-pages Setting",
+      url: "^browse_setting$",
+      link: "browse_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/browse/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    touch_setting: {
+
+      title: "Touch & Mouse Setting",
+      url: "^touch_setting$",
+      link: "touch_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/touch/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    search_setting: {
+
+      title: "Search Setting",
+      url: "^search_setting$",
+      link: "search_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/search/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    user_pps_setting: {
+
+      title: "User Profile/Setting Pages",
+      url: "^user_pps_setting$",
+      link: "user_pps_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/user_pps/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    youtube_piped_setting: {
+
+      title: "YouTube Piped",
+      url: "^youtube_piped_setting$",
+      link: "youtube_piped_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/youtube_piped/"
+        }
+      ],
+      events: {
+        ready: function(){
+          $(document).on("click","#test_instance",function(){
+            var uri = $(this).parents("tr").find("td._uri").text();
+            var trid = $(this).parents("tr").attr("class");
+            $(this).parents("tr").find("td.result").removeClass("ok failed").text("Wait ...");
+            window.becli.exe({
+              endpoint: "youtube_piped_test_instance",
+              post: {
+                url: uri,
+                ID: trid
+              },
+              callBack: function( sta, data ){
+                if ( sta ){
+                  $(document).find("tr."+data.trid+" td.result").addClass("ok").text( "ok " + data.time + " s");
+                } else {
+                  $(document).find("tr."+data.trid+" td.result").addClass("failed").text(data.messages[0]);
+                }
+              }
+            })
+          });
+          $(document).on("click","#select_instance",function(){
+            var uri = $(this).parents("tr").find("td._uri").text();
+            $(document).find("textarea[name=youtube_piped_iu]").val( $(document).find("textarea[name=youtube_piped_iu]").val() + "\n" + uri );
+            $(document).find("#save_button").click();
+          });
+        },
+        unloading: function(){
+          $(document).off("click","#test_instance");
+          $(document).off("click","#select_instance");
+        }
+      },
+      __sb_family: "setting",
+
+    },
+    mobile_setting: {
+
+      title: "Mobile Setting",
+      url: "^mobile_setting$",
+      link: "mobile_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/mobile/"
+        }
+      ],
+      events:{},
+      __sb_family: "setting",
+
+    },
+
+    admin_notifications: {
+
+      title: "Admin Notification Setting",
+      url: "^admin_notifications$",
+      link: "admin_notifications",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/admin_notifications/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    notifications: {
+
+      title: "Notification Setting",
+      url: "^notifications",
+      link: "notifications",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/notification/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    notification: {
+
+      title: "Notification",
+      url: "^notification\/(.*?)$",
+      link: "notification",
+      link_par: "notifications",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/notification/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    social_login_setting: {
+
+      title: "Social Login Setting",
+      url: "^social_login_setting$",
+      link: "social_login_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/social_login/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    download_setting: {
+
+      title: "Download Setting",
+      url: "^download_setting$",
+      link: "download_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/download/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    cli_setting: {
+
+      title: "External Tools Setting",
+      url: "^cli_setting$",
+      link: "cli_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/cli/"
+        }
+      ],
+      events: {
+        ready: function(){
+          $(document).on("click",".settings_wrapper .setting_group .setting_wrapper .detail #ffmpeg_test",function(e){
+
+            window.bof_modal.create({
+              class: "no_groups",
+              title: "Testing ffmpeg",
+              content: "<div id='ffmpeg_test_result'><p>Starting the test ....</p></div>"
+            });
+
+            window.becli.exe({
+              endpoint: "ffmpeg_test",
+              post: {
+                path: $(document).find("input[name='ffmpeg_path']").val(),
+                job: "get_version"
+              },
+              callBack: function( sta, data ){
+                for ( var i=0; i<data.messages.length; i++ ){
+                  $(document).find("#ffmpeg_test_result").append("<p>"+data.messages[i]+"</p>");
+                }
+              }
+            })
+
+          });
+          $(document).on("click",".settings_wrapper .setting_group .setting_wrapper .detail #ffmpeg_static_test",function(e){
+
+            window.bof_modal.create({
+              class: "no_groups",
+              title: "Testing ffmpeg",
+              content: "<div id='ffmpeg_test_result'><p>Starting the test ....</p></div>"
+            });
+
+            window.becli.exe({
+              endpoint: "ffmpeg_test",
+              post: {
+                path: $(document).find("input[name='ffmpeg_path']").val(),
+                job: "get_version",
+                type: "static"
+              },
+              callBack: function( sta, data ){
+                for ( var i=0; i<data.messages.length; i++ ){
+                  $(document).find("#ffmpeg_test_result").append("<p>"+data.messages[i]+"</p>");
+                }
+              }
+            })
+
+          });
+          $(document).on("click",".settings_wrapper .setting_group .setting_wrapper .detail #yt_test",function(e){
+
+            window.bof_modal.create({
+              class: "no_groups",
+              title: "Testing Youtube-dl",
+              content: "<div id='yt_test_result'><p>Starting the test ....</p></div>"
+            });
+
+            window.becli.exe({
+              endpoint: "youtube_test",
+              post: {
+                path: $(document).find("input[name='ut_youtubedl_path']").val(),
+                job: "get_version"
+              },
+              callBack: function( sta, data ){
+                for ( var i=0; i<data.messages.length; i++ ){
+                  $(document).find("#yt_test_result").append("<p>"+data.messages[i]+"</p>");
+                }
+                if ( sta ){
+                  window.becli.exe({
+                    endpoint: "youtube_test",
+                    post: {
+                      path: $(document).find("input[name='ut_youtubedl_path']").val(),
+                      job: "download_video"
+                    },
+                    callBack: function( sta, data, $args ){
+                      if ( !sta ){
+                        var exeTime = window._g._mt() - $args.st;
+                        if ( exeTime > 30000 ){
+                          $(document).find("#yt_test_result").append("<p><b style='color:red'>Timed out. Failed to download a very short YouTube video. Either the intalled version or your server is too slow</b></p>");
+                          $(document).find("#yt_test_result").append("<p>Try yt-dlp. Try updating yt-dlp/youtube-dl. If nothing worked, contact your server provider and ask for better service. This is a server-related issue</p>");
+                        } else {
+                          for ( var i=0; i<data.messages.length; i++ )
+                          $(document).find("#yt_test_result").append("<p>"+data.messages[i]+"</p>");
+                        }
+                      } else {
+                        for ( var i=0; i<data.messages.length; i++ )
+                        $(document).find("#yt_test_result").append("<p>"+data.messages[i]+"</p>");
+                      }
+                    }
+                  });
+                }
+              }
+            })
+
+          });
+          $(document).on("click",".settings_wrapper .setting_group .setting_wrapper .detail #nodejs_test",function(e){
+
+            window.bof_modal.create({
+              class: "no_groups",
+              title: "Testing Node.js",
+              content: "<div id='yt_test_result'><p>Starting the test ....</p></div>"
+            });
+
+            window.becli.exe({
+              endpoint: "nodejs_test",
+              post: {
+                path: $(document).find("input[name='nodejs_path']").val(),
+              },
+              callBack: function( sta, data ){
+                for ( var i=0; i<data.messages.length; i++ ){
+                  $(document).find("#yt_test_result").append("<p>"+data.messages[i]+"</p>");
+                }
+              }
+            })
+
+          });
+        },
+        unloading: function(){
+          $(document).off("click",".settings_wrapper .setting_group .setting_wrapper .detail #ffmpeg_test");
+          $(document).off("click",".settings_wrapper .setting_group .setting_wrapper .detail #ffmpeg_static_test");
+          $(document).off("click",".settings_wrapper .setting_group .setting_wrapper .detail #yt_test");
+          $(document).off("click",".settings_wrapper .setting_group .setting_wrapper .detail #nodejs_test");
+        }
+      },
+      __sb_family: "setting",
+
+    },
+    player_setting: {
+
+      title: "Player Setting",
+      url: "^player_setting$",
+      link: "player_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/player/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    general_setting: {
+
+      title: "General Setting",
+      url: "^general_setting$",
+      link: "general_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/general/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    vapid_setting: {
+
+      title: "VAPID Setting",
+      url: "^vapid_setting$",
+      link: "vapid_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/vapid/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    fcm_setting: {
+
+      title: "FCM Setting",
+      url: "^fcm_setting$",
+      link: "fcm_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/fcm/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    apn_setting: {
+
+      title: "APN Setting",
+      url: "^apn_setting$",
+      link: "apn_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/apn/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    placeholders_setting: {
+
+      title: "Placeholders",
+      url: "^placeholders_setting$",
+      link: "placeholders_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/placeholders/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    cronjob_setting: {
+
+      title: "Cronjob Setting",
+      url: "^cronjob_setting$",
+      link: "cronjob_setting",
+      theme_file: "parts/content_setting",
+      theme_args: {},
+      becli: [
+        {
+          key: "setting",
+          endpoint: "bofAdmin/setting/cronjob/"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+
+    // Setting ( content )
+    blacklists: {
+
+      title: "Blacklists",
+      url: "^blacklists$",
+      link: "blacklists",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/blacklist/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+
+    storages: {
+
+      title: "Storage Servers",
+      url: "^storages$",
+      link: "storages",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/storage/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        ready: function(){
+          $(document).on( "click", "#test_storage", function(e){
+            var id = $(this).data("id");
+            window.bof_modal.create({
+              title: "Testing storage",
+              content: "<br>Starting ... <br><br>Uploading an image to this storage for testing. Don't do anything and just wait please ...",
+            });
+            window.becli.exe({
+              endpoint: "storage_test",
+              post: {
+                ID: id
+              },
+              callBack: function( sta, data ){
+                if ( sta ){
+                  $(document).find(".modal .content").append("<div class='ok' style='margin-top:10px;'>Upload went okay! Check this url, if you can see the robot then storage is all set, otherwise you need to configure web-address: <br><br><a style='margin-top:20px;color:rgb(var(--c_green))' href='"+data.messages[0]+"' target='_blank'>"+data.messages[0]+"</a></div>");
+                } else {
+                  $(document).find(".modal .content").append("<div class='err' style='margin-top:10px;color:rgb(var(--c_red));font-weight:bold'>"+data.messages[0]+"</div>");
+                }
+              }
+            })
+          });
+        },
+        unloading: function(){
+          $(document).off( "click", "#test_storage" );
+        }
+      },
+      __sb_family: "setting",
+
+    },
+    storage: {
+
+      title: "Storage Server",
+      url: "^storage\/(.*?)$",
+      link: "storage",
+      link_par: "storages",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/storage/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    files:{
+
+      title: "File list",
+      url: "^files$",
+      link: "files",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/file/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    file: {
+
+      title: "File",
+      url: "^file\/(.*?)$",
+      link: "file",
+      link_par: "files",
+      theme_file: "parts/content_single",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/file/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    page: {
+
+      title: "Page Builder",
+      url: "^page\/(.*?)$",
+      link: "page",
+      link_par: "pages",
+      theme_file: "pages/page_builder",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/page/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        displaying: function(){
+
+          if ( window.ui.page.curr().data.becli.entity.theme_extra ){
+            if ( window.ui.page.curr().data.becli.entity.theme_extra.js ){
+              for ( var i=0; i<window.ui.page.curr().data.becli.entity.theme_extra.js.length; i++ ){
+                var _js = window.ui.page.curr().data.becli.entity.theme_extra.js[i];
+                window.app._extension_new( _js.name, _js, true ).done(function(){
+                  window[ _js.name ].displaying();
+                });
+              }
+            }
+            if ( window.ui.page.curr().data.becli.entity.theme_extra.css ){
+              for ( var i=0; i<window.ui.page.curr().data.becli.entity.theme_extra.css.length; i++ ){
+                var _css = window.ui.page.curr().data.becli.entity.theme_extra.css[i];
+                window.app._extension_new( _css.name, _css, true )
+              }
+            }
+          }
+
+          $(document).on( "click", "#item_features .btn-primary", function(){
+            window.app.pages.page.funcs.feature.edit_start("new");
+          } )
+
+          $(document).on( "modal_created", function( e,t ){
+            if ( t.inputs ? Object.keys( t.inputs ).indexOf( "features" ) > -1 : false ){
+              window.app.pages.page.funcs.feature.build();
+            }
+          } )
+
+          $(document).on( "click", "#item_features .fts .ft .ft_buttons .btn.edit", function(){
+
+            var ft_id = $(this).parents(".ft").data("ft-id");
+            window.app.pages.page.funcs.feature.edit_start( ft_id );
+
+          } )
+
+          $(document).on( "click", "#item_features .fts .ft .ft_buttons .btn.delete", function(){
+
+            var ft_id = $(this).parents(".ft").data("ft-id");
+
+            var ftData = $(document).find("#item_features input[name=features]").val();
+            if ( !ftData ) ftData = {};
+            else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+            delete ftData[ ft_id ];
+
+            $(document).find("#item_features input[name=features]").val( encodeURIComponent( JSON.stringify( ftData ) ) );
+
+            window.app.pages.page.funcs.feature.build();
+
+          } )
+
+          var _p = $.Deferred();
+          $.when(
+            window.app._extension( "bof_content_single" ),
+            window.app._extension( "bof_pageBuilder" ),
+            window.app._extension( "editorjs" )
+          ).done(function(){
+            window.bof_pageBuilder.displaying().done(function(){
+              _p.resolve();
+            });
+          });
+          return _p;
+
+        },
+        ready: function(){
+
+          window.bof_content_single.ready();
+          window.bof_pageBuilder.ready();
+
+          if ( window.ui.page.curr().data.becli.entity.theme_extra ){
+            if ( window.ui.page.curr().data.becli.entity.theme_extra.js ){
+              for ( var i=0; i<window.ui.page.curr().data.becli.entity.theme_extra.js.length; i++ ){
+                var _js = window.ui.page.curr().data.becli.entity.theme_extra.js[i];
+                window.app._extension_new( _js.name, _js, true ).done(function(){
+                  if ( window[ _js.name ]["ready"] )
+                  window[ _js.name ].ready();
+                });
+              }
+            }
+          }
+
+        },
+        unloading: function(){
+
+          $(document).off( "click", "#item_features .btn-primary" )
+          $(document).off( "modal_created", function( e,t ){
+            if ( t.inputs ? Object.keys( t.inputs ).indexOf( "features" ) > -1 : false ){
+              window.app.pages.page.funcs.feature.build();
+            }
+          } )
+          $(document).off( "click", "#item_features .fts .ft .ft_buttons .btn.edit" )
+          $(document).off( "click", "#item_features .fts .ft .ft_buttons .btn.delete" )
+
+          window.bof_content_single.unloading();
+          window.bof_pageBuilder.unloading();
+          if ( window.ui.page.curr().data.becli.entity.theme_extra ){
+            if ( window.ui.page.curr().data.becli.entity.theme_extra.js ){
+              for ( var i=0; i<window.ui.page.curr().data.becli.entity.theme_extra.js.length; i++ ){
+                var _js = window.ui.page.curr().data.becli.entity.theme_extra.js[i];
+                window.app._extension_new( _js.name, _js, true ).done(function(){
+                  window[ _js.name ].unloading();
+                });
+              }
+            }
+          }
+        }
+      },
+      funcs:{
+        feature: {
+          build: function(){
+
+            var ftData = $(document).find("#item_features input[name=features]").val();
+            if ( !ftData ) ftData = {};
+            else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+            if ( ftData ){
+              var html = "<div class='fts'>";
+              for ( var i=0; i<Object.keys(ftData).length; i++ ){
+                var ft_k = Object.keys(ftData)[i];
+                var ft = ftData[ ft_k ];
+                html += "<div class='ft' data-ft-id='"+ft_k+"'>\
+                  <div class='ft_title'>"+ft.title+"</div>\
+                  <div class='ft_desc'>"+ft.text+"</div>\
+                  <div class='ft_buttons'>\
+                    <div class='btn btn-secondary edit'>Edit</div>\
+                    <div class='btn btn-secondary delete'>Delete</div>\
+                  </div>\
+                </div>";
+              }
+              html += "</div>";
+              $(document).find("#ft_list").html( html );
+            }
+
+          },
+          edit_start: function( $ID ){
+
+            var ftData = $(document).find("#item_features input[name=features]").val();
+            if ( !ftData ) ftData = {};
+            else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+            var _data = {};
+            if ( ftData ? ftData[ $ID ] : false )
+            _data = ftData[ $ID ];
+
+            var $inputs = {
+              icon: {
+                label: "Icon",
+                tip: "Visit <a href='https://materialdesignicons.com/' target='_blank'>materialdesignicons.com</a>, copy name of chosen icon and paste it here. Example: star",
+                input: {
+                  type: "text",
+                  name: "icon",
+                  value: _data.icon ? _data.icon : ""
+                }
+              },
+              title: {
+                label: "Title",
+                input: {
+                  type: "text",
+                  name: "title",
+                  value: _data.title ? _data.title : ""
+                }
+              },
+              text: {
+                label: "Description",
+                input: {
+                  type: "textarea",
+                  name: "text",
+                  value: _data.text ? _data.text : ""
+                }
+              }
+            };
+
+            var Langs = window.ui.page.curr().data.becli.entity.indexed_non_default_langs;
+
+            if ( Langs && Langs.length ){
+              for ( var i=0; i<Langs.length; i++ ){
+                var Lang = Langs[i];
+                $inputs["title_"+Lang.code2] = {
+                  label: "Title - " + Lang.name,
+                  input: {
+                    type: "text",
+                    name: "title_"+Lang.code2,
+                    value: _data["title_"+Lang.code2] ? _data["title_"+Lang.code2] : ""
+                  }
+                }
+                $inputs["text_"+Lang.code2] = {
+                  label: "Description - " + Lang.name,
+                  input: {
+                    type: "textarea",
+                    name: "text_"+Lang.code2,
+                    value: _data["text_"+Lang.code2] ? _data["text_"+Lang.code2] : ""
+                  }
+                }
+              }
+            }
+
+            window.bof_modal.create({
+              layer: 2,
+              title: "test",
+              inputs: $inputs,
+              buttons: [
+                [ "btn-primary", $ID == "new" ? "Add" : "Edit", "window.app.pages.page.funcs.feature.edit_finalize(\""+ $ID +"\")" ]
+              ]
+            })
+
+          },
+          edit_finalize: function( $ID ){
+
+            var ftData = $(document).find("#item_features input[name=features]").val();
+            if ( !ftData ) ftData = {};
+            else ftData = JSON.parse( decodeURIComponent( ftData ) );
+
+            var modalData = window.bof_modal.get(true,".modal.layer_2");
+
+            if ( $ID == "new" ){
+              ftData[ window._g.uniqid(8) ] = modalData;
+            }
+            else{
+              ftData[ $ID ] = modalData;
+            }
+
+            $(document).find("#item_features input[name=features]").val( encodeURIComponent( JSON.stringify( ftData ) ) );
+            window.app.pages.page.funcs.feature.build();
+
+            window.bof_modal.close();
+
+          }
+        }
+      },
+      __sb_family: "page_builder",
+
+    },
+    pages: {
+
+      title: "Pages",
+      url: "^pages$",
+      link: "pages",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/page/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        ready: function(){
+
+          $( document ).on( "click", ".bof_dropdown ul li a#export", function(e){
+            window.becli.exe({
+              endpoint: "bofAdmin/object/page/?bof=submitting&IDs=" + $(this).data("id"),
+              post: {
+                __action: "export"
+              },
+              callBack: function( sta, data ){
+                if ( sta && data.json ){
+                  window.bof_modal.create({
+                    title: "Exporting PageBuilder",
+                    content: "<br>Copy this code & paste it in destination PageBuilder<br><br><textarea style='width: calc( 100% - 20px );background: rgba(var(--theme_color),0.07);border: none;min-height: 100px;color: rgb(var(--theme_color));padding: 10px;border-radius: 5px; font-size:8pt; line-height: 1'>_BOF_PAGEBUILDER_"+ data.json +"</textarea>",
+                  });
+                }
+              }
+            });
+          } );
+          $( document ).on( "click", ".content_table_wrapper .table_buttons #import_btn", function(e){
+
+            window.bof_modal.create({
+              class: "mut import",
+              title: "Import",
+              inputs: {
+                ppc: {
+                  title: "The code",
+                  input: {
+                    type: "textarea",
+                    name: "ppc",
+                    placeholder: "_BOF_PAGEBUILDER_"
+                  },
+                  group: "a"
+                }
+              },
+              buttons: [
+                [ "btn-primary", "Import", "window.app.pages.pages.import()" ]
+              ],
+            });
+
+          } );
+          $( document ).on( "click", ".content_table_wrapper .table_buttons #predesigned_btn", function(e){
+
+            var pre_designs = window.ui.page.curr().data.becli.content._pre_designs;
+            var pre_designs_html = "";
+
+            if ( Object.keys( pre_designs ).length ){
+              pre_designs_html += "<div class='_pds'>";
+              for ( var i=0; i<Object.keys( pre_designs ).length; i++ ){
+                var pre_design_code = Object.keys( pre_designs )[i];
+                var pre_design_data = pre_designs[ pre_design_code ];
+                pre_designs_html += "<div class='_pd'>";
+                  pre_designs_html += "<div class='_pd_ch' style='background-image:url(\""+ pre_design_data.image +"\")'></div>";
+                  pre_designs_html += "<div class='_pd_n'>"+pre_design_data.name+"</div>";
+                  pre_designs_html += "<div class='_pd_btns'>\
+                    <a class='btn btn-primary' onClick='window.app.pages.pages.import_pd(\""+pre_design_code+"\",this)'>Install</a>\
+                    <a class='btn btn-secondary' href='"+pre_design_data.demo+"'>Demo</a>\
+                  </div>";
+                pre_designs_html += "</div>";
+              }
+              pre_designs_html += "</div>";
+            } else {
+              pre_designs_html = "<div class='nada'>No custom-designed pages found! Use another theme?</div>";
+            }
+
+            window.bof_modal.create({
+              class: "mut import",
+              title: "Custom-designed Pages",
+              content: pre_designs_html,
+            });
+
+          } );
+
+          $( document ).find( ".content_table_wrapper .table_buttons .btn-primary.show" ).text( "+ Design new page" );
+          $( document ).find( ".content_table_wrapper .table_buttons .group_buttons" ).after( '<a class="btn btn-secondary show" id="import_btn" style="margin-left:0">+ Import pre-designed page</a>' );
+          $( document ).find( ".content_table_wrapper .table_buttons .group_buttons" ).after( '<div style="height:5px"></div>' );
+          $( document ).find( ".content_table_wrapper .table_buttons .group_buttons" ).after( '<a class="btn btn-secondary show" id="predesigned_btn" style="margin-left:0">+ Install custom-designed page</a>' );
+          $( document ).find( ".content_table_wrapper .table_buttons .group_buttons" ).after( '<div style="height:5px"></div>' );
+
+        },
+        unloading: function(){
+
+          $( document ).off( "click", ".bof_dropdown ul li a#export" );
+          $( document ).off( "click", ".content_table_wrapper .table_buttons #import_btn" );
+          $( document ).off( "click", ".content_table_wrapper .table_buttons #predesigned_btn" );
+
+        },
+      },
+      import_pd: function( $code, $btnDom ){
+
+        window.app.ui.becli.exe(
+          "button",
+          {
+            dom: $($btnDom),
+          },
+          {
+            endpoint: "pageBuilder_pre_design",
+            reload_after: false,
+            post: {
+              code: $code
+            },
+            c_callback: function( sta, data, $args ){
+
+              if ( sta ){
+                window.bof_modal.close();
+                window.ui.link.navigate("page/"+data.pageID);
+              } else {
+                window.bof_modal.close();
+                window.app.ui.becli.alert(false,data.messages[0]);
+              }
+            }
+          }
+        );
+
+      },
+      import: function(){
+
+        var json = $(document).find(".modal.import textarea").val();
+        if ( !json ? true : json.substr( 0, "_BOF_PAGEBUILDER_".length ) !== "_BOF_PAGEBUILDER_" ){
+          alert("invalid code");
+          return;
+        }
+
+        json = json.substr( "_BOF_PAGEBUILDER_".length );
+
+        try {
+          JSON.parse( json );
+        } catch (e) {
+          alert("invalid code");
+          return false;
+        }
+
+        window.app.ui.becli.exe(
+          "button",
+          {
+            dom: $(document).find( ".modal .buttons .btn-primary" ),
+          },
+          {
+            endpoint: "pageBuilder_import",
+            reload_after: false,
+            post: {
+              json: json
+            },
+            c_callback: function( sta, data, $args ){
+
+            }
+          }
+        );
+
+      },
+      __sb_family: "setting",
+
+    },
+    menu: {
+
+      title: "Menu Builder",
+      url: "^menu\/(.*?)$",
+      link: "menu",
+      link_par: "menus",
+      theme_file: "pages/menu_builder",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/menu/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        displaying: function(){
+
+          var _p = $.Deferred();
+          $.when(
+            window.app._extension( "bof_content_single" ),
+            window.app._extension( "bof_menuBuilder" )
+          ).done(function(){
+            window.bof_menuBuilder.displaying().done(function(){
+              _p.resolve();
+            });
+          });
+          return _p;
+
+        },
+        ready: function(){
+          window.bof_content_single.ready();
+          window.bof_menuBuilder.ready();
+        },
+        unloading: function(){
+          window.bof_content_single.unloading();
+          window.bof_menuBuilder.unloading();
+        }
+      },
+
+      __sb_family: "setting",
+
+    },
+    menus: {
+
+      title: "Menus",
+      url: "^menus$",
+      link: "menus",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/menu/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    languages: {
+
+      title: "Languages",
+      url: "^languages$",
+      link: "languages",
+      theme_file: "parts/content_table",
+      theme_args: {},
+      becli: [
+        {
+          key: "content",
+          endpoint: "bofAdmin/list/language/?\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {},
+      __sb_family: "setting",
+
+    },
+    language: {
+
+      title: "Language",
+      url: "^language\/(.*?)$",
+      link: "language",
+      link_par: "languages",
+      theme_file: "pages/language_editor",
+      theme_args: {},
+      becli: [
+        {
+          key: "entity",
+          endpoint: "bofAdmin/object/language/?IDs=\$bof ? urlData^url^match^0\$&\$bof ? urlData^url^query_s\$"
+        }
+      ],
+      events: {
+        displaying: function(){
+          return window.app._extension( "bof_content_single" )
+        },
+        ready: function(){
+
+          if ( window.ui.page.curr().data.becli.entity.request.type == "new" ){
+            window.bof_content_single.ready();
+          }
+          else {
+
+            $(document).on("change",".lang_table_wrapper input",function(e){
+
+              var key = $(this).attr("name");
+              var val = $(this).val();
+
+              window.app.ui.becli.exe( "alert", {
+              }, {
+                reload_after: false,
+                endpoint: "bofAdmin/object/language/?bof=submitting&IDs=" + window.ui.page.curr().data.becli.entity.request.IDS[0],
+                post: {
+                  __action: "translate",
+                  key: key,
+                  val: val
+                }
+              } );
+
+            });
+
+          }
+
+        },
+        unloading: function(){
+
+          if ( window.ui.page.curr().data.becli.entity.request.type == "new" ){
+            window.bof_content_single.unloading();
+          }
+          else {
+            $(document).off("change",".lang_table_wrapper input");
+          }
+
+        }
+      },
+      __sb_family: "setting",
+
+    },
+
+  },
+  ui: {
+
+    head: {
+      set: function( $title ){
+        $(document).find("#header .page_title").html( $title ? $title : window.ui.page.curr().args.title )
+      },
+      listen: function(){
+        $(document).on( "click", "#header .menu .item", function(){
+          if($(this).hasClass("logout")){
+            window.user.loggedOut();
+            setTimeout( function(){
+              window.location.reload();
+            }, 200 );
+          } else {
+          }
+        } )
+      },
+    },
+    side: {
+      set: function( sb_family ){
+
+        var curPage_sb_family = window.ui.page.curr().o_args.__sb_family;
+        sb_family = sb_family ? sb_family : curPage_sb_family;
+
+        if ( !sb_family ) return;
+        if ( sb_family == window.app.cache.sb_family ){
+          window.app.ui.side.highlight_current_page();
+          return;
+        }
+
+        $(document).find("#sidebar .links ul li.active").removeClass("active");
+        $(document).find("#sidebar .links ul li.sb_"+sb_family).addClass("active");
+        window.app.cache.sb_family = sb_family;
+        window.app.cache.sb_family_loaded = false;
+        window.app.ui.side.load();
+
+      },
+      load: function( $hardReload ){
+
+        if ( window.app.cache.sb_family_loaded && $hardReload !== true )
+        return;
+
+        window.app.cache.sb_family_highlight_xhr_client = window.becli.exe({
+          endpoint: "highlights",
+          ID: "highlights",
+          liquid: true,
+          post: {
+            sb_family: window.app.cache.sb_family
+          },
+          callBack: function( sta, data, args ){
+            if ( sta ){
+
+              $(document).find("#highlights").addClass("replacing").html( data.html );
+              $(document).find("#highlights > div").css("opacity","0").css("left","-150px");
+              $(document).find("#highlights").removeClass("replacing");
+              var highlight_elems = $(document).find("#highlights > div");
+
+              for ( var i=0; i<highlight_elems.length; i++ ){
+                var highlight_elem = highlight_elems[i];
+                $(highlight_elem).delay(i*150).animate({opacity: '1', left: '0'}, 1000 );
+              }
+
+              if ( data.json ){
+                for( var $i=0; $i<data.json.length; $i++ ){
+                  window.app.ui.side.runJson( data.json[ $i ] );
+                }
+              }
+
+              if ( data.sbs ){
+                var _ls = $(document).find(".links ul li");
+                if ( _ls.length ){
+                  for ( var i=0; i<_ls.length; i++ ){
+                    var _l = _ls[i];
+                    if ( !data.sbs.includes( $(_l).attr("class").substr( 3 ).replace( "active", "" ).trim() )  ){
+                      $(_l).remove();
+                      console.log(data.sbs,_l);
+                    }
+                  }
+                }
+                
+              }
+
+              window.app.cache.sb_data = data;
+              window.app.ui.side.highlight_current_page();
+
+            }
+          }
+        }).client;
+
+        window.app.cache.sb_family_loaded = true;
+
+      },
+      runJson: function( $data ){
+
+        if ( $data.action == "graph" ){
+
+          window.app._extension("bof_graph").done(function(){
+            window.bof_graph.load_am5chart().done(function(){
+              window.bof_graph[ $data.graph_type ]( $data.id, $data.graph_data );
+            });
+          });
+
+        }
+
+      },
+      highlight_current_page: function(){
+
+        $(".section_links a.link_group.active").removeClass("active");
+        $(".section_links div.link_group.opened").removeClass("opened");
+        $(".section_links div.link_group a.active").removeClass("active");
+
+        var pageLink = window.ui.page.curr().args.link;
+
+        if ( window.ui.page.curr().args.urlData )
+        pageLink = window.ui.page.curr().args.urlData.url.full;
+
+        if ( window.ui.page.curr().args.link_par )
+        pageLink = window.ui.page.curr().args.link_par
+
+        if ( !pageLink ) return;
+
+        var parentLinks = $(".section_links a.link_group");
+        for( var i=0; i<parentLinks.length; i++ ){
+          var parentLink = $( parentLinks[ i ] );
+          if ( parentLink.attr( "href" ) == pageLink ){
+            parentLink.addClass("active");
+            return;
+          }
+        }
+
+        var parentsWithLinks = $(".section_links div.link_group");
+        for( var i=0; i<parentsWithLinks.length; i++ ){
+          var parentWithLinks = $( parentsWithLinks[i] );
+          var parentWithLinksLinks = parentWithLinks.find("a");
+          for( var z=0; z<parentWithLinksLinks.length; z++ ){
+            var link = $( parentWithLinksLinks[z] );
+            if ( link.attr( "href" ) == pageLink ){
+              parentWithLinks.addClass("opened");
+              link.addClass("active");
+              return;
+            }
+          }
+        }
+
+        for( var i=0; i<parentsWithLinks.length; i++ ){
+          var parentWithLinks = $( parentsWithLinks[i] );
+          var parentWithLinksLinks = parentWithLinks.find("a");
+          for( var z=0; z<parentWithLinksLinks.length; z++ ){
+            var link = $( parentWithLinksLinks[z] );
+            if ( link.attr( "href" ).split( "?" )[ 0 ] == pageLink.split( "?" )[ 0 ] ){
+              parentWithLinks.addClass("opened");
+              link.addClass("active");
+              return;
+            }
+          }
+        }
+
+      },
+      unload: function(){
+
+        if( window.app.cache.sb_family_highlight_xhr_client )
+        window.app.cache.sb_family_highlight_xhr_client.abort();
+
+        var highlight_elems = $(document).find("#highlights > div");
+        for ( var i=0; i<highlight_elems.length; i++ ){
+          var highlight_elem = highlight_elems[i];
+          $(highlight_elem).delay(i*150).animate({opacity: '0', left: '150'}, 1000 );
+        }
+
+      }
+    },
+    css: {
+      get_var: function( $name ){
+        let style = getComputedStyle(document.body);
+        return style.getPropertyValue('--'+$name).trim();
+      },
+      get_color: function( $name, $opacity ){
+        $opacity = $opacity === undefined || $opacity === null ? 1 : $opacity;
+        return "rgba( "+ window.app.ui.css.get_var( $name ) +", "+ $opacity +" )"
+      }
+    },
+    becli: {
+      __cache: { alert: {} },
+      exe: function( $type, $typeArgs, $args ){
+
+        var ID = window._g.uniqid();
+
+        return window.becli.exe(
+          $.extend(
+            $args,
+            {
+              ID: "ui_action",
+              callBefore: window.app.ui.becli._before,
+              callBefore_param: {
+                ID: ID,
+                type: $type,
+                typeArgs: $typeArgs
+              },
+              callBack: window.app.ui.becli._after,
+              callBack_param: {
+                ID: ID,
+                type: $type,
+                typeArgs: $typeArgs
+              }
+            }
+          )
+        );
+
+      },
+      alert: function( $sta, $text ){
+
+        var ID = window._g.uniqid();
+        window.app.ui.becli._before({
+          args: {
+            callBefore_param: {
+              type: "alert",
+              ID: ID,
+            }
+          }
+        });
+
+        window.app.ui.becli._after( $sta, {
+          messages: [ $text ]
+        }, {
+          callBack_param: {
+            type: "alert",
+            ID: ID
+          },
+          args: {
+            reload_after: false
+          }
+        } );
+
+      },
+      _before: function( $args ){
+
+        var display_args = $args.args.callBefore_param;
+        if ( display_args.type == "button" ){
+          if ( display_args.typeArgs.dom.hasClass("bof_processing") ) return "BOF_HALT"
+          display_args.typeArgs.dom.removeClass("bof_done").removeClass("bof_fail").addClass("bof_processing").attr("disabled","disabled")
+        }
+        else if ( display_args.type == "alert" ){
+          $(document).find("body").append("<div class='bof_alert sta_loading unshown ID_"+$args.args.callBefore_param.ID+"'>\
+            <span class='material-symbols-outlined _icon'></span>\
+            <span class='text'>Processing ...</span>\
+          </div>");
+          window.app.ui.becli.__cache.alert[ $args.args.callBefore_param.ID ] = "loading";
+          window.app.ui.becli._alert_sort();
+        }
+
+        $(document).find(".bof_input.failed").removeClass("failed");
+        $(document).find(".setting_wrapper.failed").removeClass("failed");
+        $(document).find(".setting_wrapper .error").remove();
+
+      },
+      _after: function( sta, data, $args ){
+
+        var display_args = $args.callBack_param;
+
+
+        if ( $args["args"]["c_callback"] ){
+          var $cb_exe = $args["args"]["c_callback"]( sta, data, $args );
+          console.log( $cb_exe );
+          if ( $cb_exe === "HALT" )
+          return;
+        }
+
+        if ( display_args.type == "button" ){
+
+          display_args.typeArgs.dom.removeClass("bof_processing").addClass( sta ? "bof_done" : "bof_fail" ).attr("disabled",false).text( data.messages[0] );
+
+          if ( !sta ? data.bad_inputs : false ){
+
+            for ( var i=0; i<data.bad_inputs.length; i++ ){
+              $(document).find(".bof_input[name="+data.bad_inputs[i]+"]").addClass("failed");
+              $(document).find(".setting_wrapper#item_"+data.bad_inputs[i]).addClass("failed");
+              if( data.inputs.report.fail[data.bad_inputs[i]] ){
+                $(document).find(".setting_wrapper#item_"+data.bad_inputs[i]).append("<div class='error'>"+ data.inputs.report.fail[data.bad_inputs[i]]+"</div>")
+              }
+            }
+
+            var theBadInput = data.bad_inputs[0];
+            var theBadInputClasses = $(document).find(".setting_wrapper#item_"+theBadInput).attr("class").split(" ");
+            for ( var z=0; z<theBadInputClasses.length; z++ ){
+              var theBadInputClass = theBadInputClasses[z];
+              if ( theBadInputClass.substr( 0, 6 ) == "group_" ){
+                var theBadInputGroup = theBadInputClass.substr( 6 );
+              }
+            }
+
+            if ( theBadInputGroup ){
+              $(document).find(".settings_wrapper ._groups ._group[data-id='"+theBadInputGroup+"']").click();
+            }
+
+            document.getElementById("item_"+theBadInput).scrollIntoView();
+
+          }
+          else if ( sta ) {
+
+            if ( data.redirect )
+            window.ui.link.navigate( data.redirect );
+
+            else if ( $args.args.reload_after !== false )
+            window.ui.page.reload();
+
+          }
+
+        }
+        else if ( display_args.type == "alert" ){
+
+          var requestID = $args.callBack_param.ID;
+          $(document).find(".bof_alert.ID_"+requestID).removeClass("sta_loading").addClass( sta ? "sta_done" : "sta_failed" ).find( ".text" ).text( data["messages"][0] )
+          window.app.ui.becli.__cache.alert[ requestID ] = sta ? "done" : "failed";
+          window.app.ui.becli._alert_sort();
+
+          if ( sta && $args.args.reload_after !== false ){
+            window.ui.page.reload();
+          } else {
+            setTimeout( function(){
+              $(document).find(".bof_alert.ID_"+requestID).remove();
+              delete window.app.ui.becli.__cache.alert[ requestID ];
+              window.app.ui.becli._alert_sort();
+            }, 10000 );
+          }
+
+        }
+
+      },
+      _alert_sort: function(){
+
+        var alerts = window.app.ui.becli.__cache.alert;
+        var alerts_heights = 0;
+        for ( var i=Object.keys( alerts ).length; i>=0; i=i-1 ){
+          var alert_id = Object.keys( alerts )[i-1];
+          var alert_dom = $(document).find(".bof_alert.ID_"+alert_id);
+          alert_dom.css( "bottom", alerts_heights + 20 + "px" );
+          alerts_heights += alert_dom.outerHeight() + 10;
+        }
+
+      },
+      _alert_reset: function(){
+        window.app.ui.becli.__cache.alert = {};
+         $(document).find(".bof_alert").remove();
+      }
+    },
+    light_mode: function( value, $reload ){
+
+      value = value !== undefined && value !== null ? value : !window.app.cache.light_mode;
+      window.app.cache.light_mode = value;
+      window.cache.set( "light_mode", value )
+
+      if ( !value )
+      window.ui.body.addClass( "dark", true );
+
+      else
+      window.ui.body.removeClass( "dark", true );
+
+      if ( $reload !== false ){
+        window.ui.page.reload();
+        window.app.ui.side.unload();
+        window.app.ui.side.load( true );
+      }
+
+    },
+    icon_auto_bg_color: function(){
+
+      var autoIcons = $(".icon.bg_auto");
+      var colors = [ "orange", "purple", "blue", "red", "green", "yellow" ];
+      for( var i=0; i<autoIcons.length; i++ ){
+        var autoIcon = autoIcons[i];
+        $(autoIcon).removeClass("bg_auto").addClass("bg_"+colors[i%colors.length])
+      }
+
+    },
+
+  },
+
+  _extension_new: function( $name, $args, $loadAfter ){
+
+    if ( !Object.keys( window.app._pre_defined_extensions ).includes( $name ) )
+    window.app._pre_defined_extensions[ $name ] = $args;
+
+    if ( $loadAfter )
+    return window.app._extension( $name );
+
+  },
+  _extension: function( $name, $async ){
+
+    var _extension_links = window.app._pre_defined_extensions[ $name ];
+    if ( !_extension_links ){
+      window.bof.log( "Extension " + $name + " is not introduced", 99 );
+      return;
+    }
+
+    var promiseToLoadExtension = $.Deferred();
+
+    if ( window.app.cache.extensions.includes( $name ) ){
+      promiseToLoadExtension.resolve();
+      return promiseToLoadExtension;
+    }
+
+    if ( Array.isArray( _extension_links ) ){
+
+      if ( $async === true ){
+        window.app._extensions_async( _extension_links ).done(function(){
+          promiseToLoadExtension.resolve();
+          window.app.cache.extensions.push( $name );
+        }).fail(function(){
+          promiseToLoadExtension.reject();
+        })
+      }
+      else {
+        var _array_promises = [];
+        for ( var i=0; i<_extension_links.length; i++ ){
+          var _extension_link = _extension_links[i];
+          var _extension_link_exe = _extension_link.type == "js" ? window.bof._loadExtension( _extension_link ) : window.bof._loadCSS( _extension_link );
+          _array_promises.push( _extension_link_exe );
+        }
+        $.when.apply( $, _array_promises ).done(function(){
+          promiseToLoadExtension.resolve();
+          window.app.cache.extensions.push( $name );
+        }).fail(function(){
+          promiseToLoadExtension.reject();
+        })
+      }
+
+    }
+    else {
+
+      var _exe = _extension_links.type != "css" ? window.bof._loadExtension( _extension_links ) : window.bof._loadCSS( _extension_links );
+
+      _exe.done(function(){
+        promiseToLoadExtension.resolve();
+        window.app.cache.extensions.push( $name );
+      }).fail(function(){
+        promiseToLoadExtension.reject();
+      })
+
+    }
+
+    return promiseToLoadExtension;
+
+  },
+  _extensions_async: function( $array, $promise ){
+
+    $promise = $promise ? $promise : $.Deferred();
+    var $item = $array.shift();
+    var $item_exe = $item.type == "js" ? window.bof._loadExtension( $item ) : window.bof._loadCSS( $item );
+    $item_exe.done(function(){
+      if ( $array.length ) window.app._extensions_async( $array, $promise );
+      else $promise.resolve();
+    }).fail(function(){
+      $promise.reject();
+    });
+    return $promise;
+
+  },
+  getConfig: function(){
+
+    var promise = $.Deferred();
+    window.becli.exe({
+      endpoint: "client_config",
+      liquid: true,
+      callBack: function( sta, data ){
+
+        if ( sta ){
+
+          if ( data["pages"] ){
+            for( var i=0; i<Object.keys(data["pages"]).length; i++ ){
+
+              var pageName = Object.keys(data["pages"])[i];
+              var pageArgs = data["pages"][ pageName ];
+
+              pageArgs.events = pageArgs.events ? pageArgs.events : {};
+
+              if ( !Object.keys( window.app.pages ).includes( pageName ) )
+              window.app.pages[ pageName ] = pageArgs;
+
+            }
+          }
+
+          if ( data["setting"] )
+          window.app.config = data.setting;
+
+          if ( data["_ic"] && window.user.logged() )
+          setTimeout( function(){
+            window.bof_modal.create({
+              title: "Invalid Certificate",
+              content: "<br><br>Hi there,<br><br>Seems like you are using RKHM with invalid certificate.<br><br>We'll allow you to close this modal & continue using the script normally<br><br>About 5 years of my youth has gone into this project, please consider doing the right thing & support the project by purchasing the script.<br><br>In return you'll get free updates, dedicated support and a ton of automation features<br><br>",
+              class: "opm",
+              buttons: [
+                [ "btn-primary", "Purchase on Envato", "window.open(\"https://codecanyon.net/item/digimuse-music-streaming-platform/29217970\", \"_blank\").focus()" ]
+              ]
+            });
+          }, 10*1000 );
+
+          var hasAppends = [];
+          if ( data["setting"]["append"] ? data["setting"]["append"]["js"] : false ){
+            for ( var ii=0; ii<data["setting"]["append"]["js"].length; ii++ ){
+              hasAppends.push( window.bof._loadExtension( data["setting"]["append"]["js"][ii] ) )
+            }
+          }
+          if ( data["setting"]["append"] ? data["setting"]["append"]["css"] : false ){
+            for ( var ii=0; ii<data["setting"]["append"]["css"].length; ii++ ){
+              hasAppends.push( window.bof._loadCSS( data["setting"]["append"]["css"][ii] ) )
+            }
+          }
+
+          if ( !hasAppends.length ){
+            promise.resolve();
+          } else {
+            $.when.apply( $, hasAppends ).done(function(){
+              promise.resolve();
+            });
+          }
+        }
+        else {
+          promise.reject();
+        }
+
+
+      }
+    })
+    return promise;
+
+  },
+
+};

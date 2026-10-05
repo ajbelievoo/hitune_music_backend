@@ -1,0 +1,179 @@
+
+window.general = {
+
+  round: function( $int, $percision ){
+
+    if ( $percision === 0 || $percision === "0" || $percision === false || $percision === null || $percision === undefined )
+    return Math.round( $int );
+
+    else if ( $percision > 0 )
+    return Math.round( ( $int ) * Math.pow( 10, $percision ) ) / Math.pow( 10, $percision )
+
+    else
+    return Math.round( ( $int ) / Math.pow( 10, $percision ) ) * Math.pow( 10, $percision )
+
+  },
+  rand: function( $min, $max) {
+
+    $min = $min === undefined || $min === null ? 1 : $min;
+    $max = $max === undefined || $max === null ? 1 : $max;
+    return Math.floor( Math.random() * ( $max - $min + 1 ) + $min );
+
+  },
+  milli_time: function(){
+    return new Date().getTime();
+  },
+  passed_time: function( $start_in_milli ){
+    return window.general.milli_time() - $start_in_milli;
+  },
+  passed_time_hr: function( $start_in_milli, $prefered_unit ){
+    // TODO:: $prefered_unit
+    var passed_time = window.general.passed_time( $start_in_milli ) / 1000;
+    return window.general.round( passed_time, 2 ) + " seconds";
+  },
+  replace: function( string, needle, newbie ){
+
+    if ( string.indexOf( needle ) == -1 )
+    return string;
+
+    while( string.indexOf( needle ) > -1 ){
+      string = string.replace( needle, newbie );
+    }
+
+    return string;
+
+  },
+  uniqid: function( length ){
+
+    var dec2hex = [];
+    for (var i=0; i<=15; i++) {
+      dec2hex[i] = i.toString(16);
+    }
+
+    var uuid = '';
+    for (var i=1; i<=36; i++) {
+      uuid += dec2hex[(Math.random()*16|0)];
+    }
+
+    if(length) uuid = uuid.substring(0,length);
+    return uuid;
+
+  },
+  removeValFromArray: function( arr, value, strict ){
+
+    var i = 0;
+
+    while (i < arr.length) {
+      if ( strict === true ? arr[i] === value : arr[i] == value ) {
+        arr.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+    return arr;
+  },
+  duration_hr: function( $seconds ){
+
+    if ( typeof( $seconds ) == "number" && $seconds !== Infinity && $seconds > 60 ){
+      var $minutes = Math.floor( $seconds / 60 );
+      $seconds = $seconds - ( $minutes * 60 );
+      if ( $seconds.toString().length == 1 ) $seconds = "0" + $seconds;
+      if ( $minutes.toString().length == 1 ) $minutes = "0" + $minutes;
+      return $minutes+":"+$seconds;
+    }
+    else if ( typeof( $seconds ) == "number" && $seconds !== Infinity ) {
+      if ( $seconds.toString().length == 1 ) $seconds = "0" + $seconds;
+      $seconds = "00:" + $seconds;
+      return $seconds;
+    }
+    else {
+      $seconds = "∞";
+    }
+
+  	return $seconds;
+
+  },
+  array_shuffle: function (array) {
+
+    var newArray = [].concat( array );
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+
+  },
+  decode_htmlspecialchars: function( text ){
+
+    text = $("<div/>").html( text ).text();
+
+      var map = {
+          '&amp;': '&',
+          '&#038;': "&",
+          '&#38;': "&",
+          '&lt;': '<',
+          '&gt;': '>',
+          '&quot;': '"',
+          '&#039;': "'",
+          '&#39;': "'",
+          '&#8217;': "’",
+          '&#8216;': "‘",
+          '&#8211;': "–",
+          '&#8212;': "—",
+          '&#8230;': "…",
+          '&#8221;': '”'
+      };
+
+    return text.replace(/\&[\w\d\#]{2,5}\;/g, function(m) {
+  		return map[m];
+  	});
+
+  },
+  humanFileSize: function(bytes, si=false, dp=1) {
+
+    const thresh = si ? 1000 : 1024;
+
+    if (Math.abs(bytes) < thresh) {
+      return bytes + ' B';
+    }
+
+    const units = si
+    ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+    : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    let u = -1;
+    const r = 10**dp;
+
+    do {
+      bytes /= thresh;
+      ++u;
+    } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
+
+    return bytes.toFixed(dp) + ' ' + units[u];
+
+  },
+  rgbToHex: function(rgb) {
+
+    rgb = rgb.split(',');
+
+    let r = (+rgb[0]).toString(16),
+    g = (+rgb[1]).toString(16),
+    b = (+rgb[2]).toString(16);
+
+    if (r.length == 1)
+    r = "0" + r;
+    if (g.length == 1)
+    g = "0" + g;
+    if (b.length == 1)
+    b = "0" + b;
+
+    return r + g + b;
+  },
+  isNumeric: function (n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+};
+
+window._g = window.general;
+window._g._mt = window.general.milli_time;
+window._g._pt = window.general.passed_time_hr;

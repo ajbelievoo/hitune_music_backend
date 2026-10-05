@@ -1,0 +1,23 @@
+/* =========== GLOBAL =========== */
+* {
+  box-sizing: border-box;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+body {
+  background: linear-gradient(320deg, rgba( var(--bg_color), 1 ), rgba( var(--bg_color2), 1 ));
+  margin: 0;
+  padding: 0;
+  color: rgba( var(--font_color), 1 );
+  font-family: 'Figtree', 'Montserrat', sans-serif;
+  font-size: var(--font_size);
+  direction: var(--dir)
+}

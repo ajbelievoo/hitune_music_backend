@@ -1,0 +1,70 @@
+
+<div class="page_bg small blurLight dark">$bof ? single^data^bof_file_cover^image_strings^1^html$</div>
+
+<div class="page_content ugc_playlist_content t_s2_content $bof ? single^page^classes$">
+
+  <div class="d_head t2 item" id="bof_main">
+    <div class="cover_wrapper">$bof ? single^data^bof_file_cover^image_strings^2^html$</div>
+    <div class="detail clearafter">
+
+      <div class="above">
+        <div class="pre det">
+          <a class="_type">$bof ? Lang^playlist __uc=true$</a>
+          <a class="_type" href="$bof ? single^data^sub_link$">$bof ? single^data^sub_title __uc=true$</a>
+        </div>
+        <div class="title">$bof ? single^data^name$</div>
+        <div class="nex det _uno">
+          <a href="$bof ? single^data^bof_dir_user^url$"><div class="graphic">$bof ? single^data^bof_dir_user^bof_file_avatar^image_strings^12^html$</div>$bof ? single^data^bof_dir_user^name$</a>
+        </div>
+      </div>
+
+      <div class="is clearafter">
+        $bof foreach single^data^stats$
+        <div class="i im_$bof ? icon$">
+          <div class="graphic"><span class="mdi mdi-$bof ? icon$"></span></div>
+          <div class="_t">$bof ? value$</div>
+        </div>
+        $!bof foreach single^data^stats$
+      </div>
+
+      <div class="buttons clearafter">
+        <div class="button_wrapper t3 t4 play">
+          <div class="btn">
+            <span class="mdi mdi-play"></span>
+            <span class="_t">$bof ? Lang^play __uc=true$</span>
+          </div>
+        </div>
+        <div class="_uno button_wrapper _add_to_library bof_ugc_playlist_$bof ? single^data^hash$ t3" onclick="window.app.actions.user.playlist.keep('$bof ? single^data^hash$')" >
+          <div class="btn">
+            <!--span class="mdi mdi-close-box-multiple add"></span-->
+            <span class="mdi mdi-plus-box-multiple added"></span>
+            <span class="_t">$bof ? Lang^add_to_library __uc=true$</span>
+          </div>
+        </div>
+        <div class="_uo button_wrapper _edit bof_ugc_playlist_$bof ? single^data^hash$ t3 t5" onclick="window.app.actions.user.playlist.edit_start('$bof ? single^data^hash$')" >
+          <div class="btn">
+            <!--span class="mdi mdi-close-box-multiple add"></span-->
+            <span class="mdi mdi-circle-edit-outline edit"></span>
+            <span class="_t">$bof ? Lang^edit __uc=true$</span>
+          </div>
+        </div>
+        <div class="_uo button_wrapper _delete bof_ugc_playlist_$bof ? single^data^hash$ t3 t5" onclick="window.app.actions.user.playlist.delete_confirm('$bof ? single^data^hash$')" >
+          <div class="btn">
+            <!--span class="mdi mdi-close-box-multiple add"></span-->
+            <span class="mdi mdi-skull-outline delete"></span>
+            <span class="_t">$bof ? Lang^delete __uc=true$</span>
+          </div>
+        </div>
+        <div class="button_wrapper more"><span class="mdi mdi-dots-horizontal"></span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ugc_playlist_body t_s2_body">
+
+    <div class="playlist_items">$bof html single^widgets^0 __name=widget$</div>
+
+  </div>
+
+</div>

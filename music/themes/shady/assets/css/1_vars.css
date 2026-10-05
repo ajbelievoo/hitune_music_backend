@@ -1,0 +1,76 @@
+/* =========== VARIABLES =========== */
+:root {
+
+  --align: left;
+  --c_align: right;
+  --dir: ltr;
+  --dir_l: 1;
+  --dir_r: 0;
+
+  --container: 1100px;
+  --window_height: 100vh;
+
+  --opacity: 0.5;
+  --padding: 10px;
+  --theme_color: 14, 165, 233;
+  --side_color: 8, 12, 24;
+  --side_color2: 11, 17, 32;
+  --bg_color: 15, 23, 42;
+  --bg_color2: 10, 16, 30;
+  --object_color: 30, 41, 59;
+  --object_color2: 45, 58, 80;
+  --dropdown_bg: 30, 41, 59;
+  --player_bg: 13, 20, 37;
+  --player_bg_dyna: 13, 20, 37;
+
+  --font_color: 255, 255, 255;
+  --font_size: 9pt;
+  --sidebar_width: 230px;
+  --sidebar_abs_width: 230px;
+  --c_red: 220, 38, 38;
+  --c_orange: 245, 158, 11;
+  --c_yellow: 245, 189, 31;
+  --c_green: 22, 163, 74;
+  --c_purple: 99, 102, 241;
+  --c_blue: 14, 165, 233;
+
+  --top_bar_height: 0px;
+  --navbar_height: 0px;
+  --bars_height: 0px;
+
+  --slider_med_count: 8;
+  --slider_lar_count: 5;
+}
+body.grey {
+  --side_color: 30, 41, 59;
+  --side_color2: 36, 48, 68;
+  --bg_color: 51, 65, 85;
+  --bg_color2: 44, 57, 76;
+  --object_color: 45, 58, 80;
+  --object_color2: 40, 52, 72;
+  --player_bg: 36, 48, 68;
+  --player_bg_dyna: 36, 48, 68;
+  --dropdown_bg: 30, 41, 59;
+}
+body.grey.light,
+body.light {
+  --side_color: 248, 250, 252;
+  --side_color2: 241, 245, 249;
+  --bg_color: 255, 255, 255;
+  --bg_color2: 248, 250, 252;
+  --object_color: 241, 245, 249;
+  --object_color2: 226, 232, 240;
+  --dropdown_bg: 255, 255, 255;
+  --player_bg: 241, 245, 249;
+  --player_bg_dyna: 241, 245, 249;
+  --font_color: 15, 23, 42;
+  --opacity: 1;
+}
+body.dir_rtl {
+  --dir: rtl;
+  --align: right;
+  --c_align: left;
+  --dir_l: 0;
+  --dir_r: 1;
+  font-family: 'Almarai', sans-serif !important;
+}
