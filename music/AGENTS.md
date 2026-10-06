@@ -736,3 +736,29 @@ like the web↔music `sso_sync.php` bridge.
 - `files/ai` must be writable by `www` (cron worker user).
 - `process_queue` requeues `processing` rows stale >30min.
 - Demucs installed at `/opt/htx-ai/bin/demucs` (python venv).
+
+## AI Studio updates (2026-10-06)
+
+- `engines_for("lyrics")`: **faster-whisper first** (`/opt/htx-ai/bin/faster-whisper`
+  is a hand-written CLI shim → faster_whisper lib, ctranslate2 int8 CPU).
+  openai-whisper `base` timed out at 1800s on ~5min audio; faster-whisper
+  `tiny` finishes in ~20s. `ai_whisper_model` = `tiny`.
+- `cover_art` works via free **pollinations.ai** provider
+  (`ai_cover_art_provider=pollinations`, no key needed). DALL-E 3 is not
+  available on the configured OpenAI key.
+- `master`: `ai_master_reference` = a previously-mastered wav — required
+  for matchering (no reference → falls back to ffmpeg_loudnorm).
+- `song_gen` still needs a paid provider key (`ai_song_gen_provider` =
+  stability|replicate|suno + `ai_song_gen_api_key`).
+- ffmpeg `color` filter: always `color=c=black:...` — bare `color=black`
+  errors on this build ("Too many inputs").
+- Only ONE ai_worker cron entry lives in `/etc/cron.d/hitune-ai-worker`
+  (a duplicate in believoo-ecosystem was removed 2026-10-06).
+
+## Payments (2026-10-06)
+
+- HTML-form gateways (PayU) now expose `pay_render`: `get_link` wraps the
+  auto-submit form into `/api/pay_render/<num>/<hash>/` (endpoint
+  `endpoint_pay_render.php`, group v1_public). `gateway_req_data` column is
+  JSON-validated — always store `{"html": ...}` not a raw string.
+- PayU is LIVE mode; Razorpay keys are rzp_test_* (test mode).
