@@ -213,7 +213,9 @@ class chapar extends bof_type_class  {
     $this->_bof_this->method_exe( "push", array(
       "target_push_ids" => $target_push_ids,
       "message_title" => strip_tags( $message_texts["push_title"], "" ),
+      "message_content" => !empty( $message_texts["content"] ) ? strip_tags( $message_texts["content"], "" ) : null,
       "message_image" => $message_image,
+      "message_link" => !empty( $message_link ) ? $message_link : null,
       "extra" => $extra
     ) );
 

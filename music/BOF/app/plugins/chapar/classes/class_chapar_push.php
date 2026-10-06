@@ -86,10 +86,12 @@ class chapar_push extends bof_type_class
     $message_title = null;
     $message_content = null;
     $message_image = null;
+    $message_link = null;
+    $extra = [];
     extract($args);
 
     $serviceAccountPath = root . "app/fcm-service-account.json";
-    $projectId = bof()->object->db_setting->get("fcm_project_number");
+    $projectId = bof()->object->db_setting->get("fcm_project_number") ?: bof()->object->db_setting->get("fcm_project_id");
 
     if (!file_exists($serviceAccountPath) || !$projectId) {
       return;
@@ -112,20 +114,24 @@ class chapar_push extends bof_type_class
             'image' => $message_image
           ],
           'data' => [
-            'title' => $message_title,
-            'content' => $message_content,
-            'image' => $message_image
+            'title' => (string) $message_title,
+            'content' => (string) $message_content,
+            'image' => (string) $message_image,
+            'link' => (string) $message_link
           ],
           'android' => [
             'notification' => [
-              'image' => $message_image
+              'image' => $message_image,
+              'channel_id' => 'hitune_notifications',
+              'sound' => 'default',
+              'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
             ]
           ]
         ]
       ];
 
       // Send not
-      bof()->curl->exe([
+      $res = bof()->curl->exe([
         "url" => "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send",
         "posts" => json_encode($payload),
         "json" => true,
@@ -135,6 +141,17 @@ class chapar_push extends bof_type_class
         "cache" => false,
         "cache_save" => false
       ]);
+
+      // Purge dead tokens so they stop being retried
+      $resBody = is_array($res) ? ( $res["body"] ?? "" ) : (string) $res;
+      if ( strpos( $resBody, "UNREGISTERED" ) !== false || strpos( $resBody, "NotRegistered" ) !== false ){
+        bof()->db->_delete(array(
+          "table" => "_u_push_subs",
+          "where" => array(
+            [ "data", "=", json_encode( $token ) ]
+          )
+        ));
+      }
 
     }
 
