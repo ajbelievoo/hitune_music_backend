@@ -35,7 +35,15 @@ function endpoint_pay_render( $loader, $excuter, $args ){
     return;
   }
 
-  echo $payment["gateway_req_data"];
+  $req = json_decode( (string)$payment["gateway_req_data"], true );
+  $html = is_array( $req ) ? ( $req["html"] ?? null ) : $payment["gateway_req_data"];
+  if ( !$html ){
+    http_response_code( 404 );
+    echo "Payment link expired or already processed";
+    return;
+  }
+
+  echo $html;
 
 }
 

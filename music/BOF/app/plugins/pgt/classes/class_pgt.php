@@ -192,7 +192,8 @@ class pgt extends bof_type_class {
       // public pay_render URL so apps/webview can open it as a real link.
       if ( !empty( $data["output"]["type"] ) && $data["output"]["type"] == "html" && !empty( $data["output"]["content"] ) ){
         $data["output"]["link"] = web_address . "api/pay_render/{$payment_num}/{$payment_hash}/";
-        $data["req_data"] = $data["output"]["content"];
+        // gateway_req_data column is JSON-validated — wrap the form, don't pass a raw string
+        $data["req_data"] = array( "html" => $data["output"]["content"] );
       }
 
       if ( !empty( $data["txn"] ) || !empty( $data["req_data"] ) )
