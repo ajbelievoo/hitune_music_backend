@@ -847,6 +847,8 @@ class object_user_subs_plan extends bof_type_object {
     if ( is_array( $_pdata ) ){
       if ( !empty( $_pdata["plan_key"] ) ) $item["plan_key"] = $_pdata["plan_key"];
       if ( !empty( $_pdata["trial_days"] ) ) $item["trial_days"] = intval( $_pdata["trial_days"] );
+      if ( isset( $_pdata["ai_quota"] ) ) $item["ai_quota"] = intval( $_pdata["ai_quota"] );
+      if ( !empty( $_pdata["iap"] ) && is_array( $_pdata["iap"] ) ) $item["iap"] = $_pdata["iap"];
     }
 
     $_feats = !empty( $item["features"] ) ? json_decode( $item["features"], true ) : null;

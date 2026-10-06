@@ -42,13 +42,12 @@ function endpoint_user_subs( $loader, $excuter, $args ){
                   return null;
                 }, array_keys( $item["features_decoded"] ), $item["features_decoded"] ) ) )
               : null,
-            "ai_quota" => !empty( $item["data"] ) && ( $_pd = json_decode( $item["data"], true ) ) && !empty( $_pd["ai_quota"] )
-              ? (int) $_pd["ai_quota"] : null,
+            "ai_quota" => isset( $item["ai_quota"] ) ? (int) $item["ai_quota"] : null,
             // period => store product id (Google Play / App Store)
-            "iap_products" => !empty( $item["data"] ) && ( $_pd2 = json_decode( $item["data"], true ) ) && !empty( $_pd2["iap"] ) && is_array( $_pd2["iap"] )
+            "iap_products" => !empty( $item["iap"] ) && is_array( $item["iap"] )
               ? array_combine(
-                  array_map( function( $_v ){ return is_array( $_v ) && !empty( $_v["period"] ) ? $_v["period"] : null; }, array_values( $_pd2["iap"] ) ),
-                  array_keys( $_pd2["iap"] )
+                  array_map( function( $_v ){ return is_array( $_v ) && !empty( $_v["period"] ) ? $_v["period"] : null; }, array_values( $item["iap"] ) ),
+                  array_keys( $item["iap"] )
                 )
               : null,
           );
