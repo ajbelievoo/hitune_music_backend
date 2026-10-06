@@ -762,3 +762,17 @@ like the web↔music `sso_sync.php` bridge.
   `endpoint_pay_render.php`, group v1_public). `gateway_req_data` column is
   JSON-validated — always store `{"html": ...}` not a raw string.
 - PayU is LIVE mode; Razorpay keys are rzp_test_* (test mode).
+- Subscription periods are now flexible: `subs_plan_time_range` accepts
+  `weekly|monthly|yearly|2years|<N>months|<N>weeks|<N>years` (regex), and
+  `user_subs->period_interval()` converts any of them to a SQL interval.
+  Admin plan form has price/iap fields for 3,4,6,9-month tiers.
+- `user_pay_ini` gateways include `test` flag (from `gateway_<db>_test`).
+- Google Play billing: `verify_purchase` uses
+  `api/app/google-play-service-account.json` (devin-automation SA, has
+  androidpublisher access) + `iap_google_package=com.hitune.app` +
+  `iap_strict=1`. Plans map period->productId via `data.iap`.
+- Play products live in Console: hitune_{premium,student,duo,family}_
+  {monthly,3months,4months,6months,yearly} + hitune_premium_weekly.
+  P9M is NOT a valid Play billing period — 9months is web-checkout only.
+- `user_subs` must read iap/ai_quota from the item's top-level fields
+  (clean() exposes them); raw `data` JSON is stripped in public selects.
