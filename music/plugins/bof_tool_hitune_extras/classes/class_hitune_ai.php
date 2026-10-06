@@ -101,8 +101,10 @@ class hitune_ai {
         $list[] = "ffmpeg_loudnorm"; // loudness normalize fallback
         break;
       case "lyrics":
-        if ( $this->_which("whisper") ) $list[] = "whisper";
+        // faster-whisper first: ctranslate2/int8 is ~5-10x faster on CPU than
+        // openai-whisper — plain whisper kept as fallback.
         if ( $this->_which("faster-whisper") ) $list[] = "faster_whisper";
+        if ( $this->_which("whisper") ) $list[] = "whisper";
         if ( !empty($cfg["api_url"]) ) $list[] = "api";
         break;
       case "cover_art":
