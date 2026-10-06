@@ -97,6 +97,11 @@ if ( $path === "/ai-studio" || $path === "ai-studio" ){
   return;
 }
 
+if ( $path === "/delete" || $path === "delete" || $path === "/delete-account" || $path === "delete-account" ){
+  include __DIR__ . "/delete.php";
+  return;
+}
+
 if ( $path === "/hub" || $path === "hub" || preg_match( "#^/?hub/[a-z]+$#i", $path ) ){
   include __DIR__ . "/hub.php";
   return;

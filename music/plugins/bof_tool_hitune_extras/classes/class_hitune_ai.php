@@ -106,7 +106,7 @@ class hitune_ai {
         if ( !empty($cfg["api_url"]) ) $list[] = "api";
         break;
       case "cover_art":
-        if ( !empty($cfg["api_key"]) ) $list[] = "provider";
+        if ( !empty($cfg["api_key"]) || $provider === "pollinations" ) $list[] = "provider";
         break;
       case "song_gen":
         if ( !empty($cfg["api_key"]) && !empty($cfg["provider"]) ) $list[] = "song_provider";
@@ -680,7 +680,7 @@ class hitune_ai {
     } else {
       // waveform visual fallback when the track has no cover:
       // waveform overlay on a black 1080x1920 canvas
-      $fc = "[0:a]showwaves=s=1080x400:mode=line:colors=0x00b7ff[w];color=black:s=1080x1920:d={$dur}[bg];[bg][w]overlay=(W-w)/2:(H-h)/2,format=yuv420p[v]";
+      $fc = "[0:a]showwaves=s=1080x400:mode=line:colors=0x00b7ff[w];color=c=black:s=1080x1920:d={$dur}:r=30[bg];[bg][w]overlay=(W-w)/2:(H-h)/2,format=yuv420p[v]";
       $cmd = escapeshellarg( $this->_ffmpeg() ) . " -y -ss {$start} -t {$dur} -i " . escapeshellarg($in) .
         " -filter_complex " . escapeshellarg($fc) . " -map \"[v]\" -map 0:a -c:v libx264 -preset veryfast -pix_fmt yuv420p -c:a aac -b:a 160k -movflags +faststart -shortest " . escapeshellarg($out);
     }
@@ -813,9 +813,21 @@ class hitune_ai {
     return array( "path" => $out_rel . $name, "data" => array( "engine" => "api" ) );
   }
 
-  // Cover art: OpenAI-compatible images endpoint ({api_url or default}/v1/images/generations).
+  // Cover art: OpenAI-compatible images endpoint ({api_url or default}/v1/images/generations),
+  // or free pollinations.ai GET endpoint when provider="pollinations" (no key needed).
   protected function _e_cover_provider( $out_dir, $out_rel, $params, &$err ){
     $cfg = bof()->hitune_extras->ai_tool_config( "cover_art" );
+    $prompt = !empty($params["prompt"]) ? $params["prompt"] : "Album cover art, abstract music visual, high detail";
+
+    if ( ( $cfg["provider"] ?? "" ) === "pollinations" ){
+      $url = "https://image.pollinations.ai/prompt/" . rawurlencode( $prompt ) . "?width=1024&height=1024&nologo=true&enhance=true";
+      $img = @file_get_contents( $url );
+      if ( !$img || strlen( $img ) < 10000 ){ $err = "pollinations empty image"; return null; }
+      $name = uniqid( "cover_" ) . ".jpg";
+      file_put_contents( $out_dir . $name, $img );
+      return array( "path" => $out_rel . $name, "data" => array( "engine" => "provider", "model" => "pollinations" ) );
+    }
+
     if ( empty($cfg["api_key"]) ){ $err = "cover art api_key not configured"; return null; }
     $base = !empty($cfg["api_url"]) ? rtrim($cfg["api_url"],"/") : "https://api.openai.com/v1";
     $url = ( strpos( $base, "/images/" ) !== false ) ? $base : $base . "/images/generations";
