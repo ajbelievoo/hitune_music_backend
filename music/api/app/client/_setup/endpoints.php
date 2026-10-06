@@ -113,6 +113,19 @@ bof()->object->endpoint->add( "music_share_redirect_no_prefix", array(
   "response_type" => "html",
   "response_data" => []
 ) );
+bof()->object->endpoint->add( "pay_render", array(
+  "url" => array(
+    "regex" => "/^pay_render\/([a-zA-Z0-9]){12}\/([a-f0-9]){32}\/?$/"
+  ),
+  "groups" => [ "v1_public" ],
+  "skip_key_check" => true,
+  "executers" => array(
+    root . "/app/client/endpoints/endpoint_pay_render.php"
+  ),
+  "response_type" => "html",
+  "response_data" => array(
+  )
+) );
 bof()->object->endpoint->add( "payment_result_check", array(
   "url" => array(
     "regex" => "/^payment_result_check\/([a-zA-Z0-9\-_]){3,20}\/([a-zA-Z0-9\-_]){12}\/([a-zA-Z0-9\-_]){32}\/$/"
@@ -832,6 +845,7 @@ bof()->object->endpoint->add( "verify_purchase", array(
 bof()->object->endpoint->add( "user_delete", array(
   "url" => "user_delete",
   "groups" => [ "user" ],
+  "skip_key_check" => true,
   "executers" => array(
     root . "/app/client/endpoints/user/endpoint_user_delete.php"
   )

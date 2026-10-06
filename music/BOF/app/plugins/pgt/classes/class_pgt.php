@@ -187,14 +187,22 @@ class pgt extends bof_type_class {
         )
       );
 
-      if ( !empty( $data["txn"] ) )
+      // HTML-form gateways (e.g. PayU) return an auto-submitting form, not a
+      // URL. Persist the form on the payment row and expose it through a
+      // public pay_render URL so apps/webview can open it as a real link.
+      if ( !empty( $data["output"]["type"] ) && $data["output"]["type"] == "html" && !empty( $data["output"]["content"] ) ){
+        $data["output"]["link"] = web_address . "api/pay_render/{$payment_num}/{$payment_hash}/";
+        $data["req_data"] = $data["output"]["content"];
+      }
+
+      if ( !empty( $data["txn"] ) || !empty( $data["req_data"] ) )
       bof()->object->payment->update(
         array(
           "ID" => $payment_id
         ),
         array(
-          "gateway_id" => $data["txn"],
-          "gateway_req_data" => !empty( $data["req_data"] ) ? json_encode( $data["req_data"] ) : null
+          "gateway_id" => !empty( $data["txn"] ) ? $data["txn"] : null,
+          "gateway_req_data" => !empty( $data["req_data"] ) ? ( is_string( $data["req_data"] ) ? $data["req_data"] : json_encode( $data["req_data"] ) ) : null
         )
       );
 
