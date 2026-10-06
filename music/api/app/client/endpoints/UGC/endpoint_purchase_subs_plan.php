@@ -5,7 +5,9 @@ if ( !defined( "bof_root" ) ) die;
 function endpoint_purchase_subs_plan( $loader, $excuter, $args ){
 
   $plan_hash = $loader->nest->user_input( "post", "hash", "md5" );
-  $plan_period = $loader->nest->user_input( "post", "period", "in_array", [ "values" => [ "weekly", "monthly", "3months", "6months", "yearly", "2years" ] ] );
+  $plan_period = $loader->nest->user_input( "post", "period", "string" );
+  if ( $plan_period && !$loader->object->user_subs->period_interval( $plan_period ) )
+  $plan_period = null;
 
   if ( !$plan_hash || !$plan_period ) {
     $loader->api->set_error( "invalid_request: " . ( !$plan_hash ? "missing hash" : "missing period" ), [ "output_args" => [ "turn" => false ] ] );

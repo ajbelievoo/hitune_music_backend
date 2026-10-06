@@ -182,15 +182,12 @@ function endpoint_verify_purchase( $loader, $excuter, $args ){
 
   }
 
-  $ranges = array(
-    "weekly" => "+1 week",
-    "monthly" => "+1 month",
-    "3months" => "+3 months",
-    "6months" => "+6 months",
-    "yearly" => "+1 year",
-    "2years" => "+2 years"
-  );
-  if ( empty( $ranges[ $period ] ) ) $period = "monthly";
+  // Period -> interval; supports named periods + generic Nmonths/Nweeks/Nyears
+  $_pi = $loader->object->user_subs->period_interval( $period );
+  if ( !$_pi ){
+    $period = "monthly";
+    $_pi = "1 MONTH";
+  }
 
   // Prefer the store-reported expiry when the receipt was verified
   $expire = null;
@@ -211,7 +208,7 @@ function endpoint_verify_purchase( $loader, $excuter, $args ){
 
   if ( !$expire ){
     $base = ( $active_sub && $active_sub["subs_plan_id"] == $matched_plan["ID"] ) ? strtotime( $active_sub["time_expire"] ) : time();
-    $expire = date( "Y-m-d H:i:s", strtotime( $ranges[ $period ], $base ) );
+    $expire = date( "Y-m-d H:i:s", strtotime( "+" . $_pi, $base ) );
   }
 
   $loader->db->_insert( array(

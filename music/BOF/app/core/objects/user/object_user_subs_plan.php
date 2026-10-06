@@ -480,8 +480,20 @@ class object_user_subs_plan extends bof_type_object {
           "validator" => array( "string", array( "empty()", "strict" => true, "strict_regex" => "[a-zA-Z0-9_.\-]" ) ),
           "bofAdmin" => array( "object" => array( "group" => "features" ) )
         ),
+        "iap_4months" => array(
+          "label" => "IAP Product ID - 4 Months",
+          "input" => array( "type" => "text" ),
+          "validator" => array( "string", array( "empty()", "strict" => true, "strict_regex" => "[a-zA-Z0-9_.\-]" ) ),
+          "bofAdmin" => array( "object" => array( "group" => "features" ) )
+        ),
         "iap_6months" => array(
           "label" => "IAP Product ID - 6 Months",
+          "input" => array( "type" => "text" ),
+          "validator" => array( "string", array( "empty()", "strict" => true, "strict_regex" => "[a-zA-Z0-9_.\-]" ) ),
+          "bofAdmin" => array( "object" => array( "group" => "features" ) )
+        ),
+        "iap_9months" => array(
+          "label" => "IAP Product ID - 9 Months",
           "input" => array( "type" => "text" ),
           "validator" => array( "string", array( "empty()", "strict" => true, "strict_regex" => "[a-zA-Z0-9_.\-]" ) ),
           "bofAdmin" => array( "object" => array( "group" => "features" ) )
@@ -544,9 +556,43 @@ class object_user_subs_plan extends bof_type_object {
             "free" => [ "equal", false ]
           )
         ),
+        "price_4months" => array(
+          "label" => "4 Months Price",
+          "tip" => "The amount user has to pay to get subscribed to this plan for 4 months. Leaving empty disables this option",
+          "bofInput" => array(
+            "currency"
+          ),
+          "validator" => array(
+            "float",
+            array(
+              "empty()",
+              "min" => 0
+            )
+          ),
+          "display_on" => array(
+            "free" => [ "equal", false ]
+          )
+        ),
         "price_6months" => array(
           "label" => "6 Months Price",
           "tip" => "The amount user has to pay to get subscribed to this plan for 6 months. Leaving empty disables this option",
+          "bofInput" => array(
+            "currency"
+          ),
+          "validator" => array(
+            "float",
+            array(
+              "empty()",
+              "min" => 0
+            )
+          ),
+          "display_on" => array(
+            "free" => [ "equal", false ]
+          )
+        ),
+        "price_9months" => array(
+          "label" => "9 Months Price",
+          "tip" => "The amount user has to pay to get subscribed to this plan for 9 months. Leaving empty disables this option",
           "bofInput" => array(
             "currency"
           ),
@@ -631,7 +677,7 @@ class object_user_subs_plan extends bof_type_object {
         }
 
         $prices = [];
-        foreach( [ "weekly", "monthly", "3months", "6months", "yearly", "2years" ] as $_k ){
+        foreach( [ "weekly", "monthly", "3months", "4months", "6months", "9months", "yearly", "2years" ] as $_k ){
           if ( !empty( $_inputs["data"][ "price_" . $_k ] ) )
           $prices[ $_k ] = $_inputs["data"][ "price_" . $_k ];
         }
@@ -673,7 +719,7 @@ class object_user_subs_plan extends bof_type_object {
 
         // IAP product id -> period map
         $_data_json["iap"] = array();
-        foreach( [ "weekly", "monthly", "3months", "6months", "yearly" ] as $_period ){
+        foreach( [ "weekly", "monthly", "3months", "4months", "6months", "9months", "yearly" ] as $_period ){
           $_pid = !empty( $_inputs["data"][ "iap_" . $_period ] ) ? trim( $_inputs["data"][ "iap_" . $_period ] ) : null;
           if ( $_pid ) $_data_json["iap"][ $_pid ] = array( "period" => $_period );
         }

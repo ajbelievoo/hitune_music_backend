@@ -92,9 +92,12 @@ class object_user_subs extends bof_type_object {
       "subs_plan_time_range" => array(
         "label" => "Subscription Period",
         "validator" => array(
-          "in_array",
+          "string",
           array(
-            "values" => [ "weekly", "monthly", "3months", "6months", "yearly", "2years" ]
+            "strict" => true,
+            "strict_regex_raw" => "/^(weekly|monthly|yearly|2years|[1-9][0-9]?(months|weeks)|[1-9]years)$/",
+            "min_length" => 3,
+            "max_length" => 20,
           ),
         ),
         "input" => array(
@@ -103,7 +106,9 @@ class object_user_subs extends bof_type_object {
             [ "weekly", "Weekly" ],
             [ "monthly", "Monthly" ],
             [ "3months", "3-Months" ],
+            [ "4months", "4-Months" ],
             [ "6months", "6-Months" ],
+            [ "9months", "9-Months" ],
             [ "yearly", "Yearly" ],
             [ "2years", "2-Years" ],
           )
@@ -575,19 +580,28 @@ class object_user_subs extends bof_type_object {
     return bof()->object->_select( $this, $whereArgs, $selectArgs );
 
   }
-  public function insert( $insertArray=[] ){
+  // Period string -> strtotime/SQL interval ("4months" -> "4 MONTH", "weekly" -> "1 WEEK")
+  public function period_interval( $period ){
 
-    $ranges = array(
+    static $named = [
       "weekly" => "1 WEEK",
       "monthly" => "1 MONTH",
-      "3months" => "3 MONTH",
-      "6months" => "6 MONTH",
       "yearly" => "1 YEAR",
       "2years" => "2 YEAR",
-    );
+    ];
+    if ( isset( $named[ $period ] ) ) return $named[ $period ];
 
-    if ( empty( $insertArray["time_expire"] ) && !empty( $insertArray["subs_plan_time_range"] ) )
-    $insertArray["time_expire"] = bof()->general->mysql_timestamp( strtotime( "+" . $ranges[ $insertArray["subs_plan_time_range"] ] ) );
+    if ( preg_match( "/^([1-9][0-9]?)(weeks|months|years)$/", $period, $m ) )
+    return $m[1] . " " . strtoupper( rtrim( $m[2], "s" ) );
+
+    return null;
+
+  }
+
+  public function insert( $insertArray=[] ){
+
+    if ( empty( $insertArray["time_expire"] ) && !empty( $insertArray["subs_plan_time_range"] ) && ( $_pi = $this->period_interval( $insertArray["subs_plan_time_range"] ) ) )
+    $insertArray["time_expire"] = bof()->general->mysql_timestamp( strtotime( "+" . $_pi ) );
 
     return bof()->object->_insert( $this, $insertArray );
 

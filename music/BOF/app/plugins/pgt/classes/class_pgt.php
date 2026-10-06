@@ -39,6 +39,7 @@ class pgt extends bof_type_class {
         "icon_v" => $gt_data["icon_v"],
         "fee" => bof()->object->db_setting->get( "gateway_{$gt_data["db_name"]}_fee", 0 ),
         "placeholder" => bof()->object->db_setting->get( "gateway_{$gt_data["db_name"]}_def", 100 ),
+        "test" => bof()->object->db_setting->get( "gateway_{$gt_data["db_name"]}_test" ) ? true : false,
         "name" => $gt_name,
       );
     }
@@ -72,7 +73,7 @@ class pgt extends bof_type_class {
         if (!is_array($purchase_data) ? true : empty($purchase_data["type"]) || empty($purchase_data["hook"]) || empty($purchase_data["period"]))
         throw new Exception("invalid_req1");
 
-        if (!bof()->nest->validate($purchase_data["period"], "in_array", ["values" => ["weekly", "monthly", "3months", "6months", "yearly", "2years"]]))
+        if (!bof()->object->user_subs->period_interval($purchase_data["period"]))
         throw new Exception("invalid_req2");
 
         if (!bof()->nest->validate($purchase_data["hook"], "md5"))

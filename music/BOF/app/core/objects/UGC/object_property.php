@@ -573,14 +573,20 @@ class object_ugc_property extends bof_type_object {
     if ( $already_subscribed || !empty( $plan["free"] ) )
     throw new Exception("have_access_already");
 
-    $_ss_to_a = array(
+    // Period -> Stripe recurring {unit, quantity}; named + generic Nmonths/Nweeks/Nyears
+    $_ss_p = $plan["period"];
+    $_named = array(
       "weekly" => array("unit" => "week", "quantity" => 1),
       "monthly" => array("unit" => "month", "quantity" => 1),
-      "3months" => array("unit" => "month", "quantity" => 3),
-      "6months" => array("unit" => "month", "quantity" => 6),
       "yearly" => array("unit" => "year", "quantity" => 1),
       "2years" => array("unit" => "year", "quantity" => 2),
     );
+    if ( isset( $_named[ $_ss_p ] ) )
+    $_ss = $_named[ $_ss_p ];
+    elseif ( preg_match( "/^([1-9][0-9]?)(weeks|months|years)$/", $_ss_p, $_m ) )
+    $_ss = array( "unit" => rtrim( $_m[2], "s" ), "quantity" => (int) $_m[1] );
+    else
+    $_ss = array( "unit" => "month", "quantity" => 1 );
 
     $get_link = bof()->pgt->setup()->get_link(
       "stripe",
@@ -591,7 +597,7 @@ class object_ugc_property extends bof_type_object {
         "hook" => $plan["hash"],
       ),
       array(
-        "recurring" => $_ss_to_a[$plan["period"]],
+        "recurring" => $_ss,
         "title" => $plan["name"]
       )
     );
