@@ -82,7 +82,10 @@ class object_user extends bof_type_object {
       ),
       "email" => array(
         "label" => "Email",
-        "validator" => "email",
+        "validator" => array(
+          "email",
+          array( "empty()" )
+        ),
         "selectors" => array(
           "email" => [ "email", "=" ]
         ),
@@ -93,6 +96,27 @@ class object_user extends bof_type_object {
           "object" => array(
             "required" => true
           )
+        )
+      ),
+      "phone" => array(
+        "label" => "Phone",
+        "validator" => array(
+          "string",
+          array(
+            "strict" => true,
+            "strict_regex" => "[0-9+\\- ]",
+            "empty()"
+          )
+        ),
+        "selectors" => array(
+          "phone" => [ "phone", "=" ],
+          "phone_suffix" => [ "phone", "LIKE" ]
+        ),
+        "input" => array(
+          "type" => "text"
+        ),
+        "bofAdmin" => array(
+          "object" => []
         )
       ),
       "role_ids" => array(

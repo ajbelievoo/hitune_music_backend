@@ -50,6 +50,31 @@ class user_auth extends bof_type_class {
           '<a class="btn btn-light" href="https://iyolme.com/sso-hitune.html" style="display:flex;align-items:center;justify-content:center;gap:8px">Continue with IyolMe</a>'
         )
       ),
+      "phone_auth" => array(
+        "inputs" => array(),
+        "content" => "",
+        "btns" => array()
+      ),
+      "bind_phone" => array(
+        "inputs" => array(),
+        "content" => "",
+        "btns" => array()
+      ),
+      "iyol_grant" => array(
+        "inputs" => array(),
+        "content" => "",
+        "btns" => array()
+      ),
+      "set_password" => array(
+        "inputs" => array(),
+        "content" => "",
+        "btns" => array()
+      ),
+      "security_status" => array(
+        "inputs" => array(),
+        "content" => "",
+        "btns" => array()
+      ),
       "signup" => array(
         "inputs" => array(
           "email" => array(
@@ -171,7 +196,15 @@ class user_auth extends bof_type_class {
   public function submit_login(){
 
     $errors = [];
-    if ( !( $email = bof()->nest->user_input( "post", "email", "email" ) ) ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##email" ] );
+    // Unified identifier: the app sends "identifier" holding a username,
+    // email or phone number. Legacy clients still send "email".
+    $identifier = bof()->nest->user_input( "post", "identifier", "string" );
+    if ( $identifier ) $identifier = trim( $identifier );
+
+    if ( !$identifier )
+    $identifier = bof()->nest->user_input( "post", "email", "email" );
+
+    if ( !$identifier ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##identifier" ] );
     if ( !( $password = bof()->nest->user_input( "post", "password", "password" ) ) ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##password" ] );
 
     if ( !empty( $errors ) ){
@@ -183,20 +216,66 @@ class user_auth extends bof_type_class {
       return;
     }
 
-    $auth = bof()->object->user->authorize( "email", $email, $password, "client" );
+    // Detect identifier type: email / phone / username
+    if ( strpos( $identifier, "@" ) !== false ){
+      $id_type = "email";
+      $id_value = bof()->nest->user_input( "post", "identifier", "email" );
+      if ( !$id_value ) $id_value = bof()->nest->user_input( "post", "email", "email" );
+    }
+    elseif ( preg_match( '/^\+?[0-9][0-9\s\-]{5,18}[0-9]$/', $identifier ) ){
+      $id_type = "phone";
+      // Try candidate forms: with/without leading +, and last-10-digits
+      // (covers signup stored with country code but login without it).
+      $digits = preg_replace( '/[^0-9]/', '', $identifier );
+      $phone_candidates = array_unique( array_filter( array(
+        preg_replace( '/[^0-9+]/', '', $identifier ),
+        $digits,
+        "+" . $digits,
+        strlen( $digits ) > 10 ? substr( $digits, -10 ) : null,
+      ) ) );
+      $id_value = null;
+    }
+    else {
+      $id_type = "username";
+      $id_value = $identifier;
+      if ( !bof()->nest->validate( $id_value, "username" ) )
+      $id_value = strtolower( preg_replace( '/[^a-zA-Z0-9_.\-]/', '', $identifier ) );
+      if ( !strlen( $id_value ) ) $id_value = null;
+    }
+
+    $auth = false;
+    if ( $id_type == "phone" ){
+      foreach ( $phone_candidates as $_pc ){
+        $auth = bof()->object->user->authorize( "phone", $_pc, $password, "client" );
+        if ( $auth ) break;
+      }
+      // Suffix fallback: account stored as "+91XXXXXXXXXX" but user typed
+      // "XXXXXXXXXX" (or vice-versa). Password is still verified.
+      if ( !$auth && strlen( $digits ) >= 10 ){
+        $tail = substr( $digits, -10 );
+        $_row = bof()->object->user->select( array( "phone_suffix" => "%{$tail}" ) );
+        if ( $_row ? !empty( $_row["ID"] ) : false )
+        $auth = bof()->object->user->authorize( "ID", $_row["ID"], $password, "client" );
+      }
+    }
+    else {
+      $auth = $id_value ? bof()->object->user->authorize( $id_type, $id_value, $password, "client" ) : false;
+    }
 
     if ( !$auth ){
       bof()->api->set_error( "login_failed" );
       bof()->chapar->notify_admin( "login_failed", array(
-        "email" => $email,
-        "error" => "Invalid password"
+        "identifier" => $identifier,
+        "type" => $id_type,
+        "error" => "Invalid password or identifier"
       ) );
       return;
     }
 
     $sess_data = $this->_bof_this->create( $auth["user"]["ID"], true );
     bof()->chapar->notify_admin("login_succeed", array(
-      "email" => $email,
+      "identifier" => $identifier,
+      "type" => $id_type,
       "user_id" => $auth["user"]["ID"]
     ));
 
@@ -217,11 +296,411 @@ class user_auth extends bof_type_class {
     );
 
   }
+  /**
+   * Decode + verify a Firebase ID token (RS256) against Google's securetoken
+   * certs. Returns claims array on success, null on failure.
+   */
+  public function _firebase_claims( $idToken ){
+
+    $parts = explode( ".", (string) $idToken );
+    if ( count( $parts ) !== 3 ) return null;
+    list( $h64, $p64, $s64 ) = $parts;
+
+    $b64d = function( $in ){
+      return base64_decode( strtr( $in, "-_", "+/" ) . str_repeat( "=", ( 4 - strlen( $in ) % 4 ) % 4 ) );
+    };
+
+    $header = json_decode( $b64d( $h64 ), true );
+    $kid = is_array( $header ) ? ( $header["kid"] ?? null ) : null;
+    if ( !$kid ) return null;
+
+    $cacheFile = "/tmp/ht_gsecure_certs.json";
+    $certs = null;
+    if ( is_file( $cacheFile ) && time() - filemtime( $cacheFile ) < 3000 )
+      $certs = json_decode( file_get_contents( $cacheFile ), true );
+    if ( !is_array( $certs ) || !isset( $certs[$kid] ) ){
+      $ctx = stream_context_create( array( "http" => array( "timeout" => 10 ) ) );
+      $raw = @file_get_contents( "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com", false, $ctx );
+      $certs = $raw ? json_decode( $raw, true ) : null;
+      if ( is_array( $certs ) ) @file_put_contents( $cacheFile, $raw );
+    }
+    $pem = is_array( $certs ) && isset( $certs[$kid] ) ? $certs[$kid] : null;
+    if ( !$pem ) return null;
+
+    $ok = openssl_verify( $h64 . "." . $p64, $b64d( $s64 ), $pem, OPENSSL_ALGO_SHA256 );
+    if ( $ok !== 1 ) return null;
+
+    $claims = json_decode( $b64d( $p64 ), true );
+    if ( !is_array( $claims ) ) return null;
+
+    $projectId = bof()->object->core_setting->get( "firebase_project_id", null, null ) ?: "hitune-live-box";
+    if ( ( $claims["iss"] ?? "" ) !== "https://securetoken.google.com/" . $projectId ) return null;
+    if ( ( $claims["aud"] ?? "" ) !== $projectId ) return null;
+    if ( ( $claims["exp"] ?? 0 ) < time() ) return null;
+    if ( empty( $claims["sub"] ) ) return null;
+
+    return $claims;
+
+  }
+
+  /**
+   * do=phone_auth — Firebase Phone Auth login/signup (no password needed).
+   * POST id_token=<firebase JWT> (optional: password, username)
+   * Verified phone_number becomes the account's phone; session returned
+   * exactly like password login.
+   */
+  public function submit_phone_auth(){
+
+    $idToken = bof()->nest->user_input( "post", "id_token", "string" );
+    if ( !$idToken ) $idToken = bof()->nest->user_input( "post", "firebase_token", "string" );
+    if ( !$idToken ){
+      bof()->api->set_error( "invalid_input", [ "input_name" => "##id_token" ] );
+      return;
+    }
+
+    $claims = $this->_bof_this->_firebase_claims( $idToken );
+    if ( !$claims || empty( $claims["phone_number"] ) ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $phone = preg_replace( '/[^0-9+]/', '', (string) $claims["phone_number"] );
+    $digits = preg_replace( '/[^0-9]/', '', $phone );
+    if ( strlen( $digits ) < 6 ){
+      bof()->api->set_error( "invalid_input", [ "input_name" => "##phone" ] );
+      return;
+    }
+    if ( strpos( $phone, "+" ) !== 0 ) $phone = "+" . $digits;
+
+    // find account: exact phone / digits-only / last-10-digits suffix
+    $row = bof()->object->user->select( array( "phone" => $phone ) );
+    if ( !$row && $digits !== $phone ) $row = bof()->object->user->select( array( "phone" => $digits ) );
+    if ( !$row && strlen( $digits ) >= 10 )
+      $row = bof()->object->user->select( array( "phone_suffix" => "%" . substr( $digits, -10 ) ) );
+
+    $password_in = bof()->nest->user_input( "post", "password", "password" );
+
+    if ( $row && !empty( $row["ID"] ) ){
+
+      $uid = (int) $row["ID"];
+      // optional password set/upgrade after OTP verification
+      if ( $password_in )
+        bof()->object->user->update( array( "ID" => $uid ), array( "password" => $password_in ) );
+
+      $sess_data = $this->_bof_this->create( $uid, true );
+      bof()->chapar->notify_admin( "login_succeed", array(
+        "identifier" => $phone, "type" => "phone_otp", "user_id" => $uid
+      ) );
+      return array( "auth" => array( "user" => $row ), "sess" => $sess_data );
+
+    }
+
+    // new account — phone is verified by Firebase so verify immediately
+    $username = bof()->nest->user_input( "post", "username", "username" );
+    if ( !$username ) $username = "u" . substr( $digits, -9 );
+    $check = bof()->object->user->select( array( "username" => $username ) );
+    for ( $i = 0; $check && $i < 20; $i++ ){
+      $username = "u" . substr( $digits, -7 ) . rand( 10, 99 );
+      $check = bof()->object->user->select( array( "username" => $username ) );
+    }
+
+    $create = bof()->object->user->create( array(), array(
+      "username" => $username,
+      "password" => $password_in ? $password_in : ( "fp" . bin2hex( random_bytes( 12 ) ) ),
+      "phone" => $phone,
+      "time_verify" => bof()->general->mysql_timestamp(),
+      "initial" => true
+    ), array() );
+
+    if ( !$create ){
+      bof()->api->set_error( "signup_failed" );
+      return;
+    }
+
+    if ( !$password_in )
+      bof()->db->_update( array(
+        "table" => "_u_list",
+        "where" => array( array( "ID", "=", $create ) ),
+        "set" => array( array( "password_set", 0 ) )
+      ) );
+
+    bof()->chapar->notify( "welcome", array(
+      "target" => array( "user_id" => $create ),
+      "source" => array( "object" => null, "id" => null ),
+      "triggerer" => array( "object" => null, "id" => null ),
+      "message" => array( "params" => array() )
+    ) );
+
+    $sess_data = $this->_bof_this->create( $create, true );
+    bof()->chapar->notify_admin( "signup_ok", array( "phone" => $phone ) );
+
+    return array(
+      "auth" => array( "user" => array( "ID" => $create ) ),
+      "sess" => $sess_data
+    );
+
+  }
+
+  /**
+   * do=bind_phone — attach a Firebase-OTP-verified phone to the logged-in
+   * account. Requires the app's session (PHPSESSID cookie + x-bof-sess-key).
+   */
+  public function submit_bind_phone(){
+
+    bof()->session->open();
+    $uid = bof()->session->check();
+    if ( !$uid ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $idToken = bof()->nest->user_input( "post", "id_token", "string" );
+    if ( !$idToken ) $idToken = bof()->nest->user_input( "post", "firebase_token", "string" );
+    $claims = $idToken ? $this->_bof_this->_firebase_claims( $idToken ) : null;
+    if ( !$claims || empty( $claims["phone_number"] ) ){
+      bof()->api->set_error( "invalid_input", [ "input_name" => "##id_token" ] );
+      return;
+    }
+
+    $phone = preg_replace( '/[^0-9+]/', '', (string) $claims["phone_number"] );
+    $digits = preg_replace( '/[^0-9]/', '', $phone );
+    if ( strpos( $phone, "+" ) !== 0 ) $phone = "+" . $digits;
+
+    // phone already linked to a DIFFERENT account?
+    $row = bof()->object->user->select( array( "phone" => $phone ) );
+    if ( !$row && $digits !== $phone ) $row = bof()->object->user->select( array( "phone" => $digits ) );
+    if ( !$row && strlen( $digits ) >= 10 )
+      $row = bof()->object->user->select( array( "phone_suffix" => "%" . substr( $digits, -10 ) ) );
+    if ( $row && !empty( $row["ID"] ) && (int) $row["ID"] !== (int) $uid ){
+      bof()->api->set_error( "phone_taken" );
+      return;
+    }
+
+    bof()->object->user->update( array( "ID" => $uid ), array( "phone" => $phone ) );
+    bof()->user->save_session();
+
+    bof()->api->set_message( "ok", array( "phone" => $phone ) );
+    return array( "bound" => true, "phone" => $phone );
+
+  }
+
+  /**
+   * do=iyol_grant — "Continue with IyolMe" for the app. The IyolMe app mints
+   * a one-time grant (user/mintSsoGrant) and deep-links it back to the app;
+   * we redeem it server-to-server, resolve/create the HiTune account by
+   * email, and return a normal session like password login.
+   */
+  public function submit_iyol_grant(){
+
+    $grant = bof()->nest->user_input( "post", "grant", "string" );
+    if ( !$grant ){
+      bof()->api->set_error( "invalid_input", [ "input_name" => "##grant" ] );
+      return;
+    }
+
+    $res = bof()->iyolme->api_request( "POST", "/hitune/v1/grant_exchange", array( "grant" => $grant ) );
+    if ( !is_array( $res ) || empty( $res["ok"] ) || empty( $res["user"]["email"] ) ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $email = strtolower( trim( (string) $res["user"]["email"] ) );
+    if ( !filter_var( $email, FILTER_VALIDATE_EMAIL ) ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $db = bof()->db;
+    $u = $db->_select( array(
+      "table" => "_u_list", "columns" => "ID",
+      "where" => array( array( "email", "=", $email ) ),
+      "limit" => 1, "single" => true
+    ) );
+
+    $uid = $u ? (int) $u["ID"] : 0;
+
+    if ( !$uid ){
+
+      $base = strtolower( preg_replace( "/[^a-zA-Z0-9_]/", "", strstr( $email, "@", true ) ?: "user" ) );
+      if ( $base === "" ) $base = "user";
+      $base = substr( $base, 0, 40 );
+      $username = $base;
+      for ( $i = 0; $i < 20; $i++ ){
+        $taken = bof()->object->user->select( array( "username" => $username ) );
+        if ( !$taken ) break;
+        $username = $base . random_int( 100, 9999 );
+      }
+
+      $name = trim( (string) ( $res["user"]["fullname"] ?? $res["user"]["username"] ?? $username ) );
+      $create = bof()->object->user->create( array(), array(
+        "username" => $username,
+        "name" => $name,
+        "password" => "fp" . bin2hex( random_bytes( 12 ) ),
+        "email" => $email,
+      "time_verify" => bof()->general->mysql_timestamp(),
+      "initial" => true
+    ), array() );
+
+      if ( !$create ){
+        bof()->api->set_error( "signup_failed" );
+        return;
+      }
+      $uid = (int) $create;
+
+      $db->_update( array(
+        "table" => "_u_list",
+        "where" => array( array( "ID", "=", $uid ) ),
+        "set" => array( array( "password_set", 0 ) )
+      ) );
+
+    }
+
+    $sess_data = $this->_bof_this->create( $uid, true );
+    bof()->chapar->notify_admin( "login_succeed", array(
+      "identifier" => $email, "type" => "iyol_grant", "user_id" => $uid
+    ) );
+
+    return array(
+      "auth" => array( "user" => array( "ID" => $uid ) ),
+      "sess" => $sess_data
+    );
+
+  }
+
+  /**
+   * do=set_password — session-authed password set/change.
+   * Accounts created via OTP/social/grant (password_set=0) set a password
+   * WITHOUT a current-password check; normal accounts must send
+   * current_password.
+   */
+  public function submit_set_password(){
+
+    bof()->session->open();
+    $uid = bof()->session->check();
+    if ( !$uid ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $password = bof()->nest->user_input( "post", "password", "password" );
+    $password_repeat = bof()->nest->user_input( "post", "password_repeat", "password" );
+    if ( !$password || !$password_repeat || $password !== $password_repeat ){
+      bof()->api->set_error( "pws_dont_match" );
+      return;
+    }
+
+    $db = bof()->db;
+    $u = $db->_select( array(
+      "table" => "_u_list",
+      "columns" => "password,password_set",
+      "where" => array( array( "ID", "=", $uid ) ),
+      "limit" => 1, "single" => true
+    ) );
+    if ( !$u ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $has_real = (int) ( $u["password_set"] ?? 1 ) === 1;
+    if ( $has_real ){
+      $current = bof()->nest->user_input( "post", "current_password", "string" );
+      if ( !$current || !password_verify( $current, (string) $u["password"] ) ){
+        bof()->api->set_error( "login_failed" );
+        return;
+      }
+    }
+
+    bof()->object->user->update(
+      array( "ID" => $uid ),
+      array( "password" => bof()->object->user->hash_password( $password ) )
+    );
+    $db->_update( array(
+      "table" => "_u_list",
+      "where" => array( array( "ID", "=", $uid ) ),
+      "set" => array( array( "password_set", 1 ) )
+    ) );
+
+    bof()->api->set_message( "ok", array( "password_set" => true ) );
+    return array( "password_set" => true );
+
+  }
+
+  /**
+   * do=security_status — which identities are verified/linked on this
+   * account (powers the app's Account Security screen).
+   */
+  public function submit_security_status(){
+
+    bof()->session->open();
+    $uid = bof()->session->check();
+    if ( !$uid ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $db = bof()->db;
+    $u = $db->_select( array(
+      "table" => "_u_list",
+      "columns" => "email,phone,password_set,google_sub",
+      "where" => array( array( "ID", "=", $uid ) ),
+      "limit" => 1, "single" => true
+    ) );
+    if ( !$u ){
+      bof()->api->set_error( "login_failed" );
+      return;
+    }
+
+    $iyol_linked = false;
+    $iyol_username = null;
+    try {
+      $iyol = bof()->iyolme;
+      if ( $iyol->configured() && $iyol->api_base() ){
+        $payload = $iyol->user_payload( $uid );
+        if ( $payload ){
+          $st = $iyol->api_request( "POST", "/hitune/v1/link_status", array( "sub" => $payload["sub"] ) );
+          if ( !empty( $st["linked"] ) ){
+            $iyol_linked = true;
+            $iyol_username = $st["user"]["username"] ?? null;
+          }
+        }
+      }
+    } catch ( \Throwable $e ) {
+      $iyol_linked = false;
+    }
+
+    bof()->api->set_message( "ok", array(
+      "has_password"   => (int) ( $u["password_set"] ?? 1 ) === 1,
+      "phone"          => $u["phone"] ?: null,
+      "phone_verified" => !empty( $u["phone"] ),
+      "email"          => $u["email"] ?: null,
+      "google_linked"  => !empty( $u["google_sub"] ),
+      "iyol_linked"    => $iyol_linked,
+      "iyol_username"  => $iyol_username
+    ) );
+
+  }
+
   public function submit_signup(){
 
     $errors = [];
-    if ( !( $email = bof()->nest->user_input( "post", "email", "email" ) ) ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##email" ] );
-    if ( !( $username = bof()->nest->user_input( "post", "username", "username" ) ) ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##username" ] );
+    // Email or phone — at least one is required. A phone-only signup gets
+    // no verification email (there is nothing to send to), so the account
+    // is marked verified immediately.
+    $email = bof()->nest->user_input( "post", "email", "email" );
+    $phone = bof()->nest->user_input( "post", "phone", "string" );
+    if ( $phone ) $phone = preg_replace( '/[^0-9+]/', '', trim( $phone ) );
+    if ( $phone && !preg_match( '/^\+?[0-9]{6,20}$/', $phone ) ) $phone = null;
+
+    if ( !$email && !$phone )
+    $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##email" ] );
+
+    if ( !( $username = bof()->nest->user_input( "post", "username", "username" ) ) ){
+      // Auto-generate a username from the phone number when not provided
+      if ( $phone )
+      $username = "u" . substr( preg_replace( '/[^0-9]/', '', $phone ), -9 );
+      else
+      $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##username" ] );
+    }
     if ( !( $password = bof()->nest->user_input( "post", "password", "password" ) ) ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##password" ] );
     if ( !( $password_repeat = bof()->nest->user_input( "post", "password_repeat", "password" ) ) ) $errors[] = bof()->object->language->turn( "invalid_input", [ "input_name" => "##password_repeat" ] );
     if ( $password != $password_repeat ) $errors[] = bof()->object->language->turn( "pws_dont_match" );
@@ -248,6 +727,14 @@ class user_auth extends bof_type_class {
       "username" => $username
     ));
 
+    // Auto-generated phone usernames may collide — append digits until free
+    if ( $check_username && $phone && empty( $_POST["username"] ) ){
+      for ( $i = 0; $i < 20 && $check_username; $i++ ){
+        $username = "u" . substr( preg_replace( '/[^0-9]/', '', $phone ), -7 ) . rand( 10, 99 );
+        $check_username = bof()->object->user->select(array( "username" => $username ));
+      }
+    }
+
     if ( $check_username ){
       bof()->api->set_error( "username_taken" );
       bof()->chapar->notify_admin("signup_failed", array(
@@ -256,19 +743,36 @@ class user_auth extends bof_type_class {
       return;
     }
 
-    $check_email = bof()->object->user->select(array(
-      "email" => $email
-    ));
-
-    if ( $check_email ){
-      bof()->api->set_error( "email_taken" );
-      bof()->chapar->notify_admin("signup_failed", array(
-        "error" => "email:{$email} taken",
+    if ( $email ){
+      $check_email = bof()->object->user->select(array(
+        "email" => $email
       ));
-      return;
+
+      if ( $check_email ){
+        bof()->api->set_error( "email_taken" );
+        bof()->chapar->notify_admin("signup_failed", array(
+          "error" => "email:{$email} taken",
+        ));
+        return;
+      }
     }
 
-    if ( ( $verification_required = !empty( $guest_role["data_decoded"]["guest"]["guest_signup_verify"] ) ) ){
+    if ( $phone ){
+      $check_phone = bof()->object->user->select(array(
+        "phone" => $phone
+      ));
+
+      if ( $check_phone ){
+        bof()->api->set_error( "phone_taken" );
+        bof()->chapar->notify_admin("signup_failed", array(
+          "error" => "phone:{$phone} taken",
+        ));
+        return;
+      }
+    }
+
+    // Email verification only makes sense when an email was provided.
+    if ( ( $verification_required = ( $email && !empty( $guest_role["data_decoded"]["guest"]["guest_signup_verify"] ) ) ) ){
 
       $code = md5( uniqid() );
       $time_verify = null;
@@ -284,17 +788,20 @@ class user_auth extends bof_type_class {
 
     }
 
+    $insert = array(
+      "username" => $username,
+      "password" => $password,
+      "verification_code" => $code,
+      "time_verify" => $time_verify,
+      "time_verify_try" => $time_verify_try,
+      "initial" => true
+    );
+    if ( $email ) $insert["email"] = $email;
+    if ( $phone ) $insert["phone"] = $phone;
+
     $create = bof()->object->user->create(
       array(),
-      array(
-        "username" => $username,
-        "email" => $email,
-        "password" => $password,
-        "verification_code" => $code,
-        "time_verify" => $time_verify,
-        "time_verify_try" => $time_verify_try,
-        "initial" => true
-      ),
+      $insert,
       array()
     );
 

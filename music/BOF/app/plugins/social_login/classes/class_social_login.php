@@ -133,6 +133,16 @@ class social_login {
         );
       }
 
+      if ( $target === "google" )
+        bof()->db->_update( array(
+          "table" => "_u_list",
+          "where" => array(
+            array( "ID", "=", (int) $requested_user["ID"] ),
+            array( "google_sub", null, null )
+          ),
+          "set" => array( array( "google_sub", (string) $user_profile->identifier ) )
+        ) );
+
       bof()->chapar->notify_admin("slogin_ok", array(
         "type" => "relog"
       ));
@@ -160,6 +170,15 @@ class social_login {
           "initial" => true
         )
       );
+
+      bof()->db->_update( array(
+        "table" => "_u_list",
+        "where" => array( array( "ID", "=", (int) $userID ) ),
+        "set" => array(
+          array( "password_set", 0 ),
+          array( "google_sub", $target === "google" ? (string) $user_profile->identifier : null )
+        )
+      ) );
 
       $requested_user = bof()->object->user->select(["ID"=>$userID],array(
         "_eq" => array(

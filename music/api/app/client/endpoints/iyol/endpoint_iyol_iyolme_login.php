@@ -34,6 +34,13 @@ function endpoint_iyol_iyolme_login( $loader, $excuter, $args ){
   if ( $grant === "" )
     $fail( "Missing grant", "Start the sign-in again from HiTune Music." );
 
+  // Optional app return — when the caller passes next=hitune://sociallogin
+  // the completed session is deep-linked back to the HiTune app instead of
+  // only being written into browser localStorage/cookies.
+  $next = trim( (string) $loader->nest->user_input( "get", "next", "string" ) );
+  if ( $next !== "" && stripos( $next, "hitune://" ) !== 0 )
+    $next = "";
+
   $res = $iyol->api_request( "POST", "/hitune/v1/grant_exchange", array( "grant" => $grant ) );
 
   if ( !is_array( $res ) || empty( $res["ok"] ) || empty( $res["user"]["email"] ) ){
@@ -105,12 +112,29 @@ function endpoint_iyol_iyolme_login( $loader, $excuter, $args ){
   // _bof_cache_sessions with a JSON `data` column. create() handles all
   // of that — we just hand the pair to the browser.
   $sess = bof()->session->create( $uid, array(
-    "platform_type" => "web",
+    "platform_type" => $next !== "" ? "mobile" : "web",
     "extra_data"    => bof()->user->get_extraData( true, $uid )
   ) );
 
   if ( empty( $sess["id"] ) || empty( $sess["key"] ) )
     $fail( "Sign-in failed", "Could not open a HiTune session. Try again." );
+
+  // App return — deep-link the session into the HiTune app:
+  // hitune://sociallogin?sess_id=…&sess_key=… (handled by AppLinks).
+  if ( $next !== "" ){
+    $sep = strpos( $next, "?" ) === false ? "?" : "&";
+    $out = $next . $sep . "sess_id=" . urlencode( $sess["id"] ) . "&sess_key=" . urlencode( $sess["key"] );
+    header( "Content-Type: text/html; charset=utf-8" );
+    echo '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+      . '<meta http-equiv="refresh" content="0;url=' . htmlspecialchars( $out, ENT_QUOTES ) . '">'
+      . '<title>Opening HiTune Music…</title></head>'
+      . '<body style="background:#0a0a1a;color:#fff;font-family:sans-serif;text-align:center;padding:60px 20px">'
+      . '<h2>Login successful</h2><p>Opening HiTune Music…</p>'
+      . '<script>location.replace(' . json_encode( $out ) . ');</script>'
+      . '<p><a style="color:#00b7ff" href="' . htmlspecialchars( $out ) . '">Tap to open the app</a></p>'
+      . '</body></html>';
+    exit;
+  }
 
   $sid  = json_encode( $sess["id"] );
   $skey = json_encode( $sess["key"] );
