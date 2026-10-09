@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+    (function(){var d=document.documentElement,t='light';
+    try{t=localStorage.getItem('hitune-theme')||'light'}catch(e){}
+    d.setAttribute('data-theme',t);
+    var m=function(n){var mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.setAttribute('content',n==='light'?'#f8fafc':'#0a0a1a');};
+    m(t);
+    document.addEventListener('click',function(e){var b=e.target.closest('.theme-toggle');if(!b)return;
+    var n=d.getAttribute('data-theme')==='light'?'dark':'light';
+    d.setAttribute('data-theme',n);try{localStorage.setItem('hitune-theme',n)}catch(err){}m(n);});})();
+    </script>
+    <title>FAQ | Hitune</title>
+    <meta name="description" content="Frequently asked questions about Hitune Music streaming and Hitune Distribution.">
+    <link rel="canonical" href="https://hitune.in/faq.html">
+    <link rel="icon" type="image/png" href="/hitune-icon.png">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Figtree','sans-serif']},colors:{ink:'#0a0a1a',accent:'#00b7ff',accent2:'#8b5cf6'}}}}</script>
+    <style>
+        body{background:#0a0a1a;font-family:'Figtree',sans-serif}
+        .glass{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+        .legal h2{color:#fff;font-weight:800;font-size:1.35rem;margin:2.2rem 0 .8rem}
+        .legal h3{color:#e2e8f0;font-weight:700;margin:1.4rem 0 .5rem}
+        .legal p,.legal li{color:#94a3b8;line-height:1.75;font-size:.95rem}
+        .legal ul{list-style:disc;padding-left:1.4rem;margin:.6rem 0}
+        .legal a{color:#00b7ff}
+
+        /* ---- Light theme (default) ---- */
+        html[data-theme="light"] body{background:#f8fafc;color:#334155}
+        html[data-theme="light"] .glass{background:#fff;border-color:rgba(15,23,42,.1);box-shadow:0 10px 40px rgba(15,23,42,.06)}
+        html[data-theme="light"] .legal h2{color:#0f172a}
+        html[data-theme="light"] .legal h3{color:#334155}
+        html[data-theme="light"] .legal p,.legal li{color:#475569}
+        html[data-theme="light"] .legal strong{color:#0f172a}
+        html[data-theme="light"] .text-white{color:#0f172a!important}
+        html[data-theme="light"] .text-slate-200{color:#334155!important}
+        html[data-theme="light"] .text-slate-300{color:#475569!important}
+        html[data-theme="light"] .text-slate-400{color:#64748b!important}
+        html[data-theme="light"] .text-slate-500{color:#64748b!important}
+        html[data-theme="light"] header{background:rgba(255,255,255,.9)!important;border-bottom-color:rgba(15,23,42,.08)!important}
+        html[data-theme="light"] [class*="border-white"]{border-color:rgba(15,23,42,.1)!important}
+        html[data-theme="light"] .hover\:text-white:hover{color:#0f172a!important}
+        html[data-theme="light"] .theme-icon-dark{display:none}
+        html[data-theme="light"] .theme-icon-light{display:inline-block!important}
+        html:not([data-theme="light"]) .theme-icon-light{display:none}
+    </style>
+</head>
+<body class="text-slate-200 antialiased">
+<header class="border-b border-white/5" style="background:rgba(10,10,26,.9)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+        <a href="/" class="flex items-center gap-3">
+            <img src="/hitune-icon.png" alt="Hitune" class="w-10 h-10 rounded-xl">
+            <div class="leading-tight">
+                <span class="text-lg font-extrabold text-white">Hitune</span>
+                <span class="block text-[10px] uppercase tracking-[0.25em] text-accent font-semibold">Music & Distribution</span>
+            </div>
+        </a>
+        <div class="flex items-center gap-3">
+            <button type="button" class="theme-toggle w-10 h-10 rounded-lg border border-white/15 text-white hover:bg-white/5 transition inline-flex items-center justify-center" aria-label="Toggle light/dark mode" title="Toggle theme"><i class="fas fa-moon theme-icon-dark"></i><i class="fas fa-sun theme-icon-light"></i></button>
+            <a href="/" class="text-sm font-semibold text-slate-300 hover:text-white transition"><i class="fas fa-arrow-left mr-2 text-xs"></i>Back to Home</a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 border border-accent/20 text-accent text-sm font-semibold mb-6"><i class="fas fa-circle-question text-xs"></i> Help</span>
+    <h1 class="text-4xl font-extrabold text-white mb-3">FAQ</h1>
+    <p class="text-slate-500 text-sm mb-10">Last updated: October 9, 2026 &middot; Hitune &mdash; a Believoo product.</p>
+
+    <div class="glass rounded-2xl p-8 legal">
+        <h2>Hitune Music (listening)</h2>
+        <h3>How do I listen?</h3>
+        <p>On the web at <a href="https://music.hitune.in/home">music.hitune.in</a> or via the Android app — download from the <a href="/">homepage</a>.</p>
+        <h3>Is Hitune Music free?</h3>
+        <p>Yes — core streaming is free. Premium features, where offered, are shown inside the app.</p>
+
+        <h2>Hitune Distribution (artists)</h2>
+        <h3>How do I release my music?</h3>
+        <p>Create an account at <a href="https://distribution.hitune.in">distribution.hitune.in</a>, pick a plan (Rising Artist, Breakout or Professional), upload your audio, cover art and metadata — we deliver to 100+ platforms.</p>
+        <h3>Do I keep my rights and royalties?</h3>
+        <p>Yes. You retain 100% ownership and, unless your plan states otherwise, 100% of net royalties reported by stores.</p>
+        <h3>How long does a release take to go live?</h3>
+        <p>Each store reviews and ingests releases on its own schedule — typically a few days to two weeks. Submit ahead of your release date.</p>
+        <h3>How do payouts work?</h3>
+        <p>Royalties reported by stores are credited to your dashboard; withdrawals require completed payout/KYC details and meeting the minimum threshold.</p>
+
+        <h2>Account &amp; policies</h2>
+        <h3>How do I get a refund?</h3>
+        <p>See the <a href="/refund-policy.html">Refund Policy</a> for plan purchases and credits.</p>
+        <h3>How do I report content?</h3>
+        <p>Use the <a href="/copyright.html">Copyright &amp; Content</a> process for rights issues, or <a href="/contact.html">contact us</a>.</p>
+        <h3>Something else?</h3>
+        <p>Email <a href="mailto:hello@hitune.in">hello@hitune.in</a>.</p>
+    </div>
+</main>
+
+<footer class="border-t border-white/5 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+        <p>&copy; 2026 Hitune — a <a href="https://believoo.com" class="text-slate-300 hover:text-accent">Believoo</a> product. All rights reserved.</p>
+        <div class="flex gap-5">
+            <a href="/privacy-policy.html" class="hover:text-accent">Privacy</a>
+            <a href="/copyright.html" class="hover:text-accent">Copyright</a>
+            <a href="/refund-policy.html" class="hover:text-accent">Refunds</a>
+            <a href="/about.html" class="hover:text-accent">About</a>
+            <a href="/contact.html" class="hover:text-accent">Contact</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
