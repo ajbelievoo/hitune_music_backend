@@ -119,6 +119,7 @@
                 <a href="#how-it-works" class="hover:text-white transition">How It Works</a>
                 <a href="#platforms" class="hover:text-white transition">Platforms</a>
                 <a href="#family" class="hover:text-white transition">Believoo Group</a>
+                <a href="#faq" class="hover:text-white transition">FAQ</a>
                 <a href="#legal" class="hover:text-white transition">Policies</a>
             </nav>
             <div class="flex items-center gap-3">
@@ -440,6 +441,39 @@
     </div>
 </section>
 
+<!-- ============ FAQ ============ -->
+<section id="faq" class="py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+            <span class="text-accent font-semibold tracking-wider uppercase text-sm">FAQ</span>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">Questions, Answered</h2>
+            <p class="text-slate-400 mt-4">For listeners and artists — the essentials. More on the <a href="/faq.html" class="text-accent hover:underline">FAQ page</a>.</p>
+        </div>
+        <div class="space-y-4">
+            <details class="glass rounded-2xl p-6 group">
+                <summary class="font-bold text-white cursor-pointer list-none flex items-center justify-between">Is Hitune Music free to use? <i class="fas fa-plus text-accent text-sm group-open:rotate-45 transition"></i></summary>
+                <p class="text-slate-400 text-sm leading-relaxed mt-4">Yes — streaming on Hitune Music is free. You get millions of songs, playlists, radio and lyrics on the web player and Android app without paying anything.</p>
+            </details>
+            <details class="glass rounded-2xl p-6 group">
+                <summary class="font-bold text-white cursor-pointer list-none flex items-center justify-between">How do I distribute my music? <i class="fas fa-plus text-accent text-sm group-open:rotate-45 transition"></i></summary>
+                <p class="text-slate-400 text-sm leading-relaxed mt-4">Sign up at distribution.hitune.in, pick a plan — Rising Artist, Breakout or Professional — then upload your audio, cover art and metadata. We deliver your release to Spotify, Apple Music, JioSaavn and 100+ platforms worldwide.</p>
+            </details>
+            <details class="glass rounded-2xl p-6 group">
+                <summary class="font-bold text-white cursor-pointer list-none flex items-center justify-between">Do I keep my rights and royalties? <i class="fas fa-plus text-accent text-sm group-open:rotate-45 transition"></i></summary>
+                <p class="text-slate-400 text-sm leading-relaxed mt-4">Absolutely. You retain 100% ownership of your masters and, unless your plan states otherwise, 100% of net royalties reported by stores. Royalties are tracked in your artist dashboard and withdrawable once you pass the payout threshold.</p>
+            </details>
+            <details class="glass rounded-2xl p-6 group">
+                <summary class="font-bold text-white cursor-pointer list-none flex items-center justify-between">How long does a release take to go live? <i class="fas fa-plus text-accent text-sm group-open:rotate-45 transition"></i></summary>
+                <p class="text-slate-400 text-sm leading-relaxed mt-4">Each store reviews and ingests releases on its own schedule — typically a few days to two weeks. Submit your release ahead of your planned date for a smooth launch.</p>
+            </details>
+            <details class="glass rounded-2xl p-6 group">
+                <summary class="font-bold text-white cursor-pointer list-none flex items-center justify-between">Who runs Hitune? <i class="fas fa-plus text-accent text-sm group-open:rotate-45 transition"></i></summary>
+                <p class="text-slate-400 text-sm leading-relaxed mt-4">Hitune is built and operated by Believoo — an Indian software and hosting company that also runs believoo.com, B-Connect and GHC. See <a href="/about.html" class="text-accent hover:underline">About Us</a> for the full picture.</p>
+            </details>
+        </div>
+    </div>
+</section>
+
 <!-- ============ LEGAL ============ -->
 <section id="legal" class="py-24">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -572,6 +606,24 @@
     document.getElementById('menuBtn').addEventListener('click', function() {
         document.getElementById('mobileMenu').classList.toggle('hidden');
     });
+</script>
+<style>
+#ckbar{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;padding:14px;background:rgba(8,12,32,.96);border-top:1px solid rgba(0,183,255,.25);backdrop-filter:blur(10px);font-family:'Figtree',system-ui,sans-serif}
+#ckbar .in{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between}
+#ckbar p{margin:0;color:#a9b5da;font-size:.82rem;line-height:1.5;flex:1;min-width:260px}
+#ckbar a{color:#00b7ff}
+#ckbar .btns{display:flex;gap:10px}
+#ckbar button{border:0;border-radius:10px;padding:9px 18px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit}
+#ckAcc{background:linear-gradient(90deg,#00b7ff,#8b5cf6);color:#0a0a1a}
+#ckRej{background:transparent;color:#93a0cf;border:1px solid rgba(147,160,207,.35)!important}
+</style>
+<div id="ckbar"><div class="in"><p>We use cookies for essential features, preferences and analytics. Choose <b>Essential only</b> to opt out of non-essential cookies — details in our <a href="/privacy-policy.html">Privacy Policy</a>.</p><div class="btns"><button type="button" id="ckRej">Essential only</button><button type="button" id="ckAcc">Accept all</button></div></div></div>
+<script>
+(function(){var k="hitune-consent",v=null;try{v=localStorage.getItem(k)}catch(e){}
+if(v)return;var b=document.getElementById("ckbar");if(!b)return;b.style.display="block";
+function set(val){try{localStorage.setItem(k,val)}catch(e){}b.style.display="none";}
+document.getElementById("ckAcc").onclick=function(){set("all")};
+document.getElementById("ckRej").onclick=function(){set("necessary")};})();
 </script>
 </body>
 </html>

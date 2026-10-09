@@ -114,5 +114,23 @@
         </div>
     </div>
 </footer>
+<style>
+#ckbar{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;padding:14px;background:rgba(8,12,32,.96);border-top:1px solid rgba(0,183,255,.25);backdrop-filter:blur(10px);font-family:'Figtree',system-ui,sans-serif}
+#ckbar .in{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between}
+#ckbar p{margin:0;color:#a9b5da;font-size:.82rem;line-height:1.5;flex:1;min-width:260px}
+#ckbar a{color:#00b7ff}
+#ckbar .btns{display:flex;gap:10px}
+#ckbar button{border:0;border-radius:10px;padding:9px 18px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit}
+#ckAcc{background:linear-gradient(90deg,#00b7ff,#8b5cf6);color:#0a0a1a}
+#ckRej{background:transparent;color:#93a0cf;border:1px solid rgba(147,160,207,.35)!important}
+</style>
+<div id="ckbar"><div class="in"><p>We use cookies for essential features, preferences and analytics. Choose <b>Essential only</b> to opt out of non-essential cookies — details in our <a href="/privacy-policy.html">Privacy Policy</a>.</p><div class="btns"><button type="button" id="ckRej">Essential only</button><button type="button" id="ckAcc">Accept all</button></div></div></div>
+<script>
+(function(){var k="hitune-consent",v=null;try{v=localStorage.getItem(k)}catch(e){}
+if(v)return;var b=document.getElementById("ckbar");if(!b)return;b.style.display="block";
+function set(val){try{localStorage.setItem(k,val)}catch(e){}b.style.display="none";}
+document.getElementById("ckAcc").onclick=function(){set("all")};
+document.getElementById("ckRej").onclick=function(){set("necessary")};})();
+</script>
 </body>
 </html>
