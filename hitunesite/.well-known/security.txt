@@ -1,0 +1,6 @@
+Contact: mailto:security@hitune.in
+Contact: mailto:abuse@hitune.in
+Preferred-Languages: en
+Canonical: https://hitune.in/.well-known/security.txt
+Policy: https://hitune.in/privacy-policy.html
+Expires: 2027-12-31T23:59:59.000Z
