@@ -1,0 +1,9 @@
+/* TEAM */
+Site: Hitune - Music Streaming & Distribution
+Company: Believoo
+Contact: hello@hitune.in
+Location: India
+
+/* SITE */
+Built with: HTML, Tailwind CSS, nginx
+Standards: HTML5, Open Graph, JSON-LD
