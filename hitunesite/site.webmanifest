@@ -1,0 +1,16 @@
+{
+  "name": "Hitune",
+  "short_name": "Hitune",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#0a0a1a",
+  "description": "Music streaming and worldwide distribution by Believoo.",
+  "icons": [
+    {
+      "src": "/hitune-icon.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ]
+}
