@@ -7,7 +7,8 @@
             "namespace": "android_app",
             "package_name": "com.hitune.app",
             "sha256_cert_fingerprints": [
-                "EA:28:0C:0B:D5:8A:60:08:AE:99:11:A3:97:F1:9D:87:38:2E:01:E2:E0:E2:DE:1D:18:73:4C:64:FB:67:C1:61"
+                "EA:28:0C:0B:D5:8A:60:08:AE:99:11:A3:97:F1:9D:87:38:2E:01:E2:E0:E2:DE:1D:18:73:4C:64:FB:67:C1:61",
+                "B7:82:9F:80:01:A9:B6:DF:80:1A:04:71:47:9B:CC:FF:8E:E7:88:39:60:58:8F:C1:38:D2:EC:43:35:03:3D:E7"
             ]
         }
     }

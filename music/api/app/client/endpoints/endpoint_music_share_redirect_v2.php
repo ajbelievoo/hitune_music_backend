@@ -99,8 +99,65 @@ function endpoint_music_share_redirect_v2( $loader, $excuter, $args ){
         } catch (Throwable $e) {}
         
         if (!empty($item['url'])) {
+            // Smart app-open interstitial — Android track links hand off to
+            // the HiTune app (deep link) or the Play Store (install
+            // referrer auto-plays the song after install) instead of
+            // landing on the web player. ?web=1 passes through.
+            $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+            if ($objectType === 'track'
+                && !empty($item['hash'])
+                && !isset($_GET['web'])
+                && stripos($ua, 'android') !== false) {
+                $hash = preg_replace('/[^a-f0-9]/i', '', (string) $item['hash']);
+                $hashJs = json_encode($hash);
+                $refJs = json_encode(rawurlencode('hitune_track=' . $hash . '&utm_source=share'));
+                $title = htmlspecialchars((string) ($item['title'] ?? 'HiTune track'), ENT_QUOTES);
+                $webUrl = $item['url'];
+                if (strpos($webUrl, 'http') !== 0 && strpos($webUrl, '/') !== 0) {
+                    $webUrl = web_address . $webUrl;
+                }
+                $webUrl = htmlspecialchars($webUrl . (strpos($webUrl, '?') !== false ? '&' : '?') . 'web=1', ENT_QUOTES);
+                http_response_code(200);
+                echo <<<HTML
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$title} — HiTune</title>
+<style>
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#0a0a1a;color:#fff;text-align:center;padding:60px 24px}
+.logo{font-size:56px}
+h1{font-size:20px;margin:16px 0 8px}
+p{color:#9aa0b5;font-size:15px}
+.btn{display:inline-block;margin-top:26px;padding:14px 32px;border-radius:12px;background:#00b7ff;color:#05081a;font-weight:700;text-decoration:none}
+.web{display:block;margin-top:18px;color:#8b5cf6;font-size:14px}
+</style>
+<script>
+(function(){
+  var hash = {$hashJs};
+  var deep = 'hitune://track/' + hash;
+  var store = 'market://details?id=com.hitune.app&referrer=' + {$refJs} + '&hl=en_IN';
+  var fellBack = false;
+  var t = setTimeout(function(){ if(!fellBack){ window.location.href = store; } }, 1800);
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) { fellBack = true; clearTimeout(t); }
+  });
+  window.location.href = deep;
+})();
+</script>
+</head><body>
+<div class="logo">&#9836;</div>
+<h1>{$title}</h1>
+<p>Opening in HiTune Music&hellip;</p>
+<a class="btn" href="market://details?id=com.hitune.app">Get HiTune on Play Store</a>
+<a class="web" href="{$webUrl}">Continue in browser</a>
+</body></html>
+HTML;
+                exit;
+            }
+
             $targetUrl = $item['url'];
-            
+
             // Ensure $targetUrl is absolute or starts with /
             if ( strpos( $targetUrl, 'http' ) !== 0 && strpos( $targetUrl, '/' ) !== 0 ){
                 $targetUrl = web_address . $targetUrl;
