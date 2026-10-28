@@ -47,8 +47,10 @@ function dist_tip_topup_create( $loader, $db, $user_id ){
     if ( !bof()->object->db_setting->get( "gateway_razorpay" ) || !bof()->object->db_setting->get( "gateway_razorpay_id" ) )
         return $loader->api->set_error( 'failed', array( 'message' => 'Payment gateway not configured' ) );
 
-    $db->_insert( '_htx_topups', array( 'user_id' => $user_id, 'amount' => $amount ) );
-    $topup_id = (int)$db->insert_id();
+    $topup_id = (int) $db->_insert( array(
+        'table' => '_htx_topups',
+        'set'   => array( array( 'user_id', $user_id ), array( 'amount', $amount ) ),
+    ) );
     if ( !$topup_id )
         return $loader->api->set_error( 'failed', array( 'message' => 'topup_create_failed' ) );
 
@@ -188,14 +190,17 @@ function dist_tip_send( $loader, $db, $user_id ){
     $db->query( "UPDATE `_htx_wallet` SET balance = balance - {$amount} WHERE user_id = {$user_id}" );
     $db->query( "INSERT INTO `_htx_wallet` (user_id, balance) VALUES ({$to_user_id}, {$artist_amt})
         ON DUPLICATE KEY UPDATE balance = balance + {$artist_amt}" );
-    $db->_insert( '_htx_tips', array(
-        'from_user_id'    => $user_id,
-        'to_user_id'      => $to_user_id,
-        'track_id'        => $track_id,
-        'amount'          => $amount,
-        'artist_amount'   => $artist_amt,
-        'platform_amount' => $platform_amt,
-        'note'            => $note ?: null,
+    $db->_insert( array(
+        'table' => '_htx_tips',
+        'set'   => array(
+            array( 'from_user_id',    $user_id ),
+            array( 'to_user_id',      $to_user_id ),
+            array( 'track_id',        $track_id ),
+            array( 'amount',          $amount ),
+            array( 'artist_amount',   $artist_amt ),
+            array( 'platform_amount', $platform_amt ),
+            array( 'note',            $note ?: null ),
+        ),
     ) );
 
     $loader->api->set_message( 'tip_sent', array(

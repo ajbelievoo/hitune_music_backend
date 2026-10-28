@@ -48,6 +48,12 @@ $map = [
     'gateway_razorpay_id' => $values['RAZORPAY_KEY_ID'] ?? '',
     'gateway_razorpay_key' => $values['RAZORPAY_KEY_SECRET'] ?? '',
     'gateway_razorpay_test' => ( ($values['RAZORPAY_MODE'] ?? '') === 'test' ? '1' : '0' ),
+    'gateway_stripe_key' => $values['STRIPE_PUBLISHABLE_KEY'] ?? '',
+    'gateway_stripe_secret' => $values['STRIPE_SECRET_KEY'] ?? '',
+    'gateway_stripe_mode' => $values['STRIPE_MODE'] ?? 'live',
+    'gateway_cashfree_app_id' => $values['CASHFREE_APP_ID'] ?? '',
+    'gateway_cashfree_secret_key' => $values['CASHFREE_SECRET_KEY'] ?? '',
+    'gateway_cashfree_test' => ( ($values['CASHFREE_MODE'] ?? 'production') === 'production' ? '0' : '1' ),
 ];
 
 foreach ($map as $var => $val) {

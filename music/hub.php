@@ -107,9 +107,49 @@ button{font-family:inherit}
 .sta-card.on{border-color:var(--cy);box-shadow:0 10px 30px -10px #00b7ff66}
 .sta-card.on:after{content:'● LIVE';position:absolute;top:12px;right:12px;font-size:8.5px;font-weight:800;letter-spacing:1px;color:#52e39a}
 
-.ct-head{display:flex;align-items:center;gap:13px;margin-bottom:8px}
-.ct-prize{margin-left:auto;font-size:12px;font-weight:800;color:var(--gd);background:#ffb02014;border:1px solid #ffb02035;padding:6px 13px;border-radius:11px}
-.ct-dates{font-size:11px;color:var(--mut);margin-bottom:10px}
+.ct-head{display:flex;align-items:center;gap:13px;margin-bottom:12px}
+.ct-prize{margin-left:auto;font-size:12px;font-weight:800;color:var(--gd);background:#ffb02014;border:1px solid #ffb02035;padding:6px 13px;border-radius:11px;flex:none}
+.ct-dates{font-size:11px;color:var(--mut);margin-top:3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ct-ic{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#ffb020,#fa2d48 130%);display:grid;place-items:center;flex:none;box-shadow:0 8px 24px -6px #ffb02088;position:relative;overflow:hidden;animation:trophyFloat 3.4s ease-in-out infinite}
+.ct-ic:after{content:'';position:absolute;top:-55%;left:-70%;width:42%;height:210%;background:linear-gradient(105deg,transparent,#ffffff60,transparent);transform:rotate(20deg);animation:shine 3.4s ease-in-out infinite}
+.ct-ic .emj{font-size:26px;line-height:1;filter:drop-shadow(0 2px 4px #0006)}
+@keyframes trophyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes shine{0%{left:-70%}55%,100%{left:140%}}
+.ct-title{font-size:16.5px;font-weight:800;letter-spacing:-.2px;display:block}
+.ct-chip{font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 10px;border-radius:11px;background:#ffffff0c;border:1px solid var(--line);color:var(--mut);text-transform:uppercase}
+.ct-chip.live{color:#52e39a;border-color:#52e39a40;background:#52e39a12}
+.ct-chip.live:before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#52e39a;box-shadow:0 0 9px #52e39a;margin-right:5px;vertical-align:1px;animation:blink 1.6s infinite}
+.ct-plays{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--mut);background:#ffffff0a;border:1px solid var(--line);padding:4px 11px;border-radius:12px;font-variant-numeric:tabular-nums}
+.ct-plays .mdi{font-size:13px;color:var(--cy)}
+.ct-card{overflow:hidden}
+.tk-rank.medal{font-size:23px;filter:drop-shadow(0 3px 8px #0007);animation:medalIn .5s cubic-bezier(.3,1.4,.4,1) backwards}
+.tk-rank.r1{font-size:25px}
+@keyframes medalIn{from{opacity:0;transform:scale(.4) rotate(-14deg)}to{opacity:1;transform:none}}
+.tk-row.win{background:linear-gradient(90deg,#ffd34d12,#ffd34d05 55%,transparent);border-color:#ffd34d2e}
+.tk-row.win:hover{border-color:#ffd34d55;box-shadow:0 6px 22px -10px #ffd34d44}
+.empty{padding:48px 24px;text-align:center;color:var(--mut);font-size:13px;background:linear-gradient(135deg,#8b5cf60d,#00b7ff08);border:1px dashed var(--line);border-radius:16px}
+.empty .mdi{font-size:38px;display:block;margin-bottom:12px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.empty .emj{font-size:46px;display:block;margin-bottom:14px;filter:drop-shadow(0 6px 16px #ffb02033)}
+.empty .empty-t{line-height:1.5}
+.hic .emj{font-size:25px;line-height:1}
+
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.card{animation:rise .5s cubic-bezier(.2,.8,.3,1) backwards}
+.card:nth-of-type(2){animation-delay:.07s}.card:nth-of-type(3){animation-delay:.14s}
+.card:hover{border-color:#8b5cf62e}
+.tk-row{animation:rise .4s cubic-bezier(.2,.8,.3,1) backwards}
+.ct-card .tk-row:nth-of-type(1){animation-delay:.03s}.ct-card .tk-row:nth-of-type(2){animation-delay:.06s}
+.ct-card .tk-row:nth-of-type(3){animation-delay:.09s}.ct-card .tk-row:nth-of-type(4){animation-delay:.12s}
+.ct-card .tk-row:nth-of-type(5){animation-delay:.15s}.ct-card .tk-row:nth-of-type(6){animation-delay:.18s}
+.ct-card .tk-row:nth-of-type(7){animation-delay:.21s}.ct-card .tk-row:nth-of-type(8){animation-delay:.24s}
+.ct-card .tk-row:nth-of-type(n+9){animation-delay:.27s}
+.tk-row{transition:.18s cubic-bezier(.2,.8,.3,1)}
+.tk-row:hover{transform:translateX(4px);background:#ffffff08;border-color:#8b5cf636}
+.tk-row:hover .tk-cov{transform:scale(1.07) rotate(-1.5deg);box-shadow:0 6px 16px -6px #000a}
+.tk-cov{transition:transform .25s cubic-bezier(.2,.8,.3,1),box-shadow .25s}
+.ambient{animation:ambDrift 26s ease-in-out infinite alternate}
+@keyframes ambDrift{to{transform:translate3d(0,-26px,0) scale(1.07)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 .wallet-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
 .w-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center}
@@ -170,7 +210,7 @@ body.light .loginbox .mdi{color:var(--pu)}
 <div class="ambient"></div>
 <div class="wrap">
   <nav class="rail">
-    <a class="brand" href="/home"><img src="/files/logo/26/09/22/6ab284f5cd5bd/hitune_icon_blue_6ab2810b469b5.png" alt="Hitune" style="width:38px;height:38px;border-radius:11px;box-shadow:0 6px 18px -4px #00b7ff66"><div><b>HiTune Hub</b><span>Community</span></div></a>
+    <a class="brand" href="/home"><img src="/logo.png" alt="Hitune" style="width:38px;height:38px;border-radius:11px;box-shadow:0 6px 18px -4px #00b7ff66" onerror="this.outerHTML='<div class=lg><span class=\'mdi mdi-music-note\'></span></div>'"><div><b>HiTune Hub</b><span>Community</span></div></a>
     <div class="nav-lbl">Discover</div>
     <div class="nav-it t-charts" data-tab="charts"><div class="ic"><span class="mdi mdi-chart-line"></span></div>Charts</div>
     <div class="nav-it t-clips" data-tab="clips"><div class="ic"><span class="mdi mdi-movie-open"></span></div>Short Clips</div>
@@ -214,11 +254,14 @@ function is403(d){ return d && (d.message==='403' || (d.messages||[]).indexOf('4
 function trackUrl(h){ return '/track/'+h; }
 function mmss(s){ s=Math.round(s||0); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
 
+function icnHtml(ic){
+  return String(ic).indexOf('mdi-')===0 ? '<span class="mdi '+ic+'"></span>' : '<span class="emj">'+ic+'</span>';
+}
 function head(icon,title,sub){
-  return '<h1><span class="hic"><span class="mdi '+icon+'"></span></span>'+title+'</h1><p class="sub">'+sub+'</p>';
+  return '<h1><span class="hic">'+icnHtml(icon)+'</span></span>'+title+'</h1><p class="sub">'+sub+'</p>';
 }
 function skeletons(n){ var s=''; while(n--) s+='<div class="skel"></div>'; return s; }
-function emptyState(ic,txt){ return '<div class="empty"><span class="mdi '+ic+'"></span>'+txt+'</div>'; }
+function emptyState(ic,txt,cta){ return '<div class="empty">'+icnHtml(ic)+'<div class="empty-t">'+txt+'</div>'+(cta||'')+'</div>'; }
 function loginBox(what){
   return '<div class="loginbox"><span class="mdi mdi-account-lock-outline"></span><p>Login needed to '+what+' on HiTune.</p>'+
     '<a class="big-btn" href="'+distAuth.loginUrl()+'"><span class="mdi mdi-login"></span>Login to HiTune</a></div>';
@@ -227,8 +270,9 @@ function loginBox(what){
 function tkRow(t, rank, extra){
   var cov = t.cover ? '<img class="tk-cov" src="'+esc(t.cover)+'" loading="lazy" onerror="this.outerHTML=\'<div class=tk-cov><span class=mdi mdi-music-note></span></div>\'">'
                     : '<div class="tk-cov ph"><span class="mdi mdi-music-note"></span></div>';
-  return '<div class="tk-row">'+
-    (rank!=null?'<div class="tk-rank'+(rank<=3?' top':'')+'">'+rank+'</div>':'')+cov+
+  var medal = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':null;
+  return '<div class="tk-row'+(rank===1?' win':'')+'">'+
+    (rank!=null?'<div class="tk-rank'+(medal?' medal r'+rank:'')+'">'+(medal||rank)+'</div>':'')+cov+
     '<div style="min-width:0;flex:1"><div class="tk-name">'+esc(t.title)+'</div><div class="tk-art">'+esc(t.sub_title||t.sub_data||t.artist||'')+'</div></div>'+
     '<div class="tk-meta">'+(t.ai_pct>0?'<span class="badge ai">AI</span>':'')+
     (extra||'')+
@@ -319,20 +363,23 @@ function loadStation(seed,el){
 /* ---------------- CONTESTS ---------------- */
 function renderContests(){
   var w=document.getElementById('work');
-  w.innerHTML = head('mdi-trophy','Contests','Monthly competitions — Best AI Song, Best Indie Track. Winners ko free distribution + homepage feature.')+
+  w.innerHTML = head('🏆','Contests','Monthly competitions — Best AI Song, Best Indie Track. Winners ko free distribution + homepage feature.')+
     '<div id="ct-body">'+skeletons(4)+'</div>';
   post('hub/contests',{},function(d){
     d=dataOf(d);
     var cs=d.contests||[];
     if(!cs.length){ document.getElementById('ct-body').innerHTML='<div class="card">'+emptyState('mdi-trophy','Abhi koi active contest nahi — naya contest jald aa raha hai.')+'</div>'; return; }
     document.getElementById('ct-body').innerHTML = cs.map(function(c){
-      var lb=(c.leaderboard||[]).map(r=>tkRow({hash:r.hash,title:r.title,sub_title:r.artist,ai_pct:r.ai_pct,plays:r.plays},r.rank,
-        '<span class="badge" style="background:#ffffff10;color:var(--mut);border:1px solid var(--line)">'+(r.plays||0)+' plays</span>')).join('');
-      return '<div class="card"><div class="ct-head"><span class="mdi mdi-trophy-variant" style="font-size:26px;color:var(--gd)"></span>'+
-        '<div><b style="font-size:16px">'+esc(c.title)+'</b><div class="ct-dates">'+
-        (c.starts_at?('Starts '+esc(String(c.starts_at).slice(0,10))+' · '):'')+(c.ends_at?('Ends '+esc(String(c.ends_at).slice(0,10))):'Ongoing')+'</div></div>'+
+      var lb=(c.leaderboard||[]).map(r=>tkRow({hash:r.hash,title:r.title,sub_title:r.artist,ai_pct:r.ai_pct,cover:r.cover,plays:r.plays},r.rank,
+        '<span class="ct-plays"><span class="mdi mdi-play"></span>'+(r.plays||0)+'</span>')).join('');
+      var dleft=null;
+      if(c.ends_at){ var _e=new Date(String(c.ends_at).replace(' ','T')); if(!isNaN(_e)) dleft=Math.ceil((_e-Date.now())/864e5); }
+      var when=c.ends_at?(dleft!=null&&dleft>0?('<span class="ct-chip live"><span class="mdi mdi-timer-outline"></span>'+dleft+'d left</span>'):('Ends '+esc(String(c.ends_at).slice(0,10)))):'<span class="ct-chip">Ongoing</span>';
+      return '<div class="card ct-card"><div class="ct-head"><div class="ct-ic"><span class="emj">🏆</span></div>'+
+        '<div style="min-width:0;flex:1"><b class="ct-title">'+esc(c.title)+'</b><div class="ct-dates">'+
+        (c.starts_at?('Starts '+esc(String(c.starts_at).slice(0,10))+' · '):'')+when+'</div></div>'+
         (c.prize?'<div class="ct-prize"><span class="mdi mdi-gift"></span> '+esc(c.prize)+'</div>':'')+
-        '</div>'+(lb||emptyState('mdi-chart-line','Leaderboard abhi khali hai.'))+'</div>';
+        '</div>'+(lb||emptyState('🏆','Leaderboard abhi khali hai — pehla spot tumhara ho sakta hai.','<a class="lnk" href="/ai-studio" style="margin-top:14px;display:inline-block"><span class="mdi mdi-creation"></span> Submit via AI Studio</a>'))+'</div>';
     }).join('');
   });
 }

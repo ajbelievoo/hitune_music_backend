@@ -81,12 +81,12 @@
   text-transform: capitalize;
 }
 .btn.btn-primary {
-  background: rgba(var(--theme_color),0.3);
-  color: rgba(var(--theme_color),1);
-  font-weight: 500;
+  background: rgba(var(--theme_color),1);
+  color: #fff;
+  font-weight: 600;
 }
 .btn.btn-primary:hover {
-  background: rgba(var(--theme_color),0.35);
+  background: rgba(var(--theme_color),0.85);
 }
 .btn.btn-secondary {
   background: transparent;

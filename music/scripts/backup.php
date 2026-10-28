@@ -32,8 +32,8 @@ if ($code !== 0) {
     exit(1);
 }
 
-// Retention: keep last 14 days
-$cutoff = strtotime('-14 days');
+// Retention: keep last 7 days
+$cutoff = strtotime('-7 days');
 foreach (glob($backupDir . '/music_*.sql.gz') as $f) {
     if (filemtime($f) < $cutoff) {
         @unlink($f);

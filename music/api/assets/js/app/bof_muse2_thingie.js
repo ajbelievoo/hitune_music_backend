@@ -97,6 +97,15 @@ window.m2_thingie = {
             return promise
         }
 
+        // Never ad-gate the very first track of a session — persisted
+        // ini/thingie/check timestamps from an old session must not let an ad
+        // fire before (or instead of) the user's first song.
+        if ( !window.m2_focus._played_once ){
+            window.m2_thingie.log("thingie: no ads before first song. return",3);
+            promise.reject()
+            return promise
+        }
+
         window.becli.exe({
             liquid: true,
             endpoint: "get_the_thingie",
@@ -148,12 +157,22 @@ window.m2_thingie = {
             return thingiePlayPromise
         }
 
+        // Capture the interrupted track's position so it can resume there after the ad
+        try {
+            var _dp = window.m2_focus.inform("duration"), _sp = window.m2_focus.inform("seek");
+            $.when( _dp, _sp ).always(function( d, s ){
+                if ( typeof d === "number" && d > 0 && typeof s === "number" && s > 0 )
+                    window.m2_focus._pendingResume = Math.min( 99, s / d * 100 );
+            });
+        } catch(e){}
+
         window.m2_focus.cancelPreSetObject();
         window.m2_focus.cancelPreSet();
         window.m2_focus.cancelPreCli();
         window.m2_focus.ui.clear_seeker()
 
         window.m2_thingie.playing = autoplay;
+        window.m2_thingie._capped = false;
         window.m2_thingie.ID = ID;
 
         var cli = new m2c(
@@ -179,7 +198,10 @@ window.m2_thingie = {
         .done(function () {
             window.m2_thingie.log("Initiating cli -> Success", 2, ID)
             window.m2_thingie.seeker = window.m2_thingie.seek(true)
-            if ( !autoplay ){
+            if ( autoplay ){
+                window.m2_focus.setStatus("playing")
+                window.m2_focus.ui.hook()
+            } else {
                 window.m2_focus.setStatus("paused")
                 window.m2_focus.ui.hook()
             }
@@ -194,10 +216,12 @@ window.m2_thingie = {
             thingiePlayPromise.reject()
         })
 
+        var _adUrl = ( adData.url && adData.url !== "null" && adData.url !== "undefined" ) ? adData.url : "#";
+        var _adBanner = ( adData.banner && adData.banner !== "null" && adData.banner !== "undefined" ) ? adData.banner : ( window.config.web.address + "api/assets/images/icon_512.png" );
         $(document).find("#player").addClass("thingie_attached")
-        $(document).find("#player.thingie_attached .controls_wrapper").after("<div class='thingie_indicator'><div><a href='"+adData.url+"' target='_blank'>"+adData.title+"</a><a href='"+adData.url+"' target='_blank'>"+window.lang.return( "sponsor", { ucfirst: true } )+"</a></div></div>")
-        $(document).find("#player.thingie_attached .data_wrapper a").attr("href",adData.url)
-        $(document).find("#player .data_wrapper .cover_holder div").css("background-image","url('"+adData.banner+"')")
+        $(document).find("#player.thingie_attached .controls_wrapper").after("<div class='thingie_indicator'><div><a href='"+_adUrl+"' target='_blank'>"+adData.title+"</a><a href='"+_adUrl+"' target='_blank'>"+window.lang.return( "sponsor", { ucfirst: true } )+"</a></div></div>")
+        $(document).find("#player.thingie_attached .data_wrapper a").attr("href",_adUrl)
+        $(document).find("#player .data_wrapper .cover_holder div").css("background-image","url('"+_adBanner+"')")
         window.m2_queue.ui.previewFocus()
 
         window.m2_thingie.cli = cli
@@ -214,12 +238,29 @@ window.m2_thingie = {
             duration_p.done(function(duration){
                 seek_p.done(function(seek){
 
+                    // Cap ad playback at thingie_max_seconds — self-promo files
+                    // can be full-length tracks; a 2+ minute ad is bad UX.
+                    var _maxAd = parseInt( window.m2.config.get("thingie_max_seconds") ) || 30;
+                    if ( typeof seek === "number" && seek >= _maxAd && !window.m2_thingie._capped ){
+                        window.m2_thingie._capped = true;
+                        window.m2_thingie.log("Ad hit max duration (" + _maxAd + "s) -> ending", 1)
+                        try {
+                            window.m2_thingie.cli.controller("seek", 99)
+                        } catch(e){
+                            window.m2_thingie.cleanup()
+                            window.m2_focus.setting.set( "thingie_has", 0 )
+                            window.m2_queue.active.setFocus()
+                        }
+                        return
+                    }
+
                     if (duration && seek) {
 
-                        var remain = Math.round(duration - seek)
+                        var dur_eff = Math.min(duration, _maxAd)
+                        var remain = Math.round(dur_eff - seek)
                         $(document).find(".queue #preview .text_wrapper #thingie_skip ._rt").text(remain)
 
-                        var offset_ratio = Math.round(duration ? seek / duration * 100 : 0);
+                        var offset_ratio = Math.round(dur_eff ? seek / dur_eff * 100 : 0);
 
                         $(document).find("#player .progress_bar .progress .progress_e").css("width", offset_ratio + "%")
 
@@ -227,8 +268,8 @@ window.m2_thingie = {
                         if (seek && (seek > 0 || seek === 0 || seek === "0") && $(document).find("#player .progress_bar .progress .time.cur").text() != time_cur)
                             $(document).find("#player .progress_bar .progress .time.cur").text(time_cur);
 
-                        var time_tot = window._g.duration_hr(duration);
-                        if (duration && (duration > 0) && $(document).find("#player .progress_bar .progress .time.tot").text() != time_tot)
+                        var time_tot = window._g.duration_hr(dur_eff);
+                        if (dur_eff && (dur_eff > 0) && $(document).find("#player .progress_bar .progress .time.tot").text() != time_tot)
                             $(document).find("#player .progress_bar .progress .time.tot").text(time_tot)
 
                     }
@@ -267,23 +308,47 @@ window.m2_thingie = {
 
     },
 
+    // Reset all ad state + strip the sponsor UI from the player.
+    // Used by "ended", mid-ad "error" and init-failure paths so a dead ad
+    // can never leave the player showing a stuck "Sponsor" banner.
+    cleanup: function(){
+
+        if ( window.m2_thingie.cli ){
+            try { window.m2_thingie.cli.cleanup() } catch(e){}
+            window.m2_thingie.cli = null
+        }
+        window.m2_thingie.playing = false
+        window.m2_thingie._capped = false
+        window.m2_thingie.cache = false
+        clearTimeout( window.m2_thingie.seeker )
+        window.m2_thingie.seeker = null
+        $(document).find("#player").removeClass("thingie_attached")
+        $(document).find("#player .thingie_indicator").remove()
+        window.m2_queue.ui.previewFocus()
+
+    },
+
     eventHandler: function( ID, event ){
         
         if ( ID != window.m2_thingie.ID )
             return;
 
         if ( event == "ended" ){
-            window.m2_thingie.cli.cleanup()
+            window.m2_thingie.cleanup()
             window.m2_focus.setting.set( "thingie", window._g._mt() )
             window.m2_focus.setting.set( "thingie_has", 0 )
-            window.m2_thingie.playing = false
-            window.m2_thingie.cache = false
-            clearTimeout( window.m2_thingie.seeker )
-            window.m2_thingie.seeker = null
-            window.m2_queue.ui.previewFocus()
             setTimeout(function(){
                 window.m2_queue.active.setFocus()
             },750)
+        }
+        else if ( event == "error" ){
+            // Ad audio died mid-play — drop ad state and resume the song.
+            window.m2_thingie.log( "Ad errored mid-play -> resuming track", 1 )
+            window.m2_thingie.cleanup()
+            window.m2_focus.setting.set( "thingie_has", 0 )
+            setTimeout(function(){
+                window.m2_queue.active.setFocus()
+            },250)
         }
         window.m2_thingie.log( "eventHandler " + event, 1 )
 
@@ -291,6 +356,10 @@ window.m2_thingie = {
 
     errorHandler: function ( err ){
         window.m2_thingie.log( "errorHandler " + err.message, 1 )
+        // Init failure: the song path already continues via the rejected
+        // thingie_play_promise — only clear any half-attached ad UI/state.
+        window.m2_thingie.cleanup()
+        window.m2_focus.setting.set( "thingie_has", 0 )
     }
 
 }

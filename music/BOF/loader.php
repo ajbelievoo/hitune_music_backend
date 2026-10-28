@@ -96,9 +96,12 @@ function error_inspector( $err_severity, $err_msg, $err_file, $err_line ){
     } catch( Exception|bofException|Warning|Error $err ){}
   }
 
-  // Send the error log to busyowl API if user allowed such a thing
+  // Send the error log to busyowl API if user allowed such a thing.
+  // Wrapped in try/catch: bof()->general may be unavailable during early
+  // bootstrap — a fatal inside the error handler cascades to a 500.
   if ( function_exists('curl_version') && !defined("api_sent_dia") ){
 
+    try {
     $c = curl_init();
 		curl_setopt( $c, CURLOPT_URL, "https://api.busyowl.co/report_error" );
 		curl_setopt( $c, CURLOPT_RETURNTRANSFER, true );
@@ -142,6 +145,7 @@ function error_inspector( $err_severity, $err_msg, $err_file, $err_line ){
       $d = curl_exec( $c );
     } catch( Warning|Error|Exception|bofException $ignore ){}
     curl_close( $c );
+    } catch( Throwable $ignore ){}
 
     define( "api_sent_dia", true );
 

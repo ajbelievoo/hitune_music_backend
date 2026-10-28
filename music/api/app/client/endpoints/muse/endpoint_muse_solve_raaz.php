@@ -249,6 +249,37 @@ function endpoint_muse_solve_raaz( $loader, $excuter, $args ){
 
     if ($youtube_piped_method == "server") {
 
+      // Saavn fast path (~1.4s) before the bot-blocked YouTube chain —
+      // a direct CDN MP4 beats both the slow resolve and the browser
+      // fallback stub returned on failure below.
+      try {
+        $_sv = bof()->hitune_saavn->resolve(
+          $object_item["title"],
+          !empty( $object_item["bof_dir_artist"]["name"] ) ? $object_item["bof_dir_artist"]["name"] : null,
+          $duration
+        );
+        if ( $_sv && !empty( $_sv["url"] ) ){
+          $loader->api->set_message("ok", array_merge( array(
+            "type" => array(
+              "audio",
+              array(
+                "address" => $_sv["url"],
+                "type" => "free",
+                "format" => $_sv["mime"],
+                "duration" => $_sv["duration"],
+                "saavn" => true
+              )
+            )
+          ), $_loudness_extra ));
+          try {
+            bof()->youtube_piped->cache_stream_url( $target_source_id, $_sv["url"], array(
+              "mime" => $_sv["mime"], "type" => "audio", "duration" => $_sv["duration"], "expire_in" => 259200
+            ) );
+          } catch( Exception | bofException | Error $err ){}
+          return;
+        }
+      } catch( Exception | bofException | Error $err ){}
+
       try {
         $stream = bof()->youtube_piped->set_setting()->get_stream_cached($target_source_id);
         $loader->api->set_message("ok", array_merge( array(
@@ -402,7 +433,12 @@ function endpoint_muse_solve_raaz( $loader, $excuter, $args ){
     // _bof_cache_streams.
     try {
 
-      $stream = bof()->youtube_piped->set_setting()->get_stream_cached( $target_source_id );
+      // Peek the shared stream cache only — a live YouTube resolution
+      // would burn 15-60s while this host's IP is bot-blocked; saavn is
+      // tried next before falling back to the guarded live chain.
+      $stream = bof()->youtube_piped->set_setting()->get_stream_cached( $target_source_id, array(
+        "allow_live" => false
+      ) );
 
       if ( $stream && !empty( $stream["url"] ) ){
 
@@ -456,11 +492,50 @@ function endpoint_muse_solve_raaz( $loader, $excuter, $args ){
         if ( !$check_audio )
         $_queue_yt_pending();
 
+        try {
+          bof()->youtube_piped->cache_stream_url( $target_source_id, $_sv["url"], array(
+            "mime" => $_sv["mime"], "type" => "audio", "duration" => $_sv["duration"], "expire_in" => 259200
+          ) );
+        } catch( Exception | bofException | Error $err ){}
+
         bof()->request->user_request_update( $_urid, true, $_resp );
         $loader->api->set_message( "ok", $_resp );
         return;
 
       }
+    } catch( Exception | bofException | Error $err ){}
+
+    // Saavn missed — last chance is a live YouTube resolution before the
+    // expensive full-download path below; the circuit breaker inside
+    // get_stream_cached keeps this cheap while the IP stays bot-blocked.
+    try {
+
+      $stream = bof()->youtube_piped->set_setting()->get_stream_cached( $target_source_id );
+
+      if ( $stream && !empty( $stream["url"] ) ){
+
+        $_resp = array_merge( array(
+          "type" => array(
+            $stream["type"],
+            array(
+              "address" => $stream["url"] . "&bof_sw_ignore_me=sure&unique=" . uniqid(),
+              "type" => "free",
+              "format" => $stream["mime"],
+              "duration" => !empty( $stream["duration"] ) ? $stream["duration"] : ( !empty( $object_item["duration"] ) ? intval( $object_item["duration"] ) : null ),
+              "expires" => !empty( $stream["expire"] ) ? $stream["expire"] : null,
+            )
+          )
+        ), $_loudness_extra );
+
+        if ( !$check_audio )
+        $_queue_yt_pending();
+
+        bof()->request->user_request_update( $_urid, true, $_resp );
+        $loader->api->set_message( "ok", $_resp );
+        return;
+
+      }
+
     } catch( Exception | bofException | Error $err ){}
 
     if ( !$check_audio ) {

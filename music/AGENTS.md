@@ -78,13 +78,13 @@ Full-track streaming access is restricted to Pro/Enterprise plans. Do not enable
 - `/health.php` returns JSON with `php`, `env`, `database`, and `files` checks.
 - Set `MAINTENANCE=true` in `/.env` to put public site, admin, and API into 503 maintenance mode.
 - `maintenance.html` is the branded maintenance page.
-- Database backups: `/usr/bin/php82 scripts/backup.php` creates a gzipped dump in `/www/wwwroot/backups/music/` with 14-day retention.
+- Database backups: `/usr/bin/php82 scripts/backup.php` creates a gzipped dump in `/www/wwwroot/backups/music/` with 7-day retention.
 - Daily backup cron: `/etc/cron.d/believoo-ecosystem`.
 
 - `/health.php` returns JSON with `php`, `env`, `database`, and `files` checks.
 - Set `MAINTENANCE=true` in `/.env` to put public site, admin, and API into 503 maintenance mode.
 - `maintenance.html` is the branded maintenance page.
-- Database backups: `/usr/bin/php82 scripts/backup.php` creates a gzipped dump in `/www/wwwroot/backups/music/` with 14-day retention.
+- Database backups: `/usr/bin/php82 scripts/backup.php` creates a gzipped dump in `/www/wwwroot/backups/music/` with 7-day retention.
 
 ## Notes
 
@@ -776,3 +776,14 @@ like the web↔music `sso_sync.php` bridge.
   P9M is NOT a valid Play billing period — 9months is web-checkout only.
 - `user_subs` must read iap/ai_quota from the item's top-level fields
   (clean() exposes them); raw `data` JSON is stripped in public selects.
+
+## Cloudflare R2 storage migration (2026-10-07)
+
+- `_bof_files_hosts` ID **2** = `Cloudflare-R2-music`: iyolme's shared `blitz` bucket (`d4daa0d0477cb7a9605d7fcf2968ffc6.r2.cloudflarestorage.com`), public via `cdn.hitune.in`, per-site `music/` prefix.
+- All 3203 `_bof_files` migrated: `host_id=2`, `path` had `files/` prefix stripped, `data` JSON `files\/` refs rewritten. Backup of original rows: `_bof_files_backup_r2` table.
+- `fh_setting` = `{"default":"2"}` → new uploads go to R2 automatically via transit plugin (remote path = `dirname/date/uniqid/name`, prefix `music/` applied).
+- `class_transit_aws_s3.php` patched: `_remote_key()` applies optional `data.prefix`; ACL + `ContentDisposition: attachment` stripped for cloudflare/R2 endpoints (R2 rejects public-read ACL; attachment breaks inline streaming).
+- Local `files/` now ~16MB — only `protected/`, `tmp/`, `hls_keys/` (referenced by m3u8 `#EXT-X-KEY` absolute URIs), `bulk_importer*/`, `cookies.txt` remain local by design.
+- rclone configured at `~/.config/rclone/rclone.conf` (`r2` remote). Creds also at `/tmp/.r2creds` (temp).
+- CRLF gotcha: iyolme `.env` values have trailing `\r` — always `tr -d '\r\n'` when reusing them.
+- Per-site R2 convention: folder `<site>/` inside `blitz`, `address` field = `cdn.hitune.in/<site>`, `prefix` = `<site>`.

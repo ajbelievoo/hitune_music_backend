@@ -55,53 +55,61 @@ function endpoint_iyol_iyolme_login( $loader, $excuter, $args ){
 
   $db = $loader->db;
 
-  // find existing HiTune account by email
-  $u = $db->_select( array(
-    "table" => "_u_list", "columns" => "ID",
-    "where" => array( array( "email", "=", $email ) ),
-    "limit" => 1, "single" => true
-  ) );
+  // find-or-create the HiTune account — wrapped so ANY db layer failure
+  // surfaces as the styled fail page instead of a blank response.
+  $uid = 0;
+  try {
 
-  $uid = $u ? (int) $u["ID"] : 0;
+    $u = $db->_select( array(
+      "table" => "_u_list", "columns" => "ID",
+      "where" => array( array( "email", "=", $email ) ),
+      "limit" => 1, "single" => true
+    ) );
+    $uid = $u ? (int) $u["ID"] : 0;
 
-  if ( !$uid ){
+    if ( !$uid ){
 
-    // unique username from email local part
-    $base = strtolower( preg_replace( "/[^a-zA-Z0-9_]/", "", strstr( $email, "@", true ) ?: "user" ) );
-    if ( $base === "" ) $base = "user";
-    $base = substr( $base, 0, 40 );
-    $username = $base;
-    for ( $i = 0; $i < 20; $i++ ){
-      $taken = $db->_select( array(
-        "table" => "_u_list", "columns" => "ID",
-        "where" => array( array( "username", "=", $username ) ),
-        "limit" => 1, "single" => true
+      // unique username from email local part
+      $base = strtolower( preg_replace( "/[^a-zA-Z0-9_]/", "", strstr( $email, "@", true ) ?: "user" ) );
+      if ( $base === "" ) $base = "user";
+      $base = substr( $base, 0, 40 );
+      $username = $base;
+      for ( $i = 0; $i < 20; $i++ ){
+        $taken = $db->_select( array(
+          "table" => "_u_list", "columns" => "ID",
+          "where" => array( array( "username", "=", $username ) ),
+          "limit" => 1, "single" => true
+        ) );
+        if ( !$taken ) break;
+        $username = $base . random_int( 100, 9999 );
+      }
+
+      $name = trim( (string) ( $iyol_user["fullname"] ?: $iyol_user["username"] ?: $username ) );
+      $hash = md5( uniqid( (string) mt_rand(), true ) );
+      $passwordHash = password_hash( bin2hex( random_bytes( 16 ) ), PASSWORD_DEFAULT );
+
+      // _insert() returns the new row's id directly — never call
+      // $db->insert_id(): that method doesn't exist on the db class and the
+      // uncaught Error produced the white-screen bug this fixes.
+      $uid = (int) $db->_insert( array(
+        "table" => "_u_list",
+        "set" => array(
+          array( "hash", $hash ),
+          array( "username", $username ),
+          array( "name", $name ),
+          array( "password", $passwordHash ),
+          array( "email", $email ),
+          array( "role_ids", "2" ),
+          array( "external_addresses", "[]" ),
+          array( "time_verify", date( "Y-m-d H:i:s" ) ),
+          array( "time_add", date( "Y-m-d H:i:s" ) ),
+        )
       ) );
-      if ( !$taken ) break;
-      $username = $base . random_int( 100, 9999 );
+
     }
 
-    $name = trim( (string) ( $iyol_user["fullname"] ?: $iyol_user["username"] ?: $username ) );
-    $hash = md5( uniqid( (string) mt_rand(), true ) );
-    $passwordHash = password_hash( bin2hex( random_bytes( 16 ) ), PASSWORD_DEFAULT );
-
-    $db->_insert( array(
-      "table" => "_u_list",
-      "set" => array(
-        array( "hash", $hash ),
-        array( "username", $username ),
-        array( "name", $name ),
-        array( "password", $passwordHash ),
-        array( "email", $email ),
-        array( "role_ids", "2" ),
-        array( "external_addresses", "[]" ),
-        array( "time_verify", date( "Y-m-d H:i:s" ) ),
-        array( "time_add", date( "Y-m-d H:i:s" ) ),
-      )
-    ) );
-
-    $uid = (int) $db->insert_id();
-
+  } catch( Throwable $t ){
+    $uid = 0;
   }
 
   if ( !$uid )
@@ -111,10 +119,16 @@ function endpoint_iyol_iyolme_login( $loader, $excuter, $args ){
   // mirrored to hitune_sess_* cookies; session rows live in
   // _bof_cache_sessions with a JSON `data` column. create() handles all
   // of that — we just hand the pair to the browser.
-  $sess = bof()->session->create( $uid, array(
-    "platform_type" => $next !== "" ? "mobile" : "web",
-    "extra_data"    => bof()->user->get_extraData( true, $uid )
-  ) );
+  $extra = null;
+  try { $extra = bof()->user->get_extraData( true, $uid ); } catch( Throwable $t ){}
+
+  $sess = null;
+  try {
+    $sess = bof()->session->create( $uid, array(
+      "platform_type" => $next !== "" ? "mobile" : "web",
+      "extra_data"    => $extra
+    ) );
+  } catch( Throwable $t ){}
 
   if ( empty( $sess["id"] ) || empty( $sess["key"] ) )
     $fail( "Sign-in failed", "Could not open a HiTune session. Try again." );

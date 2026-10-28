@@ -169,16 +169,24 @@ window.m2_queue = {
         if ( hasNext ){
             window.m2_queue.log( "Loading from Infinite" );
             var pop = window.m2_infinite.queue.pop()
-            window.m2_focus.appendObject("last", pop.ot, pop.hash).done(function () {
-                window.m2_queue.log("Upping the queue I");
-                window.m2_queue._i = window.m2_queue._i + 1;
-                window.m2_queue.save()
-                window.m2_queue.active.setFocus();
-                if (window.m2_queue.ui.isOpen())
-                window.m2_queue.ui.build()
+            if ( pop ? ( pop.ot && pop.hash ) : false ){
+                window.m2_focus.appendObject("last", pop.ot, pop.hash).done(function () {
+                    window.m2_queue.log("Upping the queue I");
+                    window.m2_queue._i = window.m2_queue._i + 1;
+                    window.m2_queue.save()
+                    window.m2_queue.active.setFocus();
+                    if (window.m2_queue.ui.isOpen())
+                    window.m2_queue.ui.build()
+                })
+                return;
+            }
+            // Items raced empty between hasNext and pop — don't crash;
+            // fall back to repeat/pause handling for the active track.
+            window.m2_queue.log( "Infinite pop empty -> repeat/pause fallback" );
+            window.m2_queue.active.setFocus({
+                autoplay: window.m2_focus.setting.get("repeat")
             })
             return;
-            // load infinite
         }
 
         window.m2_queue._i = 0;
@@ -371,11 +379,12 @@ window.m2_queue.ui =  {
                 if ( !item ? true : ( !item.data ? true : !item.data.ot ) ){
                     continue
                 }
+                var _qcov = ( item.data.cover && item.data.cover !== "null" && item.data.cover !== "undefined" ) ? item.data.cover : ( window.config.web.address + "api/assets/images/icon_512.png" );
                 que += "<div class='item bof_" + item.data.ot + "_" + item.data.hash + " clearafter' id='bof_queue_" + item.data.ID + "' data-i='"+i+"'>";
-                que += "<div class='cover_holder'><div class='cover' style='background-image:url(\"" + item.data.cover + "\")'></div></div>";
+                que += "<div class='cover_holder'><div class='cover' style='background-image:url(\"" + _qcov + "\")'></div></div>";
                 que += "<div class='detail'>";
-                que += "<div class='title'>" + item.data.title + "</div>";
-                que += "<div class='sub_title'>" + item.data.sub_title + "</div>";
+                que += "<div class='title'>" + ( item.data.title ? item.data.title : "" ) + "</div>";
+                que += "<div class='sub_title'>" + ( item.data.sub_title ? item.data.sub_title : "" ) + "</div>";
                 que += "</div>";
                 que += "<div class='duration'>" + window._g.duration_hr(item.data.duration) + "</div>";
                 que += "</div>";
@@ -563,14 +572,17 @@ window.m2_queue.ui =  {
         var activeThingie = window.m2_thingie.has() && window.m2_thingie.isPlaying()
 
         var active = window.m2_queue.active.get();
+        if ( !active || !active.data )
+        return;
+        try {
         var active_que_id = active.data.ID;
         var preview = null;
         var brand_html = "<div class='hitune_brand'><span class='mdi mdi-music-note'></span><span class='_t'>" + ( window.app && window.app.config && window.app.config.name ? window.app.config.name : "Hitune Music" ) + "</span></div>";
         var types = "<div class='types clearafter'>";
-        if (active.types) {
+        if ( active.types && active.types.sources ) {
             for (var i = 0; i < Object.keys(active.types.sources).length; i++) {
                 var _k = Object.keys(active.types.sources)[i];
-                var type_sources = active.types.sources[_k];
+                var type_sources = active.types.sources[_k] || {};
                 types += "<div data-type='" + _k + "' class='type type_" + _k + " count_" + type_sources.count + " " + (type_sources.count == 1 ? "single" : "parent") + " " + (type_sources.locked ? "locked" : "") + " " + (type_sources.active ? "active" : "") + "'>";
                 types += "<div class='type_title'>" + _k + "</div>";
                 types += "</div>";
@@ -586,8 +598,8 @@ window.m2_queue.ui =  {
 
         var preview_html = "<div class='preview_wrapper source_count_" + (active.types ? active.types.count : "0") + "'>"
         item_html = "<div class='item no_action text_wrapper bof_"+ active.data.ot + "_" + active.data.hash + "' id='que_muse_active'>\
-            <a href='"+ active.data.link + "' class='title'>" + active.data.title + "</a>\
-            <a href='"+ active.data.sub_link + "' class='sub_title'>" + active.data.sub_title + "</a>\
+            <a href='"+ ( active.data.link ? active.data.link : "#" ) + "' class='title'>" + ( active.data.title ? active.data.title : "" ) + "</a>\
+            <a href='"+ ( active.data.sub_link ? active.data.sub_link : "#" ) + "' class='sub_title'>" + ( active.data.sub_title ? active.data.sub_title : "" ) + "</a>\
             <div class='button_wrapper more'><div><span class='mdi mdi-dots-vertical'></span></div></div>\
             </div>"
 
@@ -600,36 +612,69 @@ window.m2_queue.ui =  {
             }
 
             item_html = "<div class='item action_menu text_wrapper bof_"+ active.data.ot + "_" + active.data.hash + "' id='que_muse_active'>\
-            <a href='"+ active.data.link + "' class='title'>" + active.data.title + "</a>\
-            <a href='"+ active.data.sub_link + "' class='sub_title'>" + active.data.sub_title + "</a>\
+            <a href='"+ ( active.data.link ? active.data.link : "#" ) + "' class='title'>" + ( active.data.title ? active.data.title : "" ) + "</a>\
+            <a href='"+ ( active.data.sub_link ? active.data.sub_link : "#" ) + "' class='sub_title'>" + ( active.data.sub_title ? active.data.sub_title : "" ) + "</a>\
             <div class='button_wrapper more'><div><span class='mdi mdi-dots-vertical'></span></div></div>\
             </div>"
 
         }
 
-        graph_html = "<div class='graph_wrapper type_"+ active.source.type[0] + " p_type_" + (preview ? preview.type : "un") + (
-            active.source.type[1].hls ? ( active.source.type[1].type === "audio" ? " hls_audio hlsed " : " hlsed " ) : ""
+        var _srcType = ( active.source && active.source.type ) ? active.source.type : [ "audio", {} ];
+        graph_html = "<div class='graph_wrapper type_"+ ( _srcType[0] ? _srcType[0] : "audio" ) + " p_type_" + (preview ? preview.type : "un") + (
+            ( _srcType[1] && _srcType[1].hls ) ? ( _srcType[1].type === "audio" ? " hls_audio hlsed " : " hlsed " ) : ""
         ) + "'>";
 
-        if (preview ? ( preview.type == "image" && preview.image ) : false) {
-            graph_html += "<div class='image_wrapper'>"+ preview.image + "</div>"
+        var _pimg = ( preview && preview.type == "image" ) ? preview.image : null;
+        if ( _pimg && typeof _pimg !== "string" ){
+            // preview.image arrived as an object/array — degrade to a plain img
+            _pimg = "<img src=\"" + ( window.config.web.address + "api/assets/images/icon_512.png" ) + "\">";
+        }
+
+        if ( _pimg ) {
+            graph_html += "<div class='image_wrapper'>"+ _pimg + "</div>"
+        } else {
+            var _gcov = active.data.cover;
+            // Cover can arrive as a raw URL, <picture>/<img> markup, or the
+            // full bof_file_cover object (widget-shaped items) — normalise to
+            // a plain URL before using it as an <img> src.
+            if ( _gcov && typeof _gcov === "object" ){
+                _gcov = _gcov.image_original || _gcov.image_thumb
+                     || ( _gcov.image_strings && _gcov.image_strings._raw ? ( _gcov.image_strings._raw["640"] || Object.values( _gcov.image_strings._raw )[0] ) : null )
+                     || null;
+            }
+            if ( _gcov && _gcov.indexOf && _gcov.indexOf("<") !== -1 ){
+                var _cm = _gcov.match(/src(?:set)?="([^"]+)"/g);
+                if ( _cm && _cm.length )
+                _gcov = _cm[0].replace(/^src(?:set)?="/, "").replace(/"$/, "");
+                else
+                _gcov = null;
+            }
+            if ( !_gcov || _gcov === "null" || _gcov === "undefined" || typeof _gcov !== "string" )
+            _gcov = window.config.web.address + "api/assets/images/icon_512.png";
+            graph_html += "<div class='image_wrapper'><img src=\"" + _gcov + "\"></div>"
         }
 
         if ( activeThingie ){
+            var _tq = window.m2_thingie.get();
+            var _tqu = ( _tq.url && _tq.url !== "null" && _tq.url !== "undefined" ) ? _tq.url : "#";
             preview_html = "<div class='preview_wrapper source_count_1 thingie_attached'>";
             item_html = "<div class='item no_action text_wrapper' id='bof_queue_ad'>\
-              <a target='_blank' href='"+ window.m2_thingie.get().url + "' class='title'>" + window.m2_thingie.get().title + "</a>\
-              <a target='_blank' href='"+ window.m2_thingie.get().url + "' class='sub_title'>"+window.lang.return( "sponsor", { ucfirst: true } )+"</a>\
+              <a target='_blank' href='"+ _tqu + "' class='title'>" + ( _tq.title ? _tq.title : "" ) + "</a>\
+              <a target='_blank' href='"+ _tqu + "' class='sub_title'>"+window.lang.return( "sponsor", { ucfirst: true } )+"</a>\
               <div id='thingie_skip'>\
                 <span class='_rt'></span>\
                 <span class='skip cant_skip btn btn-secondary'>"+window.lang.return( "skip", { ucfirst: true } )+"</span>\
-                <a target='_blank' class='btn btn-secondary' href='"+window.m2_thingie.get().url+"'>"+window.lang.return( "visit", { ucfirst: true } )+"</a>\
+                <a target='_blank' class='btn btn-secondary' href='"+_tqu+"'>"+window.lang.return( "visit", { ucfirst: true } )+"</a>\
               </div>\
             </div>"
             graph_html = "<div class='graph_wrapper type_audio p_type_banner'>"
             if ( window.m2_thingie.getType() == "audio" ){
+                var _tb = window.m2_thingie.get().banner;
+                var _tu = window.m2_thingie.get().url;
+                if ( !_tb || _tb === "null" || _tb === "undefined" ) _tb = window.config.web.address + "api/assets/images/icon_512.png";
+                if ( !_tu || _tu === "null" || _tu === "undefined" ) _tu = "#";
                 graph_html += "<div class='thingie_wrapper'>\
-                <a class='banner_wrapper' style='background-image:url(\""+ window.m2_thingie.get().banner + "\")' href='" + window.m2_thingie.get().url + "'></a>\
+                <a class='banner_wrapper' style='background-image:url(\""+ _tb + "\")' href='" + _tu + "'></a>\
                 </div>";
             }
             types = "";
@@ -657,6 +702,25 @@ window.m2_queue.ui =  {
                 window.m2_queue.ui.move_frame("queue");
                 window.pageBuilder.widget.item.listen();
             }, 100)
+        }
+
+        } catch( _pvErr ){
+            // Never leave the preview dead-white on render errors — fall back
+            // to a minimal title + icon card and log the cause.
+            window.m2_queue.log( "previewFocus render failed -> " + ( _pvErr && _pvErr.message ? _pvErr.message : _pvErr ), 1 );
+            try {
+                var _fcov = ( active.data.cover && typeof active.data.cover === "string" ) ? active.data.cover : ( window.config.web.address + "api/assets/images/icon_512.png" );
+                if ( _fcov.indexOf("<") !== -1 ){
+                    var _fm = _fcov.match(/src(?:set)?="([^"]+)"/g);
+                    _fcov = ( _fm && _fm.length ) ? _fm[0].replace(/^src(?:set)?="/, "").replace(/"$/, "") : ( window.config.web.address + "api/assets/images/icon_512.png" );
+                }
+                var _fb = "<div class='preview_wrapper'>"
+                  + "<div class='item no_action text_wrapper'><a href='"+ ( active.data.link ? active.data.link : "#" ) + "' class='title'>" + ( active.data.title ? active.data.title : "" ) + "</a>"
+                  + "<a href='"+ ( active.data.sub_link ? active.data.sub_link : "#" ) + "' class='sub_title'>" + ( active.data.sub_title ? active.data.sub_title : "" ) + "</a></div>"
+                  + "<div class='graph_wrapper type_audio'><div class='image_wrapper'><img src=\"" + _fcov + "\"></div></div></div>"
+                  + "<div class='hitune_brand'><span class='mdi mdi-music-note'></span><span class='_t'>" + ( window.app && window.app.config && window.app.config.name ? window.app.config.name : "Hitune Music" ) + "</span></div>";
+                $(document).find(".queue #preview").html(_fb);
+            } catch(e2){}
         }
 
     },

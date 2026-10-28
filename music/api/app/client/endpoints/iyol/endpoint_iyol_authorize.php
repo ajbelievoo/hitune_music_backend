@@ -27,19 +27,41 @@ function endpoint_iyol_authorize( $loader, $excuter, $args ){
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <title>{$t} — HiTune</title>
 <style>
-  body{margin:0;font-family:system-ui,-apple-system,Roboto,Arial,sans-serif;background:#0a0a1a;color:#e8e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh}
-  .card{background:#12122a;border:1px solid #23234a;border-radius:16px;max-width:420px;width:92%;padding:32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .logo{font-size:28px;font-weight:800;background:linear-gradient(90deg,#00b7ff,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
-  h1{font-size:20px;margin:14px 0 6px}
-  p{color:#9a9ab8;font-size:14px;line-height:1.55}
-  .app{display:inline-block;background:#1b1b3a;border-radius:8px;padding:4px 12px;color:#00b7ff;font-weight:600;margin:4px 0}
-  .scopes{text-align:left;background:#0d0d22;border-radius:10px;padding:12px 16px;margin:16px 0;font-size:13px;color:#b8b8d8}
-  .scopes li{margin:6px 0}
-  .btn{display:block;width:100%;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;text-decoration:none}
-  .approve{background:linear-gradient(90deg,#00b7ff,#8b5cf6);color:#fff}
-  .deny{background:transparent;color:#9a9ab8;border:1px solid #2d2d55}
-  a{color:#00b7ff}
-</style></head><body><div class='card'><div class='logo'>HiTune</div>{$body_html}</div></body></html>";
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Roboto,'Segoe UI',Arial,sans-serif;color:#e8e8f2;display:flex;align-items:center;justify-content:center;min-height:100vh;overflow:hidden;
+    background:radial-gradient(1200px 800px at 15% 10%,#16163a 0%,transparent 55%),radial-gradient(1000px 700px at 85% 90%,#241244 0%,transparent 55%),#07070f}
+  .glow{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;animation:drift 14s ease-in-out infinite alternate}
+  .g1{width:420px;height:420px;background:#00b7ff;top:-120px;left:-100px}
+  .g2{width:380px;height:380px;background:#8b5cf6;bottom:-140px;right:-80px;animation-delay:-7s}
+  @keyframes drift{to{transform:translate(50px,36px) scale(1.12)}}
+  .card{position:relative;background:rgba(20,20,42,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.09);border-radius:22px;max-width:400px;width:92%;padding:38px 34px 30px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);animation:rise .45s cubic-bezier(.2,.8,.25,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(18px)}}
+  .brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+  .note{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00b7ff,#8b5cf6);box-shadow:0 8px 24px rgba(0,183,255,.4);font-size:22px}
+  .logo{font-size:30px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(90deg,#00b7ff,#8b5cf6,#ff4ecd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tag{font-size:11.5px;color:#7c7ca3;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px}
+  h1{font-size:21px;font-weight:700;margin:16px 0 4px;letter-spacing:-.3px}
+  p{color:#9a9ab8;font-size:13.5px;line-height:1.6;margin:6px 0}
+  .app{display:inline-block;background:rgba(0,183,255,.12);border:1px solid rgba(0,183,255,.3);border-radius:8px;padding:3px 12px;color:#4fcfff;font-weight:700;margin:2px 0}
+  .scopes{list-style:none;text-align:left;background:rgba(10,10,26,.6);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 18px;margin:18px 0 6px;font-size:13px;color:#c2c2e0}
+  .scopes li{margin:8px 0;color:#b8b8d8}
+  .scopes li::marker{color:#2ee6a8}
+  .btn{display:block;width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;text-decoration:none;transition:transform .12s,box-shadow .2s,opacity .15s;letter-spacing:.2px}
+  .approve{background:linear-gradient(90deg,#00b7ff,#8b5cf6);color:#fff;box-shadow:0 8px 26px rgba(94,92,246,.45)}
+  .approve:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(94,92,246,.6);opacity:.95}
+  .approve:active{transform:translateY(0)}
+  .deny{background:transparent;color:#8d8db0;border:1px solid rgba(255,255,255,.14)}
+  .deny:hover{background:rgba(255,255,255,.05);color:#c8c8e4}
+  a{color:#4fcfff}
+  .foot{margin-top:20px;font-size:11px;color:#5d5d82;display:flex;align-items:center;justify-content:center;gap:6px}
+</style></head><body>
+<div class='glow g1'></div><div class='glow g2'></div>
+<div class='card'>
+  <div class='brand'><div class='note'>&#9835;</div><div class='logo'>HiTune</div></div>
+  <div class='tag'>music without limits</div>
+  {$body_html}
+  <div class='foot'>&#128737; Secured by HiTune OAuth</div>
+</div></body></html>";
     exit;
   };
 

@@ -210,6 +210,38 @@ body.light .res-st.st-failed{background:#ffe9e9}
 body.light .brand{border-color:var(--line)}
 body.light .statline .pill{background:#fff}
 
+/* light-mode text contrast — dark-mode pale colors ko readable dark shades pe */
+body.light .nav-label{color:#3d3d5c;opacity:1}
+body.light .field label{color:#3d3d5c}
+body.light .work .sub,body.light .note{color:#4a4a68}
+body.light .results h2{color:#3d3d5c}
+body.light .res-empty{color:#5c5c7d}
+body.light .notewarn{background:#fff7e2;border-color:#f0c25a;color:#8a6410}
+body.light .notewarn .mdi{color:#c48a00}
+body.light .notewarn a{color:#5b7fd6}
+body.light .planbadge{background:#8b5cf616!important;color:#6d48dc!important;border-color:#8b5cf645!important}
+body.light .st-done{background:#d8f5e4;color:#14783f;border-color:#52e39a55}
+body.light .st-pending,body.light .st-processing{background:#fdf0cf;color:#8a6410;border-color:#ffd16666}
+body.light .st-failed{background:#fddfdf;color:#b33434;border-color:#ff7b7b55}
+body.light .res-err{color:#c24545}
+body.light .res-acts a{color:#0070a8}
+body.light .res-acts a:hover{background:#e4f3fd}
+body.light .res-ic .mdi,body.light .tbar .t-ic .mdi,body.light .recent-it .r-ic .mdi{color:#0070a8}
+body.light .engs .chip .mdi{color:#1d9e52}
+body.light .chip{color:#3d3d5c}
+body.light .toggle{color:#3d3d5c}
+body.light .nav-it .lock{color:#c48a00}
+body.light .engs .lbl,.body.light .tbar .t-n{color:#3d3d5c}
+body.light .recent-it{color:#17172b}
+body.light .theme-tog{color:#3d3d5c}
+body.light .res-name{color:#17172b}
+body.light .credits{color:#3d3d5c}
+body.light .stat .val[style*="#52e39a"]{color:#14783f!important}
+body.light .stat .val[style*="#ffd166"]{color:#a37200!important}
+body.light .stat .val[style*="#ff7b7b"]{color:#c24545!important}
+body.light .stat .ic2{opacity:.3}
+body.light .res-card .res-meta{color:#5c5c7d}
+
 /* theme toggle */
 .theme-tog{display:flex;align-items:center;gap:10px;margin-top:12px;padding:9px 12px;border-radius:11px;background:var(--panel);border:1px solid var(--line);cursor:pointer;color:var(--mut);font-size:12px;font-weight:700;transition:.16s;user-select:none}
 .theme-tog:hover{color:var(--txt);border-color:var(--line2)}
@@ -256,6 +288,26 @@ body.light .tbar .t-track{background:#00000010}
 .recent-it .r-w{color:var(--mut);font-size:10.5px;flex:none}
 .recent-it .dot2{width:8px;height:8px;border-radius:50%;flex:none}
 .d-done{background:#52e39a}.d-failed{background:#ff7b7b}.d-pending,.d-processing{background:#ffd166}
+
+/* ---------- polish: entrances, hovers, glow ---------- */
+.work h1,.work .sub,.statline{animation:su .5s cubic-bezier(.2,.8,.3,1) backwards}
+.work .sub{animation-delay:.05s}.statline{animation-delay:.1s}
+.card{animation:su .5s .12s cubic-bezier(.2,.8,.3,1) backwards;transition:border-color .25s,box-shadow .3s}
+.card:nth-of-type(2){animation-delay:.18s}.card:nth-of-type(3){animation-delay:.24s}
+@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.card:hover{border-color:#8b5cf62e;box-shadow:0 22px 60px -22px #8b5cf633}
+.stat{transition:transform .2s,border-color .2s}
+.stat:hover{transform:translateY(-2px);border-color:#8b5cf640}
+.dcard{transition:border-color .25s}.dcard:hover{border-color:#8b5cf630}
+.chip{transition:.18s cubic-bezier(.2,.8,.3,1)}
+.nav-it{transition:.18s cubic-bezier(.2,.8,.3,1)}
+.nav-it:hover{transform:translateX(3px)}
+.res-empty .mdi{animation:floaty 3.4s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+#gate .card{animation:su .6s cubic-bezier(.2,.8,.3,1) backwards}
+#gate img{animation:floaty 4s ease-in-out infinite}
+.big-btn{will-change:transform}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -263,7 +315,7 @@ body.light .tbar .t-track{background:#00000010}
 <div class="ambient"><div class="orb3"></div></div>
 
 <div id="gate"><div class="card">
-  <img src="/files/logo/26/09/22/6ab284f5cd5bd/hitune_icon_blue_6ab2810b469b5.png" alt="Hitune">
+  <img src="/logo.png" alt="Hitune">
   <h1><span class="mdi mdi-auto-fix" style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent"></span>AI Studio</h1>
   <p class="sub" style="margin:14px 0 22px">Hitune Music account se login karo — AI se song banao, mastering karo, karaoke nikalo.</p>
   <a class="btn-up" id="login-link" href="#">Log in to continue</a>
@@ -274,7 +326,7 @@ body.light .tbar .t-track{background:#00000010}
   <!-- left rail -->
   <aside class="rail">
     <a class="brand" href="/">
-      <span class="lg-wrap"><img src="/files/logo/26/09/22/6ab284f5cd5bd/hitune_icon_blue_6ab2810b469b5.png" alt="Hitune"></span>
+      <span class="lg-wrap"><img src="/logo.png" alt="Hitune"></span>
       <span class="txt"><b>Hitune</b><span>AI STUDIO</span></span>
     </a>
 

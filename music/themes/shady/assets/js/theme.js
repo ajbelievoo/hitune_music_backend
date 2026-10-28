@@ -38,7 +38,11 @@ window.theme = {
               skipNameCheck: true,
             }).done(function(){
 
-              var path = window.ui.page.curr().data.becli.single.data.cover.split("src=\"")[1].split("\"")[0];
+              var _cv = window.ui.page.curr().data.becli.single.data.cover;
+              var _cvParts = ( typeof _cv === "string" ? _cv : "" ).split("src=\"");
+              var path = _cvParts.length > 1 ? _cvParts[1].split("\"")[0] : _cv;
+              if ( !path || path === "null" || path === "undefined" )
+                return;
               var __mp = 0;
               var color = null;
               Vibrant
@@ -125,6 +129,8 @@ window.theme = {
       }).done(function(){
 
         var path = $args.data.cover
+        if ( !path || typeof path !== "string" || path === "null" || path === "undefined" )
+          return;
         var __mp = 0;
         var color = null;
         Vibrant

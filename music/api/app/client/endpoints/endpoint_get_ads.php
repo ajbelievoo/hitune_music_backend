@@ -46,11 +46,11 @@ function endpoint_get_ads( $loader, $excuter, $args ){
         $loader->api->set_message( "ok", array(
           "thingie_interval" => bof()->object->db_setting->get("ads_audio_interval"),
           "thingie_skipable" => true,
-          "thingie_skipable_threshold" => 15,
+          "thingie_skipable_threshold" => 6,
           "thingie_type" => $get_ads["type"],
           "thingie" => array(
             !empty( $hook ) ? $hook : "address" => $address,
-            "banner" => $get_ads["banner_file"]["image_original"],
+            "banner" => !empty( $get_ads["banner_file"]["image_original"] ) ? $get_ads["banner_file"]["image_original"] : web_address . "api/assets/images/icon_512.png",
             "url" => web_address . "api/redirect_to/{$get_ads["ID"]}/?t=".microtime(true),
             "title" => $get_ads["name"]
           )

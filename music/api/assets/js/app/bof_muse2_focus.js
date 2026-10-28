@@ -89,7 +89,8 @@ window.m2_focus = {
             }
 
             window.m2_focus._exeArgs = exeArgs;
-            window.m2_focus._offset = 0;
+            window.m2_focus._offset = window.m2_focus._pendingResume ? window.m2_focus._pendingResume : 0;
+            window.m2_focus._pendingResume = 0;
 
             window.m2_focus.log("Set " + sourceData.data.ot + ":" + sourceData.data.hash + " auto:" + (autoplay ? "1" : "0") + " pre:" + (preload ? "1" : "0"), 2)
             $(document).trigger("m2_focus_set", sourceData)
@@ -213,6 +214,22 @@ window.m2_focus = {
 
             window.m2_focus.cli.controller("play");
             window.m2_focus.setStatus("playing");
+
+        }
+        else if ( event == "playing" ){
+
+            window.m2_focus._retries = 0;
+            window.m2_focus._played_once = true;
+
+            // Prefetch next queue item's raaz source so next() is instant
+            var nxt = window.m2_queue._items ? window.m2_queue._items[ window.m2_queue._i + 1 ] : null;
+            if ( nxt && nxt.source && nxt.source.type && nxt.source.type[1] && nxt.source.type[1].raaz === true ){
+                var nk = nxt.data.ot + "_" + nxt.data.hash;
+                if ( !window.m2_source.raaz.getCache( nk ) ){
+                    window.m2_focus.log("Prefetching next item's raaz source", 3)
+                    try { window.m2_source.raaz.parse( nxt ); } catch(e){}
+                }
+            }
 
         }
         else if ( event == "ended" ){
@@ -378,9 +395,21 @@ window.m2_focus = {
 
         window.m2_focus.log( "errorHandler " + err.message, 1 )
 
+        // skip:false = deliberately cancelled by a newer set() — never retry/skip
+        if ( err ? err.skip === false : false )
+        return;
+
         window.m2_focus.recorder.stop()
         window.m2_focus.setStatus("error")
         window.m2_focus.ui.hook()
+
+        var active = window.m2_queue.active.get();
+        var retryKey = active ? ( active.data.ot + "_" + active.data.hash ) : "none";
+
+        if ( window.m2_focus._retryKey !== retryKey ){
+            window.m2_focus._retryKey = retryKey;
+            window.m2_focus._retries = 0;
+        }
 
         var report = window.m2_focus.recorder.report_source()
 
@@ -397,7 +426,38 @@ window.m2_focus = {
 
             } else {
 
-                if ( err.skip || err.skip_wait ){
+                // Transient failure (expired URL, resolver hiccup, network):
+                // re-resolve a fresh source and resume at the last position —
+                // up to 2 attempts per track before giving up.
+                if ( active && window.m2_focus._retries < 2 ){
+
+                    window.m2_focus._retries++;
+
+                    var dP = null, sP = null;
+                    try { dP = window.m2_focus.inform("duration"); } catch(e){}
+                    try { sP = window.m2_focus.inform("seek"); } catch(e){}
+
+                    $.when( dP, sP ).always(function( dR, sR ){
+
+                        var dur = ( typeof dR == "number" ) ? dR : 0;
+                        var pos = ( typeof sR == "number" ) ? sR : 0;
+                        var pct = ( dur > 0 && pos > 0 ) ? Math.min( 99, pos / dur * 100 ) : 0;
+
+                        window.m2_focus.log("Re-resolve + resume, try " + window.m2_focus._retries + " @" + Math.round(pos) + "s", 1 )
+
+                        try { delete window.m2_source.solve_cache[ retryKey ]; } catch(e){}
+                        try { delete window.m2_source.raaz.cache[ retryKey ]; } catch(e){}
+                        try { window.cache.remove( "raaz_" + retryKey ); } catch(e){}
+
+                        window.m2_focus._pendingResume = pct;
+                        window.m2_focus.setStatus("loading")
+                        window.m2_focus.ui.hook()
+                        window.m2_queue.active.setFocus({ autoplay: true });
+
+                    });
+
+                }
+                else if ( err.skip || err.skip_wait ){
 
                     window.m2_focus.log("---------SKIP---------" + ( err.skip_wait ? " after delay" : "" ))
         
@@ -715,6 +775,34 @@ window.m2_focus.ui = {
 
             window.m2_focus.ui.hplayer_tick( duration, offset );
 
+            // Self-heal A: position advancing but status stuck pre-play
+            // (a dropped "playing" event — e.g. stale cli race)
+            var _st = window.m2_focus.getStatus();
+            var _lo = window.m2_focus.ui._lastOff;
+            window.m2_focus.ui._lastOff = offset;
+            if ( typeof offset === "number" && offset > 0 && typeof _lo === "number" && offset > _lo
+              && ( _st === "loading" || _st === "loaded" || _st === "canplay" || _st === "played" ) ){
+                window.m2_focus.log("UI self-heal: advancing @" + Math.round(offset) + "s while status=" + _st + " -> playing", 1 );
+                window.m2_focus.setStatus( "playing" );
+                window.m2_focus.ui.hook();
+                window.m2_focus._retries = 0;
+            }
+
+            // Self-heal B: pinned at track end but "ended" never arrived
+            if ( typeof duration === "number" && duration > 0 && typeof offset === "number"
+              && offset >= duration - 0.75 && _st === "playing" ){
+                window.m2_focus.ui._atEnd = ( window.m2_focus.ui._atEnd || 0 ) + 1;
+                if ( window.m2_focus.ui._atEnd >= 3 ){
+                    window.m2_focus.ui._atEnd = 0;
+                    window.m2_focus.log("UI self-heal: stuck at track end -> next()", 1 );
+                    window.m2_focus.setStatus( "ended" );
+                    window.m2_focus.ui.hook();
+                    window.m2_queue.next();
+                }
+            } else {
+                window.m2_focus.ui._atEnd = 0;
+            }
+
             try {
                 if ( duration > 5*60 && Math.ceil(offset)%5 == 0 && offset > 30 ){
                     window.m2_focus.log( "NEW OFFSET: " + offset )
@@ -757,7 +845,7 @@ window.m2_focus.ui = {
             preview_source = sourceData["type"][1]["preview"]
         }
 
-        var cover = window.config.web.address + "api/assets/images/default_cover.png";
+        var cover = window.config.web.address + "api/assets/images/icon_512.png";
         if (displayData? displayData.cover : false) {
 
             const regex = /src(?:set)?="([^"]+)"/g;
@@ -774,6 +862,8 @@ window.m2_focus.ui = {
                 cover = displayData.cover
             }
         }
+        if ( !cover || cover === "null" || cover === "undefined" || cover === window.config.web.address + "null" || cover === window.config.web.address + "undefined" )
+            cover = window.config.web.address + "api/assets/images/icon_512.png";
 
         window.ui.body.addClass( window.m2_focus.setting.get("repeat") ? "repeat_on" : "repeat_off" , true);
         window.ui.body.removeClass( !window.m2_focus.setting.get("repeat") ? "repeat_on" : "repeat_off" , true);
@@ -794,7 +884,7 @@ window.m2_focus.ui = {
         player += "<div class='source_data'>";
         player += "<div class='cover_holder'><div style='background-image:url(\"" + cover + "\")'></div></div>";
         player += "<div class='data'>";
-        player += "<a href='" + displayData.link + "' class='_title'>" + displayData.title + "</a>";
+        player += "<a href='" + ( displayData.link ? displayData.link : "#" ) + "' class='_title'>" + displayData.title + "</a>";
         if (displayData.sub_title)
         player += "<a " + (displayData.sub_link ? " href='" + displayData.sub_link + "' " : "") + " class='_sub_title "+(preview_source?"_preview_wrapper":"")+"'>" + ( 
             preview_source ? ( "<span class='preview'>"+window.lang.return( "preview", { ucfirst: true } )+"</span>" ) : displayData.sub_title 
@@ -852,7 +942,7 @@ window.m2_focus.ui = {
         if ( $(document).find("#player").length ) {
             var $p = $(document).find("#player");
             $p.find(".cover_holder div").css("background-image", "url(\"" + cover + "\")");
-            $p.find("._title").attr("href", displayData.link).text(displayData.title);
+            $p.find("._title").attr("href", displayData.link || "#").text(displayData.title);
             if (displayData.sub_title) {
                 $p.find("._sub_title").attr("href", displayData.sub_link || "").html(
                     preview_source ? ("<span class='preview'>" + window.lang.return("preview", { ucfirst: true }) + "</span>") : displayData.sub_title

@@ -2,6 +2,8 @@
 
 if ( !defined( "bof_root" ) ) die;
 
+require_once( dirname(__FILE__) . "/endpoint_recommendations.php" );
+
 /**
  * POST /api/htx/contests   (group: api — BOF signed app call)
  *
@@ -34,42 +36,50 @@ function endpoint_htx_contests( $loader, $excuter, $args ){
       "prize"     => $c["prize"],
       "starts_at" => $c["starts_at"],
       "ends_at"   => $c["ends_at"],
-      "leaderboard" => htx_contests_board( $db, $c["chart"], $slug ? 100 : $blim ),
+      "leaderboard" => htx_contests_board( $loader, $c["chart"], $slug ? 100 : $blim ),
     );
   }
 
   $loader->api->set_message( "ok", array( "contests" => $contests ) );
 }
 
-function htx_contests_board( $db, $chart, $limit ){
+function htx_contests_board( $loader, $chart, $limit ){
 
-  $where = "1=1"; $order = "t.s_plays DESC";
-  if ( $chart === "top_ai" ) $where = "t.ai_pct > 0";
-  if ( $chart === "indie" )  $where = "t.uploader_id IS NOT NULL AND t.uploader_id > 0";
-  if ( $chart === "viral" ){ $where = "t.time_play >= DATE_SUB(NOW(), INTERVAL 7 DAY)"; $order = "t.s_views_unique DESC"; }
+  // Same track-item pipeline as /api/htx/charts — includes cover art,
+  // artist subtitle and duration instead of the old raw-SQL rows that
+  // rendered every leaderboard entry with a placeholder icon.
+  $where = array();
+  $order = "s_plays";
+  if ( $chart === "top_ai" ) $where[] = array( "ai_pct", ">", 0 );
+  if ( $chart === "indie" )  $where[] = array( "uploader_id", ">", 0 );
+  if ( $chart === "viral" ){
+    $where[] = array( "time_play", ">=", date( "Y-m-d H:i:s", time() - 7 * 86400 ) );
+    $order   = "s_views_unique";
+  }
+
+  $rows = __bof_rec_track_items( $loader, $where, array(
+    "order_by" => $order,
+    "order"    => "DESC",
+    "limit"    => (int)$limit,
+  ) );
 
   $items = array();
-  $r = $db->query( "SELECT t.hash, t.title, t.s_plays, t.s_views_unique, t.s_likes, t.ai_pct,
-      a.name AS artist, a.hash AS artist_hash
-    FROM `_c_m_tracks` t
-    LEFT JOIN `_c_m_artists` a ON a.ID = t.artist_id
-    WHERE {$where} ORDER BY {$order} LIMIT " . (int)$limit );
-  if ( $r ){
-    $rank = 1;
-    while ( $t = $r->fetch_assoc() ){
-      $items[] = array(
-        "rank"        => $rank++,
-        "hash"        => $t["hash"],
-        "title"       => $t["title"],
-        "artist"      => $t["artist"],
-        "artist_hash" => $t["artist_hash"],
-        "plays"       => (int)$t["s_plays"],
-        "likes"       => (int)$t["s_likes"],
-        "ai_pct"      => (int)$t["ai_pct"],
-        "ai_badge"    => ( (int)$t["ai_pct"] > 0 ) ? "AI Original" : null,
-        "hitune_url"  => web_address . "track/" . $t["hash"],
-      );
-    }
+  $rank  = 1;
+  foreach ( (array)$rows as $t ){
+
+    $raw = !empty( $t["raw"] ) ? $t["raw"] : array();
+    $items[] = array(
+      "rank"        => $rank++,
+      "hash"        => $t["hash"],
+      "title"       => $t["title"],
+      "artist"      => !empty( $t["sub_title"] ) ? $t["sub_title"] : ( !empty( $t["sub_data"] ) ? $t["sub_data"] : null ),
+      "cover"       => !empty( $t["cover"] ) ? $t["cover"] : null,
+      "plays"       => isset( $raw["s_plays"] ) ? (int)$raw["s_plays"] : 0,
+      "likes"       => isset( $raw["s_likes"] ) ? (int)$raw["s_likes"] : 0,
+      "ai_pct"      => isset( $raw["ai_pct"] ) ? (int)$raw["ai_pct"] : 0,
+      "ai_badge"    => ( isset( $raw["ai_pct"] ) && (int)$raw["ai_pct"] > 0 ) ? "AI Original" : null,
+      "hitune_url"  => web_address . "track/" . $t["hash"],
+    );
   }
   return $items;
 }

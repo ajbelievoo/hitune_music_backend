@@ -1,8 +1,5 @@
 <?php
 
-// Debug: Log all requests to index.php
-file_put_contents('/tmp/index_debug.log', date('Y-m-d H:i:s') . ' - index.php called - URI: ' . ($_SERVER['REQUEST_URI'] ?? 'unknown') . ' - Method: ' . ($_SERVER['REQUEST_METHOD'] ?? 'unknown') . "\n", FILE_APPEND);
-
 // Strategy doc §7: direct uploads are disabled on HiTune Music — the upload
 // wizard and every "Upload Song" entry point bounce to the Distribution portal.
 $_ht_up = strtok($_SERVER["REQUEST_URI"] ?? "", "?");
@@ -151,7 +148,90 @@ if ( preg_match( "/^\\/?files\\/(logo|mobile_logo)\\/.+\\.(png|jpe?g)$/i", $path
 
 if ( $path === "/privacy-policy" || $path === "privacy-policy" ){
   header( "Content-Type: text/html; charset=utf-8" );
-  echo "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Privacy Policy</title></head><body style='font-family:system-ui, Roboto, Arial, sans-serif;padding:20px;line-height:1.6;color:#333'><h1>Privacy Policy</h1><p>We respect your privacy. We collect minimal data necessary to provide music streaming features, improve performance, and prevent abuse.</p><h2>Data We Collect</h2><ul><li>Account and authentication information</li><li>Usage analytics and device metadata</li><li>Cookies for preferences and session management</li></ul><h2>How We Use Data</h2><ul><li>To run core features and personalize experience</li><li>To secure the platform and detect fraud</li><li>To comply with legal requirements</li></ul><h2>Contact</h2><p>For privacy requests, contact the site administrator.</p></body></html>";
+  echo <<<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy - HiTune Music</title>
+<style>
+body{font-family:system-ui,Roboto,Arial,sans-serif;line-height:1.7;color:#333;max-width:860px;margin:0 auto;padding:24px}
+h1{font-size:1.9em;margin-bottom:.2em}
+h2{font-size:1.25em;margin-top:1.8em}
+.updated{color:#666;font-size:.9em}
+table{border-collapse:collapse;margin:1em 0}
+td,th{border:1px solid #ddd;padding:8px 12px;text-align:left}
+a{color:#0b72e7}
+</style>
+</head>
+<body>
+<h1>Privacy Policy</h1>
+<p class="updated">Last updated: October 7, 2026</p>
+
+<table>
+<tr><th>App name</th><td>HiTune Music (Android package: com.hitune.app)</td></tr>
+<tr><th>Developer name (Google Play)</th><td>Hitune Music</td></tr>
+<tr><th>Operated by (legal entity)</th><td>Believoo</td></tr>
+<tr><th>Website</th><td><a href="https://hitune.in">https://hitune.in</a>, <a href="https://music.hitune.in">https://music.hitune.in</a></td></tr>
+<tr><th>Contact email</th><td>support&#64;hitune&#46;in</td></tr>
+</table>
+
+<p>This Privacy Policy applies to the <strong>HiTune Music</strong> Android application published on Google Play by <strong>Hitune Music</strong>, and to the related Hitune web services at hitune.in and music.hitune.in (together, the "Service"). HiTune Music is a product operated by <strong>Believoo</strong> ("we", "our", "us"). It explains what information we collect, how we use it, and the choices you have.</p>
+
+<h2>1. Information We Collect</h2>
+<ul>
+<li><strong>Account information:</strong> name, email address and password when you create an account; profile preferences such as language, avatar and playlists.</li>
+<li><strong>Usage data:</strong> listening activity, search queries, playlists, playback history and in-app interactions.</li>
+<li><strong>Device &amp; technical data:</strong> device model, operating system, app version, IP address, approximate location, crash diagnostics and advertising ID (for ads served through Google AdMob).</li>
+<li><strong>Payment data:</strong> purchases and subscriptions are processed by Google Play Billing or third-party gateways (e.g. Razorpay, PayU). We receive transaction status and reference IDs — we do not store your full card or banking credentials.</li>
+<li><strong>Cookies &amp; similar technologies:</strong> used for authentication, preferences, session management and analytics on our web services.</li>
+</ul>
+
+<h2>2. How We Use Data</h2>
+<ul>
+<li>To run core features of the app and personalize your experience (recommendations, playlists, mixes).</li>
+<li>To process subscriptions and purchases and to verify entitlements.</li>
+<li>To deliver push notifications (Firebase Cloud Messaging) you have opted into.</li>
+<li>To serve and measure advertising (Google AdMob) in the free tier.</li>
+<li>To secure the platform, detect fraud and abuse, and troubleshoot issues.</li>
+<li>To comply with legal requirements.</li>
+</ul>
+
+<h2>3. Third-Party Services</h2>
+<p>The app uses the following third-party SDKs/services, which may collect data as described in their own privacy policies:</p>
+<ul>
+<li>Google Play Services, Google Play Billing and Google AdMob (Google LLC)</li>
+<li>Firebase Cloud Messaging (Google LLC)</li>
+<li>Payment gateways such as Razorpay / PayU for web purchases</li>
+</ul>
+<p>We do not sell your personal data to third parties.</p>
+
+<h2>4. Data Retention</h2>
+<p>We retain account data for as long as your account is active or as needed to provide the Service. Transaction records are retained as required by tax and accounting laws. You may request deletion of your account at any time.</p>
+
+<h2>5. Security</h2>
+<p>We use industry-standard measures — encrypted transport (TLS), hashed passwords, access controls and monitoring — to protect your data.</p>
+
+<h2>6. Your Rights</h2>
+<ul>
+<li>Access, correct or update your account information.</li>
+<li>Request a copy of your personal data.</li>
+<li>Request deletion of your account and personal data (subject to legal retention requirements).</li>
+<li>Opt out of marketing communications.</li>
+</ul>
+
+<h2>7. Children's Privacy</h2>
+<p>The Service is not directed at children under 13 (or the applicable age of digital consent). We do not knowingly collect data from children; if discovered, such data is deleted.</p>
+
+<h2>8. Changes to This Policy</h2>
+<p>We may update this policy from time to time. Material changes will be announced on this page. Continued use of the Service after changes constitutes acceptance.</p>
+
+<h2>9. Contact</h2>
+<p>For privacy requests or questions about this policy, contact us at support&#64;hitune&#46;in or write to Hitune Music (a Believoo product), via <a href="https://believoo.com">believoo.com</a>.</p>
+</body>
+</html>
+HTML;
   return;
 }
 
@@ -480,7 +560,7 @@ $font_name = "Figtree";
     <meta property="og:url" content="<?php echo web_address . $link ?>" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="google-site-verification" content="google40ad904876c94f34.html" />
-    <link rel="canonical" href="<?php echo rtrim( web_address, "/" ) . $path; ?>">
+    <link rel="canonical" href="<?php echo rtrim( web_address, "/" ) . "/" . ltrim( $path, "/" ); ?>">
     <?php if ( empty( $seo["description"] ) ) : ?>
     <meta name='description' content='<?php echo bof()->object->db_setting->get( "sitename" ); ?> - Listen to music online'>
     <?php endif; ?>

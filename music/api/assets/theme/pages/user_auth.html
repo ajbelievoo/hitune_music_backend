@@ -1,29 +1,73 @@
 <style>
-/* Believoo-style dark branded auth — inline override (cache-proof) */
+/* Believoo-style branded auth — dark + light modes, stacked buttons, animations (cache-proof) */
 body.auth_page{background:#06060e!important}
+body.light.auth_page{background:#f1f2fa!important}
 body.auth_page:after{display:none!important}
-body.auth_page .auth_form_wrapper .logo_wrapper{background:radial-gradient(620px 460px at 28% 22%,rgba(0,183,255,.22),transparent 62%),radial-gradient(680px 540px at 78% 80%,rgba(139,92,246,.28),transparent 60%),radial-gradient(420px 380px at 60% 30%,rgba(250,45,72,.10),transparent 60%),#0a0a1a!important}
-body.auth_page .auth_form_wrapper .logo_wrapper img{max-width:300px;max-height:300px;filter:drop-shadow(0 24px 60px rgba(0,183,255,.45)) drop-shadow(0 0 90px rgba(139,92,246,.35));border-radius:44px;animation:authFloat 5s ease-in-out infinite}
+
+/* ---------- brand panel ---------- */
+body.auth_page .auth_form_wrapper .logo_wrapper{background:radial-gradient(620px 460px at 28% 22%,rgba(0,183,255,.22),transparent 62%),radial-gradient(680px 540px at 78% 80%,rgba(139,92,246,.28),transparent 60%),radial-gradient(420px 380px at 60% 30%,rgba(250,45,72,.10),transparent 60%),#0a0a1a!important;overflow:hidden}
+body.auth_page .auth_form_wrapper .logo_wrapper:before{content:'';position:absolute;inset:-30%;background:radial-gradient(40% 40% at 30% 30%,rgba(0,183,255,.12),transparent 60%),radial-gradient(40% 40% at 70% 70%,rgba(139,92,246,.12),transparent 60%);animation:authAmb 14s ease-in-out infinite alternate}
+@keyframes authAmb{to{transform:translate3d(4%,3%,0) scale(1.12)}}
+body.light.auth_page .auth_form_wrapper .logo_wrapper{background:radial-gradient(620px 460px at 28% 22%,rgba(0,183,255,.16),transparent 62%),radial-gradient(680px 540px at 78% 80%,rgba(139,92,246,.18),transparent 60%),linear-gradient(160deg,#e8ecfb,#dfe3f6)!important}
+body.auth_page .auth_form_wrapper .logo_wrapper img{max-width:300px;max-height:300px;filter:drop-shadow(0 24px 60px rgba(0,183,255,.45)) drop-shadow(0 0 90px rgba(139,92,246,.35));border-radius:44px;animation:authFloat 5s ease-in-out infinite;z-index:2}
 @keyframes authFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-body.auth_page .auth_form_wrapper .auth_form{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:calc(var(--padding)*5) calc(var(--padding)*4);box-shadow:0 30px 80px -30px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(14px)}
+
+/* ---------- form card ---------- */
+body.auth_page .auth_form_wrapper .auth_form{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:calc(var(--padding)*5) calc(var(--padding)*4);box-shadow:0 30px 80px -30px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(14px);animation:authCardIn .55s cubic-bezier(.2,.8,.3,1) backwards}
+@keyframes authCardIn{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+body.auth_page .auth_form_wrapper .auth_form>*{animation:authChildIn .5s cubic-bezier(.2,.8,.3,1) backwards}
+body.auth_page .auth_form_wrapper .auth_form>*:nth-child(2){animation-delay:.06s}
+body.auth_page .auth_form_wrapper .auth_form>*:nth-child(3){animation-delay:.12s}
+@keyframes authChildIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+body.light.auth_page .auth_form_wrapper .auth_form{background:#fff;border:1px solid #e6e8f4;box-shadow:0 26px 70px -30px rgba(35,40,90,.35),inset 0 1px 0 #fff;backdrop-filter:none}
 body.auth_page .auth_form_wrapper .auth_form h1{font-size:230%;font-weight:800;letter-spacing:-1px;background:linear-gradient(120deg,#00b7ff,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:1}
+
+/* ---------- inputs ---------- */
 body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group{padding-left:0;padding-right:0}
 body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group>span{display:none}
-body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.10);border-radius:12px;height:48px;padding:12px 16px;color:#f4f4fb;font-size:15px}
-body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input:focus{border-color:rgba(139,92,246,.6);box-shadow:0 0 0 3px rgba(139,92,246,.18),0 0 26px -6px rgba(139,92,246,.5)}
+body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input{background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.10);border-radius:12px;height:48px;padding:12px 16px;color:#f4f4fb;font-size:15px;width:100%;box-sizing:border-box}
+body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input:focus{border-color:rgba(139,92,246,.6);box-shadow:0 0 0 3px rgba(139,92,246,.18),0 0 26px -6px rgba(139,92,246,.5);background:rgba(0,0,0,.45)}
 body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input::placeholder{color:#5c5c7d}
 body.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input:-webkit-autofill{-webkit-text-fill-color:#f4f4fb!important;-webkit-box-shadow:0 0 0 1000px #12121f inset!important}
-body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn{border-radius:12px;font-weight:800;letter-spacing:.3px;padding:13px 34px}
-body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-primary,body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn[type="submit"]{background:linear-gradient(135deg,#00b7ff,#8b5cf6 60%,#fa2d48 140%);border:none;box-shadow:0 10px 28px -8px rgba(139,92,246,.65);transition:.18s}
-body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-primary:hover{transform:translateY(-2px);filter:brightness(1.1)}
-body.auth_page .auth_form_wrapper .auth_form .form-text a{color:#8fd0ff}
-body.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl{border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.75)}
-body.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl:hover{background:rgba(255,255,255,.95);color:#17172b}
+body.light.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input{background:#f3f4fb;border-color:#dfe2f0;color:#17172b}
+body.light.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input:focus{background:#fff;border-color:rgba(139,92,246,.65);box-shadow:0 0 0 3px rgba(139,92,246,.14)}
+body.light.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input::placeholder{color:#9aa0bd}
+body.light.auth_page .auth_form_wrapper .auth_form .form_wrapper .input-group input:-webkit-autofill{-webkit-text-fill-color:#17172b!important;-webkit-box-shadow:0 0 0 1000px #eef0f9 inset!important}
+
+/* ---------- button stack — no more overlap ---------- */
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper{display:flex!important;flex-direction:column;gap:12px;margin-top:26px}
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;box-sizing:border-box;margin:0!important;border-radius:13px;font-weight:800;letter-spacing:.3px;font-size:15px;padding:0 20px;transition:transform .16s,box-shadow .16s,filter .16s,background .16s}
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn:active{transform:scale(.975)!important;filter:none!important}
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-primary,body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn[type="submit"]{order:-1;background:linear-gradient(135deg,#00b7ff,#8b5cf6 60%,#fa2d48 140%);border:none;color:#fff;box-shadow:0 10px 28px -8px rgba(139,92,246,.65)}
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-primary:hover,body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn[type="submit"]:hover{transform:translateY(-2px);filter:brightness(1.12);box-shadow:0 16px 38px -8px rgba(139,92,246,.85)}
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-light{opacity:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.85);box-shadow:none}
+body.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-light:hover{background:rgba(255,255,255,.13);color:#fff;transform:translateY(-1px)}
+body.light.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-light{background:#eef0f8;border:1px solid #dde1ef;color:#3a3f5c}
+body.light.auth_page .auth_form_wrapper .auth_form .btn_wrapper .btn-light:hover{background:#e3e7f5;color:#17172b}
+body.auth_page .auth_form_wrapper .auth_form .form-text{opacity:.85}
+body.auth_page .auth_form_wrapper .auth_form .form-text a{color:#8fd0ff;text-decoration:none}
+body.auth_page .auth_form_wrapper .auth_form .form-text a:hover{text-decoration:underline}
+body.light.auth_page .auth_form_wrapper .auth_form .form-text a{color:#5b7fd6}
+body.auth_page .auth_form_wrapper .auth_form .sl_wrapper .seperator_text{color:rgba(255,255,255,.35);opacity:1}
+body.light.auth_page .auth_form_wrapper .auth_form .sl_wrapper .seperator_text{color:#8a8fb0}
+
+/* ---------- social buttons — spaced, never overlapping ---------- */
+body.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons{display:flex;flex-direction:column;align-items:center;gap:12px}
+body.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl{display:flex;align-items:center;justify-content:center;margin:0;border-radius:50%;width:46px;height:46px;line-height:1;font-size:20pt;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.75);transition:.18s}
+body.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl:hover{background:rgba(255,255,255,.95);color:#17172b;transform:translateY(-2px);box-shadow:0 8px 20px -6px rgba(0,0,0,.5)}
+body.auth_page.google_off .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl.google{width:230px;height:46px;border-radius:12px;margin-bottom:0}
+body.light.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl{border-color:rgba(20,20,50,.14);background:#fff;color:#5a5f7d}
+body.light.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl:hover{background:#17172b;color:#fff;box-shadow:0 8px 20px -6px rgba(30,30,70,.4)}
+body.light.auth_page .auth_form_wrapper .auth_form .sl_wrapper .sl_buttons .sl img{filter:none}
+
 @media(max-width:1020px){
 body.auth_page .auth_form_wrapper .logo_wrapper{background:none!important;opacity:1}
+body.auth_page .auth_form_wrapper .logo_wrapper:before{display:none}
 body.auth_page .auth_form_wrapper .logo_wrapper img{max-width:190px;max-height:190px;border-radius:30px}
 body.auth_page .auth_form_wrapper .auth_form{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09)}
+body.light.auth_page .auth_form_wrapper .auth_form{background:#fff;border-color:#e6e8f4}
 }
+@media(prefers-reduced-motion:reduce){body.auth_page *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 <div class="auth_form_wrapper">
 

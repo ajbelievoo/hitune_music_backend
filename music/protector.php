@@ -1,7 +1,12 @@
 <?php
 
+// Protected file delivery — standalone (no BOF bootstrap).
+// The framework boot was unreliable here: an early warning cascaded through
+// BOF's error_inspector into a fatal (500), and its fall() callback renders
+// the site 404 page — both fatal for media streaming. This script only
+// needs DB + request metadata, so it loads config constants directly.
+
 require_once( dirname(__FILE__) . "/api/app/config.php" );
-require_once( bof_root . "/loader.php" );
 
 function pdie( $reason ){
   header('HTTP/1.1 503 Service Temporarily Unavailable');
@@ -9,33 +14,31 @@ function pdie( $reason ){
   die( $reason );
 }
 
-$bof_instance = new BusyOwlFramework(array(
-  "name" => "bof_client",
-  "plugins" => array()
-));
+// Long streams must not be killed by max_execution_time
+@set_time_limit( 0 );
 
-function bof(){
-  global $bof_instance;
-  return $bof_instance;
-}
+$path        = isset( $_GET["path"] )      ? (string) $_GET["path"]      : null;
+$protected   = isset( $_GET["protected"] ) ? $_GET["protected"] === "yes" : false;
+$object_type = isset( $_GET["ot"] )        ? (string) $_GET["ot"]        : null;
+$object_hash = isset( $_GET["oh"] )        ? (string) $_GET["oh"]        : null;
+$source_hash = isset( $_GET["sid"] )       ? (string) $_GET["sid"]       : null;
+$key1        = isset( $_GET["key1"] )      ? (string) $_GET["key1"]      : null;
+$key2        = isset( $_GET["key2"] )      ? (string) $_GET["key2"]      : null;
+$key3        = isset( $_GET["key3"] )      ? (string) $_GET["key3"]      : null;
 
-bof()->__setup();
+if ( $object_hash !== null && !preg_match( "/^[a-f0-9]{32}$/i", $object_hash ) ) $object_hash = null;
+if ( $source_hash !== null && !preg_match( "/^[a-f0-9]{32}$/i", $source_hash ) ) $source_hash = null;
+foreach( [ "key1", "key2", "key3" ] as $_k )
+  if ( $$_k !== null && !preg_match( "/^[a-f0-9]{32}$/i", $$_k ) ) $$_k = null;
 
+if ( $path !== null && ( strpos( $path, ".." ) !== false || strpos( $path, "\0" ) !== false ) )
+$path = null;
 
-// requests
-$path = bof()->nest->user_input( "get", "path", "string" );
-$protected = bof()->nest->user_input( "get", "protected", "equal", [ "value" => "yes"] );
-$object_type = bof()->nest->user_input( "get", "ot", "string" );
-$object_hash = bof()->nest->user_input( "get", "oh", "md5" );
-$source_hash = bof()->nest->user_input( "get", "sid", "md5" );
-$key1 = bof()->nest->user_input( "get", "key1", "md5" );
-$key2 = bof()->nest->user_input( "get", "key2", "md5" );
-$key3 = bof()->nest->user_input( "get", "key3", "md5" );
-
-// validate url
-$_protocol = ( ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ) || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$_url = $_protocol . $_SERVER['HTTP_HOST'] . urldecode( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) );
-$_url2 = $_protocol . $_SERVER["HTTP_HOST"] . "/files/protected/" . $path;
+// validate url — the grant is bound to the exact /files/protected/<path> URL
+$_protocol = ( ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ) || ( !empty( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 ) ) ? "https://" : "http://";
+$_host = !empty( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : "";
+$_url  = $_protocol . $_host . urldecode( (string) parse_url( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : "", PHP_URL_PATH ) );
+$_url2 = $_protocol . $_host . "/files/protected/" . $path;
 
 if (
   !empty( $path ) && !empty( $protected ) && !empty( $object_type ) && !empty( $object_hash ) && !empty( $source_hash ) && !empty( $key1 ) && !empty( $key2 ) && !empty( $key3 ) ?
@@ -64,56 +67,57 @@ if (
 
   }
 
-  if ( !empty( $http_header_range ) ? ( $http_header_range_begin / $filesize > .85 || $http_header_range_begin / $filesize < .15 ) : true ){
+  // Access is verified for EVERY request — the old 15-85% mid-file window
+  // skipped the DB check and let anyone pull the middle of any file.
+  $path_hash = md5( $_url );
 
-    $path_hash = md5( $_url );
-    require_once( root . "/app/admin/_setup/db.php" );
+  $mysqli = @new mysqli( db_host, db_user, db_pass, db_name );
+  if ( $mysqli->connect_errno )
+  pdie("no_access");
 
-    $check_db = bof()->db->_select(
-      array(
-        "table" => "_bof_cache_files_access",
-        "where" => array(
-          [ "object_type", "=", $object_type ],
-          [ "object_hash", "=", $object_hash ],
-          [ "source_hash", "=", $source_hash ],
-          [ "path_hash", "=", $path_hash ],
-          [ "key1", "=", $key1 ],
-          [ "key2", "=", $key2 ],
-          [ "key3", "=", $key3 ],
-        )
-      ),
-    );
+  $stmt = $mysqli->prepare(
+    "SELECT action, user_agent, user_ip, time_expire FROM `_bof_cache_files_access`
+     WHERE object_type = ? AND object_hash = ? AND source_hash = ? AND path_hash = ?
+       AND key1 = ? AND key2 = ? AND key3 = ? LIMIT 1"
+  );
 
-
-
-    if ( empty( $check_db ) )
+  if ( !$stmt ){
+    $mysqli->close();
     pdie("no_access");
+  }
 
-    $item = $check_db[0];
+  $stmt->bind_param( "sssssss", $object_type, $object_hash, $source_hash, $path_hash, $key1, $key2, $key3 );
+  $stmt->execute();
+  $item = $stmt->get_result() ? $stmt->get_result()->fetch_assoc() : null;
+  $stmt->close();
+  $mysqli->close();
 
-    if ( $item["action"] == "stream" ){
-      $lock_ip = false;
-      $lock_agent = true;
-    }
-    else {
-      $lock_ip = $lock_agent = true;
-    }
+  if ( empty( $item ) )
+  pdie("no_access");
 
-    if ( !empty( $lock_agent ) ){
-      if ( $item["user_agent"] != bof()->request->get_userAgent()["string"] )
-      pdie("no_access");
-    }
+  if ( $item["action"] == "stream" ){
+    $lock_ip = false;
+    $lock_agent = true;
+  }
+  else {
+    $lock_ip = $lock_agent = true;
+  }
 
-    if ( !empty( $lock_ip ) ){
-      if ( $item["user_ip"] != bof()->request->get_userIP()["string"] )
-      pdie("no_access");
-    }
+  if ( !empty( $lock_agent ) ){
+    $ua = isset( $_SERVER["HTTP_USER_AGENT"] ) ? $_SERVER["HTTP_USER_AGENT"] : "";
+    if ( $item["user_agent"] != $ua )
+    pdie("no_access");
+  }
 
-    if ( !empty( $item["time_expire"] ) ){
-      if ( time() > strtotime( $item["time_expire"] ) )
-      pdie("expired");
-    }
+  if ( !empty( $lock_ip ) ){
+    $ip = isset( $_SERVER["REMOTE_ADDR"] ) ? $_SERVER["REMOTE_ADDR"] : "";
+    if ( $item["user_ip"] != $ip )
+    pdie("no_access");
+  }
 
+  if ( !empty( $item["time_expire"] ) ){
+    if ( time() > strtotime( $item["time_expire"] ) )
+    pdie("expired");
   }
 
   $_ext = pathinfo( $file_path, PATHINFO_EXTENSION );
@@ -157,10 +161,9 @@ if (
   header("Content-Length:" .( ( $http_header_range_end-$http_header_range_begin ) + 1) );
   header("Content-Disposition: attachment; filename=" . pathinfo( $file_path, PATHINFO_BASENAME ) );
 
-  $begin = 0;
   $fm = fopen( $file_path, 'rb' );
   $cur = $http_header_range_begin;
-  fseek( $fm, $begin, 0 );
+  fseek( $fm, $http_header_range_begin, 0 );
 
   while(
     !feof( $fm ) &&

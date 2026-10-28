@@ -73,6 +73,11 @@ class muse_infinite extends bof_type_class {
         }
       }
     }
+    elseif ( $items ){
+      // No/empty queue posted — nothing to filter against; returning
+      // null here silently killed infinite-play for single-song starts.
+      $unique_items = $items;
+    }
 
     $output = array(
       "items" => !empty( $unique_items ) ? $unique_items : null,

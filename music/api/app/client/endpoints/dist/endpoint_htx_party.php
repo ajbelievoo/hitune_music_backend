@@ -90,8 +90,14 @@ function htx_party_create( $loader, $db, $user_id ){
     }
 
     $hash = md5( uniqid( 'party', true ) . $user_id );
-    $db->_insert( '_htx_party', array(
-        'hash' => $hash, 'host_user_id' => $user_id, 'name' => $name, 'track_id' => $track_id,
+    $db->_insert( array(
+        'table' => '_htx_party',
+        'set'   => array(
+            array( 'hash',         $hash ),
+            array( 'host_user_id', $user_id ),
+            array( 'name',         $name ),
+            array( 'track_id',     $track_id ),
+        ),
     ) );
     $loader->api->set_message( 'party_created', array( 'hash' => $hash ) );
 }

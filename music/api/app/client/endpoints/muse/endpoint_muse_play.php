@@ -62,11 +62,32 @@ function endpoint_muse_play( $loader, $excuter, $args ){
 
   $duration = !empty( $object_item["duration"] ) ? intval( $object_item["duration"] ) : null;
 
+  // Cover: file cover -> largest spotify_cover variant on track/album
+  // (cover_id is empty for ~9.5k imported tracks).
+  $_cover = !empty( $object_item["bof_file_cover"]["image_thumb"] ) ? $object_item["bof_file_cover"]["image_thumb"] : null;
+  $_sc_url = null;
+  foreach ( [ "spotify_cover", "bof_dir_album", "bof_dir_artist" ] as $_k ){
+    if ( $_k === "spotify_cover" ) $_raw = !empty( $object_item["spotify_cover"] ) ? $object_item["spotify_cover"] : null;
+    else $_raw = !empty( $object_item[$_k]["spotify_cover"] ) ? $object_item[$_k]["spotify_cover"] : null;
+    if ( empty( $_raw ) ) continue;
+    $_arr = is_string( $_raw ) ? json_decode( $_raw, true ) : $_raw;
+    if ( empty( $_arr ) || !is_array( $_arr ) ) continue;
+    $_bw = -1;
+    foreach ( $_arr as $_im ){
+      if ( empty( $_im["url"] ) ) continue;
+      $_w = intval( isset( $_im["width"] ) ? $_im["width"] : 0 );
+      if ( $_w > $_bw ){ $_bw = $_w; $_sc_url = $_im["url"]; }
+    }
+    if ( $_sc_url ) break;
+  }
+  if ( $_sc_url && ( !$_cover || strpos( $_cover, "scdn.co" ) !== false ) )
+  $_cover = $_sc_url;
+
   $extra = array(
     "duration" => $duration,
     "title" => $object_item["title"],
     "sub_title" => !empty( $object_item["bof_dir_artist"]["name"] ) ? $object_item["bof_dir_artist"]["name"] : null,
-    "cover" => !empty( $object_item["bof_file_cover"]["image_thumb"] ) ? $object_item["bof_file_cover"]["image_thumb"] : null
+    "cover" => $_cover
   );
 
   $_loudness = bof()->music->track_loudness( $object_item );
@@ -112,7 +133,7 @@ function endpoint_muse_play( $loader, $excuter, $args ){
         $_address = $loader->general->https_url( $_t[1]["address"] );
 
         if ( !empty( $sources_by_type["user"]["protected"] ) && preg_match( "/\/files\/protected\//", $_address ) ){
-          $_address = $loader->source->grant_access( $source_G["ot"], $source_G["raw"]["hash"], $sources_by_type["user"]["hash"], $_address, "20 MINUTE" );
+          $_address = $loader->source->grant_access( $source_G["ot"], $source_G["raw"]["hash"], $sources_by_type["user"]["hash"], $_address, "90 MINUTE" );
         }
 
         $playable = array(
@@ -162,6 +183,63 @@ function endpoint_muse_play( $loader, $excuter, $args ){
     if ( empty( $object_item["youtube_id"] ) )
     bof()->music->set_track_youtube_id( $object_item["ID"], $youtube_id );
 
+    // Cache peek only — never burns the 15-60s live YouTube chain.
+    try {
+      $stream = $loader->youtube_piped->set_setting()->get_stream_cached( $youtube_id, array(
+        "prefer" => $prefer,
+        "allow_live" => false
+      ) );
+      if ( $stream ){
+        $playable = array(
+          "url" => $stream["url"],
+          "type" => $stream["type"],
+          "mime" => $stream["mime"],
+          "duration" => !empty( $stream["duration"] ) ? $stream["duration"] : $duration,
+          "expires" => !empty( $stream["expire"] ) ? $stream["expire"] : null,
+          "refresh_by" => !empty( $stream["expire"] ) ? intval( $stream["expire"] ) - 120 : null,
+          "cached" => !empty( $stream["cached"] ) ? true : false
+        );
+      }
+    } catch( Exception | bofException | Error $err ){}
+
+  }
+
+  if ( !$playable ){
+
+    // JioSaavn fast path (~1.4s) — full-length CDN audio; the only
+    // reliable resolver while YouTube bot-blocks this server IP.
+    try {
+      $_sv = bof()->hitune_saavn->resolve(
+        $object_item["title"],
+        !empty( $object_item["bof_dir_artist"]["name"] ) ? $object_item["bof_dir_artist"]["name"] : null,
+        $duration,
+        $prefer
+      );
+      if ( $_sv && !empty( $_sv["url"] ) ){
+        $playable = array(
+          "url" => $_sv["url"],
+          "type" => "audio",
+          "mime" => $_sv["mime"],
+          "duration" => $_sv["duration"],
+          "saavn" => true,
+          "cached" => false
+        );
+        if ( $youtube_id )
+        try {
+          $loader->youtube_piped->cache_stream_url( $youtube_id, $_sv["url"], array(
+            "mime" => $_sv["mime"], "type" => "audio", "duration" => $_sv["duration"], "prefer" => $prefer, "expire_in" => 259200
+          ) );
+        } catch( Exception | bofException | Error $err ){}
+      }
+    } catch( Exception | bofException | Error $err ){}
+
+  }
+
+  if ( !$playable && $youtube_id ){
+
+    // Live YouTube chain — last resort; the circuit breaker inside
+    // get_stream_cached keeps this from stalling while the IP stays
+    // bot-blocked.
     try {
       $stream = $loader->youtube_piped->set_setting()->get_stream_cached( $youtube_id, array(
         "prefer" => $prefer
@@ -173,31 +251,8 @@ function endpoint_muse_play( $loader, $excuter, $args ){
           "mime" => $stream["mime"],
           "duration" => !empty( $stream["duration"] ) ? $stream["duration"] : $duration,
           "expires" => !empty( $stream["expire"] ) ? $stream["expire"] : null,
+          "refresh_by" => !empty( $stream["expire"] ) ? intval( $stream["expire"] ) - 120 : null,
           "cached" => !empty( $stream["cached"] ) ? true : false
-        );
-      }
-    } catch( Exception | bofException | Error $err ){}
-
-  }
-
-  if ( !$playable ){
-
-    // JioSaavn fallback (plugin: bof_tool_hitune_extras) — full-length CDN
-    // audio, no poToken needed while YouTube blocks the server IP.
-    try {
-      $_sv = bof()->hitune_saavn->resolve(
-        $object_item["title"],
-        !empty( $object_item["bof_dir_artist"]["name"] ) ? $object_item["bof_dir_artist"]["name"] : null,
-        $duration
-      );
-      if ( $_sv && !empty( $_sv["url"] ) ){
-        $playable = array(
-          "url" => $_sv["url"],
-          "type" => "audio",
-          "mime" => $_sv["mime"],
-          "duration" => $_sv["duration"],
-          "saavn" => true,
-          "cached" => false
         );
       }
     } catch( Exception | bofException | Error $err ){}
@@ -230,7 +285,8 @@ function endpoint_muse_play( $loader, $excuter, $args ){
           "type" => "audio",
           "mime" => "audio/mp4",
           "preview" => true,
-          "duration" => $duration ? $duration : 30,
+          "is_preview" => true,
+          "duration" => 30,
           "cached" => false
         );
       }
@@ -247,6 +303,29 @@ function endpoint_muse_play( $loader, $excuter, $args ){
   }
 
   $playable["youtube_id"] = $youtube_id;
+
+  // Next-track prefetch: client sends the upcoming queue item so its stream
+  // is already resolved+cached before the current song ends (gapless-ish).
+  $next_name = $loader->nest->user_input( "post", "next_object_type", "bofClient_object", [ "has_button" => "play" ] );
+  $next_hash = $loader->nest->user_input( "post", "next_object_hash", "md5" );
+  if ( $next_name && $next_hash ){
+    try {
+      $_next_item = $loader->object->__get( $next_name )->select( [ "hash" => $next_hash ], [ "muse_source" => true ] );
+      $_next_yt   = !empty( $_next_item["youtube_id"] ) ? $_next_item["youtube_id"] : null;
+      if ( !$_next_yt && !empty( $_next_item["bof_dir_sources"] ) ){
+        foreach( $_next_item["bof_dir_sources"] as $_ns ){
+          if ( $_ns["type"] == "youtube" && !empty( $_ns["data_decoded"]["youtube_id"] ) ){ $_next_yt = $_ns["data_decoded"]["youtube_id"]; break; }
+        }
+      }
+      if ( $_next_yt ){
+        $_ck = "yt:" . $_next_yt . ":audio_hq";
+        $_cr = bof()->db->_select( [ "table" => "_bof_cache_streams", "where" => [ [ "stream_key", "=", $_ck ] ], "single" => true, "cache_load_rt" => false ] );
+        $_cfresh = $_cr && !empty( $_cr["expire_at"] ) && ( intval( $_cr["expire_at"] ) - time() ) > 2700;
+        if ( !$_cfresh )
+        @shell_exec( "nohup /usr/bin/php82 " . escapeshellarg( base_root . "/scripts/warm_stream.php" ) . " " . escapeshellarg( $_next_yt ) . " >/dev/null 2>&1 &" );
+      }
+    } catch( Exception | bofException | Error $err ){}
+  }
 
   $loader->api->set_message( "ok", array_merge( $playable, $extra ) );
 

@@ -58,17 +58,19 @@ class transit_aws_s3 extends bof_type_class {
 
     $putArray = array(
       'Bucket' => $server_data["bucket"],
-      'Key' => $_remote,
+      'Key' => $this->_remote_key( $_remote ),
       'Body' => fopen( $_source, 'r' ),
       'ACL' => "public-read",
       'ContentDisposition' => 'attachment',
     );
 
-    if ( 
-      $this->platform == "backblaze" || 
-      ( !empty( $server_data["endpoint"] ) ? preg_match( "/backblazeb2.com/", $server_data["endpoint"] ) : false )
-    )
-    unset( $putArray["ACL"] );
+    if (
+      $this->platform == "backblaze" ||
+      $this->platform == "cloudflare" ||
+      ( !empty( $server_data["endpoint"] ) ? preg_match( "/(backblazeb2|r2\.cloudflarestorage)\.com/", $server_data["endpoint"] ) : false )
+    ) {
+      unset( $putArray["ACL"], $putArray["ContentDisposition"] );
+    }
 
     try {
       $d = $client->putObject( $putArray );
@@ -82,6 +84,12 @@ class transit_aws_s3 extends bof_type_class {
 		return [ $this->exists( $_remote ), $_remote ];
 
 	}
+  protected function _remote_key( $key ){
+
+    $prefix = !empty( $this->data["prefix"] ) ? rtrim( $this->data["prefix"], "/" ) . "/" : "";
+    return $prefix . $key;
+
+  }
 	protected function exists( $filename ){
 
 		if ( !( $client = $this->getClient() ) )
@@ -89,7 +97,7 @@ class transit_aws_s3 extends bof_type_class {
 
     $server_data = $this->data;
 
-		if ( $client->doesObjectExist( $server_data["bucket"], $filename ) )
+		if ( $client->doesObjectExist( $server_data["bucket"], $this->_remote_key( $filename ) ) )
 		return true;
 		return false;
 
@@ -107,7 +115,7 @@ class transit_aws_s3 extends bof_type_class {
     try {
       $client->deleteObject( array(
         'Bucket' => $server_data["bucket"],
-        'Key'    => $filename,
+        'Key'    => $this->_remote_key( $filename ),
       ) );
     } catch (Aws\S3\Exception\S3Exception $e) {
       return false;

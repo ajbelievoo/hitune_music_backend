@@ -78,13 +78,13 @@ $Config = array(
       ),
       array(
         "name" => "apple_music_light",
-        "path" => "assets/css/40_apple_music_light.css",
+        "path" => "assets/css".(production?"/minified":"")."/40_apple_music_light.css",
         "base" => "__SELF__",
         "dir" => false,
       ),
       array(
         "name" => "mobile",
-        "path" => "assets/css/15_mobile.css",
+        "path" => "assets/css".(production?"/minified":"")."/15_mobile.css",
         "base" => "__SELF__",
         "dir" => false,
         "mobileOnly" => true

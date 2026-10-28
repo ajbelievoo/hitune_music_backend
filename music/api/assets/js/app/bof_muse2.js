@@ -70,6 +70,7 @@ window.m2 = {
     var museSettingKeys = {
       ad_interval: "thingie_interval",
       ad_offset: "thingie_offset",
+      ad_max_seconds: "thingie_max_seconds",
       ad_skippability: "thingie_skipable",
       ad_skippability_threshold: "thingie_skipable_threshold",
       muse_hide: "muse_hide",
@@ -107,6 +108,21 @@ window.m2 = {
 
     window.m2_focus.ui.add_cli_htmls()
     window.m2_focus.setting.load()
+
+    // Fresh session ad grace: persisted "ini"/"thingie" timestamps from an
+    // old session make the offset check fail instantly — an ad gates the very
+    // first play. Roll them forward so a returning listener still gets the
+    // configured ad_offset / ad_interval before the first ad.
+    (function(){
+      var _now = window._g._mt();
+      var _adOff = parseInt( window.m2.config.get("thingie_offset") ) || 0;
+      var _adInt = parseInt( window.m2.config.get("thingie_interval") ) || 0;
+      var _lastAd = parseInt( window.m2_focus.setting.get("thingie") ) || 0;
+      window.m2_focus.setting.set("ini", _now);
+      if ( _adInt > 0 && _lastAd > 0 && (_now - _lastAd) > _adInt * 60 * 1000 )
+        window.m2_focus.setting.set("thingie", _now);
+    })();
+
     window.m2.user.listen()
     if ( !window.m2.config.get("hotfix") ){
       window.m2_thingie.check()
@@ -550,6 +566,7 @@ window.m2.user = {
     });
 
     $(document).on("mousedown touchstart", "#progress_range", function () {
+      $(document).find("#player").addClass("seeking");
       window.m2_focus.ui.clear_seeker();
     });
     $(document).on("input", "#progress_range", function () {
@@ -566,6 +583,7 @@ window.m2.user = {
     var reInitiateSeeker = null;
     $(document).on("change", "#progress_range", function () {
 
+      $(document).find("#player").removeClass("seeking");
       window.m2_focus.ui.clear_seeker();
       if (reInitiateSeeker) {
         clearTimeout(reInitiateSeeker);
@@ -743,16 +761,20 @@ window.m2.user = {
     }
     else if ('mediaSession' in navigator) {
 
+      var _art = active.cover_big ? active.cover_big : active.cover;
+      if ( !_art || _art === "null" || _art === "undefined" )
+        _art = window.config.web.address + "api/assets/images/icon_512.png";
+
       navigator.mediaSession.metadata = new MediaMetadata({
         title: _title,
         artist: _stitle,
         artwork: [
-          { src: active.cover_big ? active.cover_big  : active.cover, sizes: '96x96', type: 'image/jpg' },
-          { src: active.cover_big ? active.cover_big  : active.cover, sizes: '128x128', type: 'image/jpg' },
-          { src: active.cover_big ? active.cover_big  : active.cover, sizes: '192x192', type: 'image/jpg' },
-          { src: active.cover_big ? active.cover_big  : active.cover, sizes: '256x256', type: 'image/jpg' },
-          { src: active.cover_big ? active.cover_big  : active.cover, sizes: '384x384', type: 'image/jpg' },
-          { src: active.cover_big ? active.cover_big  : active.cover, sizes: '512x512', type: 'image/jpg' },
+          { src: _art, sizes: '96x96', type: 'image/png' },
+          { src: _art, sizes: '128x128', type: 'image/png' },
+          { src: _art, sizes: '192x192', type: 'image/png' },
+          { src: _art, sizes: '256x256', type: 'image/png' },
+          { src: _art, sizes: '384x384', type: 'image/png' },
+          { src: _art, sizes: '512x512', type: 'image/png' },
         ]
       });
 
@@ -1055,6 +1077,7 @@ window.m2.config = (function () {
   var _i = {
       thingie_offset: 5,
       thingie_interval: 1,
+      thingie_max_seconds: 30,
       thingie_skipable: true,
       thingie_skipable_threshold: 10,
       muse_hide: false,

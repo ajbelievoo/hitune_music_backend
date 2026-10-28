@@ -11,9 +11,8 @@ window.m2_infinite = {
         if (window.m2.config.get("queue_hide_infinite"))
         return false
 
-        if (!window.m2_focus.setting.get( "infinite"))
-        return false
-
+        // Consumption is gated by what's actually in the list, not the
+        // infinite setting — displayed "up next" items must always play.
         if ( this.queue.get() ? this.queue.get().length : false )
         return true
         return false
@@ -23,6 +22,8 @@ window.m2_infinite = {
     off: function (){
         window.ui.body.removeClass( "muse_infinite", true );
         window.m2_focus.setting.set( "infinite", false )
+        window.m2_infinite.queue.resetPage()
+        $(document).find(".queue .list .next_items").html( "" );
     },
     on: function (){
 
@@ -43,6 +44,15 @@ window.m2_infinite = {
 
         if (window.m2.isEmbed())
         return
+
+        // Don't fetch/display "up next" items when Infinite is off —
+        // otherwise the queue panel lists songs that can never auto-play
+        // (e.g. Repeat is on, which force-disables infinite).
+        if ( !window.m2_focus.setting.get( "infinite" ) ) {
+            window.m2_infinite.queue.resetPage()
+            $(document).find(".queue .list .next_items").html( "" );
+            return;
+        }
 
         window.m2_infinite.log( "Start" )
 
@@ -136,6 +146,18 @@ window.m2_infinite.queue = {
         this._items = (this._items?this._items:[]).concat( $newItems )
         if ( buildUI === true ){
             window.m2_infinite.ui.build()
+        }
+
+        // Warm the source-solve cache for the next item so next() doesn't
+        // wait on the muse_request_source round-trip when the song ends.
+        if ( this._items ? this._items.length : false ){
+            var _nxt = this._items[0];
+            if ( _nxt ? ( _nxt.ot && _nxt.hash ) : false ){
+                var _nk = _nxt.ot + "_" + _nxt.hash;
+                if ( window.m2_source ? !window.m2_source.solve_cache[ _nk ] : false ){
+                    try { window.m2_source.solve( "prefetch", _nxt.ot, _nxt.hash ); } catch(e){}
+                }
+            }
         }
 
     },

@@ -1066,3 +1066,93 @@ body.light.mobile.que_active .queue #preview .graph_wrapper.type_audio,
 body.light.mobile.que_active .queue #preview .graph_wrapper.type_video.hls_audio {
   max-width: min(55vw, 260px) !important;
 }
+
+/* ------------------------------------------------------------------
+   13. Contrast fixes — faint text / washed elements in day mode
+   ------------------------------------------------------------------ */
+
+/* Resting header was 75% transparent + blurred -> anything scrolled
+   underneath looked "faded". Solid frosted bar like Apple Music. */
+body.light .header,
+body.light .header.resting {
+  background: rgba(255,255,255,0.88) !important;
+  backdrop-filter: blur(20px) saturate(1.4) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.4) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+/* Sidebar section labels (HITUNE MUSIC / COMMUNITY / USER) */
+body.light .sidebar .menu_parent .link_wrapper.parent.with_child a.parent {
+  color: rgba(17,24,39,0.62) !important;
+  opacity: 1 !important;
+}
+
+/* Muted text floor — subtitles, "More", timestamps, row index, artist
+   names were opacity .2-.55 (washed on white). Raise to readable. */
+body.light .widget .widget_content > .sub_title {
+  opacity: 0.75 !important;
+  color: rgba(17,24,39,0.75) !important;
+}
+body.light .widget .widget_content > .title a._more,
+body.light .widget .widget_content > .title ._more {
+  opacity: 0.8 !important;
+}
+body.light .widget .widget_content .list_wrapper .item .data .sub_title,
+body.light .widget .widget_content .list_wrapper .item .data .sub_title a {
+  opacity: 1 !important;
+  color: #5b6472 !important;
+}
+body.light .widget .widget_content .slider_wrapper .item .data .sub_title,
+body.light .widget .widget_content .slider_wrapper .item .data .sub_title a {
+  opacity: 1 !important;
+  color: #5b6472 !important;
+}
+body.light .widget .widget_content .table_wrapper table tbody tr td.title .subData {
+  opacity: 0.65 !important;
+}
+body.light .widget .widget_content .table_wrapper table tbody tr td.i {
+  color: rgba(17,24,39,0.45) !important;
+}
+body.light .widget .widget_content .table_wrapper table tbody tr td.v_timestamp {
+  color: rgba(17,24,39,0.55) !important;
+  opacity: 1 !important;
+}
+
+/* Cards were globally dimmed to 85% opacity */
+body.light .widget .widget_content .slider_wrapper .item {
+  opacity: 1 !important;
+}
+
+/* Header pills / icons */
+body.light .header .i .icon,
+body.light .header .i .icon_btn {
+  color: rgba(17,24,39,0.75) !important;
+  background: rgba(0,0,0,0.05) !important;
+}
+body.light .header .i .icon:hover,
+body.light .header .i .icon_btn:hover {
+  color: #111827 !important;
+}
+body.light .header .i .btn.btn-primary {
+  background: rgba(0,0,0,0.06) !important;
+  color: #111827 !important;
+  border: none !important;
+}
+body.light .header .search_form .bof_input::placeholder {
+  color: rgba(17,24,39,0.45) !important;
+  opacity: 1 !important;
+}
+body.light .header .search_form .bof_input {
+  color: #111827 !important;
+}
+
+/* Object list / browse rows, generic muted bits */
+body.light .object_n_page .items .item .sub_title,
+body.light .d_head .detail .sub,
+body.light .d_head .detail .is .sub {
+  color: #5b6472 !important;
+  opacity: 1 !important;
+}
+body.light ::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.25) !important;
+}

@@ -73,7 +73,8 @@ class youtube_piped extends bof_type_class {
         // URL for every client until shortly before it expires.
 
         $allow_live = true;
-        $min_ttl    = 900; // treat cache as stale when <15min of validity remain
+        $min_ttl    = 2700; // treat cache as stale when <45min of validity remain —
+                            // a 15-25min-old URL can die mid-playback (expire param)
         $prefer     = null;
         $allow_ytdlp = true;
         extract( $args );
@@ -99,18 +100,28 @@ class youtube_piped extends bof_type_class {
             if ( $expire_at ? ( $expire_at - time() ) > $min_ttl : false ){
                 bof()->db->query( "UPDATE _bof_cache_streams SET used = used + 1 WHERE ID = " . intval( $row["ID"] ), null, true );
                 return array(
-                    "url"      => bof()->general->https_url( $row["url"] ),
-                    "mime"     => $row["mime"],
-                    "type"     => $row["type"],
-                    "duration" => !empty( $row["duration"] ) ? intval( $row["duration"] ) : null,
-                    "expire"   => $expire_at,
-                    "cached"   => true
+                    "url"        => bof()->general->https_url( $row["url"] ),
+                    "mime"       => $row["mime"],
+                    "type"       => $row["type"],
+                    "duration"   => !empty( $row["duration"] ) ? intval( $row["duration"] ) : null,
+                    "expire"     => $expire_at,
+                    "refresh_by" => $expire_at - 120,
+                    "cached"     => true
                 );
             }
 
         }
 
         if ( !$allow_live )
+        return null;
+
+        // Circuit breaker: while the server IP is bot-blocked every live
+        // resolution burns ~15-50s of an FPM worker. After 3 consecutive
+        // failures open the breaker for 5min so callers fail fast to the
+        // saavn/preview fallbacks instead of stalling.
+        $breaker_file = rtrim( sys_get_temp_dir(), "/\\" ) . "/bof_yt_resolve_breaker";
+        $_brk = @json_decode( @file_get_contents( $breaker_file ), true );
+        if ( !empty( $_brk["open_until"] ) && time() < intval( $_brk["open_until"] ) )
         return null;
 
         // Stampede protection: serialize live resolutions per stream_key
@@ -136,12 +147,13 @@ class youtube_piped extends bof_type_class {
             if ( $row && !empty( $row["expire_at"] ) && ( intval( $row["expire_at"] ) - time() ) > $min_ttl ){
                 bof()->db->query( "SELECT RELEASE_LOCK('{$lock_name}')", null, true );
                 return array(
-                    "url"      => bof()->general->https_url( $row["url"] ),
-                    "mime"     => $row["mime"],
-                    "type"     => $row["type"],
-                    "duration" => !empty( $row["duration"] ) ? intval( $row["duration"] ) : null,
-                    "expire"   => intval( $row["expire_at"] ),
-                    "cached"   => true
+                    "url"        => bof()->general->https_url( $row["url"] ),
+                    "mime"       => $row["mime"],
+                    "type"       => $row["type"],
+                    "duration"   => !empty( $row["duration"] ) ? intval( $row["duration"] ) : null,
+                    "expire"     => intval( $row["expire_at"] ),
+                    "refresh_by" => intval( $row["expire_at"] ) - 120,
+                    "cached"     => true
                 );
             }
 
@@ -150,10 +162,19 @@ class youtube_piped extends bof_type_class {
         try {
             $stream = $this->get_stream( $id, $allow_ytdlp );
         } catch( Exception | bofException $err ){
+            // Trip the breaker on consecutive failures (2-min window)
+            $_fails = ( !empty( $_brk["fails"] ) && time() - intval( $_brk["ts"] ) < 120 ) ? intval( $_brk["fails"] ) + 1 : 1;
+            @file_put_contents( $breaker_file, json_encode( array(
+                "fails"      => $_fails,
+                "ts"         => time(),
+                "open_until" => $_fails >= 3 ? time() + 300 : 0
+            ) ) );
             if ( $got_lock )
             bof()->db->query( "SELECT RELEASE_LOCK('{$lock_name}')", null, true );
             throw $err;
         }
+
+        @unlink( $breaker_file );
 
         if ( $got_lock )
         bof()->db->query( "SELECT RELEASE_LOCK('{$lock_name}')", null, true );
@@ -182,8 +203,9 @@ class youtube_piped extends bof_type_class {
         ) );
 
         return array_merge( $stream, array(
-            "expire" => $expire_at,
-            "cached" => false
+            "expire"     => $expire_at,
+            "refresh_by" => $expire_at - 120,
+            "cached"     => false
         ) );
 
     }
@@ -192,7 +214,7 @@ class youtube_piped extends bof_type_class {
         // Store a stream URL that a trusted client resolved itself.
         // Lets one device's resolution serve every other client.
 
-        $mime = null; $type = null; $duration = null; $prefer = null;
+        $mime = null; $type = null; $duration = null; $prefer = null; $expire_in = null;
         extract( $args );
 
         if ( !$id || !$url || !is_string( $url ) || strlen( $url ) > 4000 )
@@ -208,7 +230,7 @@ class youtube_piped extends bof_type_class {
 
         // Only accept YouTube CDN hosts or one of our configured piped instances
         $host = strtolower( $parts["host"] );
-        $host_ok = preg_match( "/(^|\.)googlevideo\.com$/i", $host ) || preg_match( "/(^|\.)youtube\.com$/i", $host ) || preg_match( "/(^|\.)ytimg\.com$/i", $host );
+        $host_ok = preg_match( "/(^|\.)googlevideo\.com$/i", $host ) || preg_match( "/(^|\.)youtube\.com$/i", $host ) || preg_match( "/(^|\.)ytimg\.com$/i", $host ) || preg_match( "/(^|\.)saavncdn\.com$/i", $host );
 
         if ( !$host_ok ){
             $this->set_setting();
@@ -230,7 +252,7 @@ class youtube_piped extends bof_type_class {
         return false;
 
         if ( !$expire_at )
-        $expire_at = time() + 2 * 3600;
+        $expire_at = time() + ( !empty( $expire_in ) ? intval( $expire_in ) : 2 * 3600 );
 
         if ( $prefer )
         $this->preferred_type = $prefer;
@@ -307,7 +329,7 @@ class youtube_piped extends bof_type_class {
     public function get_stream( $id, $allow_ytdlp=true ){
         
         $i=0;
-        $max_instances = 6; // Limit searching to 6 instances to avoid timeout
+        $max_instances = 4; // 6s timeout each — worst ~24s before yt-dlp fallback
         foreach ($this->instance_urls as $instance_url) {
             $i++;
             if ( $i > $max_instances ) break;
@@ -382,7 +404,7 @@ class youtube_piped extends bof_type_class {
                     " --extractor-args \"youtube:player_client=android\" --user-agent \"Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36\" ",
                 ];
                 foreach( $_ytdlp_attempts as $_ytdlp_ua ){
-                    $command = "\"{$_ytdlp}\" -g -f ba --force-ipv4 --no-check-certificate " . $_proxy_arg . $js_runtime_string . " --cache-dir \"" . $cache_dir . "\" --remote-components ejs:github " . $_ytdlp_ua . $cookies . " 'https://www.youtube.com/watch?v=" . $id . "' 2>&1";
+                    $command = "timeout 15 \"{$_ytdlp}\" -g -f ba --force-ipv4 --no-check-certificate " . $_proxy_arg . $js_runtime_string . " --cache-dir \"" . $cache_dir . "\" --remote-components ejs:github " . $_ytdlp_ua . $cookies . " 'https://www.youtube.com/watch?v=" . $id . "' 2>&1";
                     $output = shell_exec($command);
                     if ( $output && strpos($output, 'http') !== false && strpos($output, 'ERROR:') === false ) {
                         $lines = explode("\n", trim($output));

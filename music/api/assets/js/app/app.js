@@ -625,6 +625,24 @@ window.app = {
       $(document).on("click", ".modal.share .sharers .etc", function (e) {
         window.app.actions.share.etc();
       });
+      $(document).on("click", ".modal.share .sharers .iy", function (e) {
+        e.preventDefault();
+        var appLink = $(this).data("reel-app");
+        var webLink = $(this).data("reel-web");
+        if (!appLink && !webLink) return;
+        // Try the IyolMe app first; fall back to the web composer.
+        var jumped = false;
+        setTimeout(function () {
+          if (!jumped && !document.hidden && webLink) {
+            jumped = true;
+            window.open(webLink, "_blank");
+          }
+        }, 900);
+        try { window.location.href = appLink; } catch (err) {
+          jumped = true;
+          if (webLink) window.open(webLink, "_blank");
+        }
+      });
       $(document).on("mouseover", ".bof_tooltip", function (e) {
         if ($(this).hasClass("tooltiped")) return;
         $(this).addClass("tooltiped");
@@ -1937,6 +1955,7 @@ window.app = {
                   <a class='fb' target='_blank' href='https://www.facebook.com/sharer.php?u="+ encodeURIComponent(data.item.url) + "'><span class='mdi mdi-facebook'></span></a>\
                   <a class='pi' target='_blank' href='https://pinterest.com/pin/create/button/?url="+ encodeURIComponent(data.item.url) + "&media=" + encodeURIComponent(data.item.image) + "&description=" + encodeURIComponent(data.item.title) + "'><span class='mdi mdi-pinterest'></span></a>\
                   <a class='rd' target='_blank' href='https://www.reddit.com/submit?title="+ encodeURIComponent(data.item.title) + "&url=" + encodeURIComponent(data.item.url) + "'><span class='mdi mdi-reddit'></span></a>\
+                  "+ (data.reel && data.reel.deeplink ? "<a class='iy' data-reel-app='" + data.reel.deeplink + "' data-reel-web='" + data.reel.web_link + "' title='Create Reel on IyolMe'><span class='mdi mdi-movie-open-play'></span></a>" : "") + "\
                   <a class='etc' ><span class='mdi mdi-share-variant'></span></a>\
                 </div>\
               </div>";

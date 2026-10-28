@@ -4,6 +4,68 @@
 !/music/
 !/web/
 !/hitunesite/
+# playgame sources un-ignored so dev-agent file tools can read/write them
+# (heavy/runtime subdirs still excluded — never commit them)
+!/playgame-web/
+!/playgame-app/
+playgame-web/node_modules/
+playgame-web/dist/
+playgame-app/vendor/
+playgame-app/storage/
+playgame-app/public/
+playgame-app/.env
+playgame-app/.env.*
+
+# masgame/adgame panels (game licensing product)
+!/masgame/
+!/adgame/
+masgame/node_modules/
+masgame/data/
+masgame/packages/
+adgame/node_modules/
+adgame/data/
+adgame/games/
+adgame/uploads/
+adgame/.env
+masgame/.env
+
+# iolicense — believoo master license authority (io.believoo.com)
+!/iolicense/
+iolicense/node_modules/
+iolicense/data/
+iolicense/packages/
+iolicense/.env
+
+# ar-sdk — Believoo Face AR & video editor SDK (C++ core + Android + Flutter)
+!/ar-sdk/
+ar-sdk/**/build/
+ar-sdk/**/.dart_tool/
+ar-sdk/**/.cxx/
+ar-sdk/core/third_party/
+
+# bmall — sellable client panel product (B-MALL script)
+!/bmall/
+bmall/node_modules/
+bmall/data/
+bmall/games/
+bmall/uploads/
+bmall/public/thumbs/*
+!bmall/public/thumbs/.keep
+bmall/.env
+
+# market sources un-ignored so dev-agent file tools can read/write them
+# (heavy/runtime subdirs still excluded — never commit them)
+!/market/
+market/backend/node_modules/
+market/frontend/node_modules/
+market/backend/dist/
+market/frontend/.next/
+market/logs/
+market/demos/
+market/**/.env
+market/**/.env.*
+market/**/*.pem
+market/**/*.key
 
 # --- secrets (never committed) ---
 music/.env

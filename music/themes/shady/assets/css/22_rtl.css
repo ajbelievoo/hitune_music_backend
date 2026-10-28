@@ -432,12 +432,12 @@ body.mobile.dir_rtl #player .data_wrapper .source_data {
 }
 
 body.mobile.dir_rtl #player .buttons_wrapper .button {
-  margin-left: -20px !important;!i;!;
-  margin-right: 30px !important;!i;!;
+  margin-left: -20px !important;
+  margin-right: 30px !important;
 }
 
 body.mobile.dir_rtl #player .buttons_wrapper .button:last-child {
-  margin-left: 30px !important;!i;!;
+  margin-left: 30px !important;
 }
 
 body.mobile.dir_rtl #player .buttons_wrapper .button .mdi {

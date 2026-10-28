@@ -169,7 +169,7 @@ body.mobile #player.thingie_attached .controls_wrapper {
   display: block;
   position: absolute;
   background: center center no-repeat;
-  background-size: cover;
+  background-size: contain;
   right: 0;
   bottom: 0;
   left: 0;

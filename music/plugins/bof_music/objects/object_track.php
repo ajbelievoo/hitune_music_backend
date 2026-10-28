@@ -1483,6 +1483,43 @@ class object_m_track extends bof_type_object {
       $item["bof_file_cover"]["image_original"] = reset( $_images );
     }
 
+    // Album artwork fallback — imported tracks can have empty cover_id AND
+    // empty track-level spotify_cover while the album row already carries
+    // resolved artwork: either a file cover or its own spotify_cover JSON.
+    // (Artist artwork is deliberately not used as track art.)
+    if ( empty( $item["bof_file_cover"] ) && !empty( $item["bof_dir_album"] ) && client_auto_images && !david ){
+
+      if ( !empty( $item["bof_dir_album"]["bof_file_cover"]["image_strings"] ) ){
+
+        $item["bof_file_cover"] = $item["bof_dir_album"]["bof_file_cover"];
+
+      } else {
+
+        $_sc = !empty( $item["bof_dir_album"]["spotify_cover_decoded"] ) ? $item["bof_dir_album"]["spotify_cover_decoded"]
+             : ( !empty( $item["bof_dir_album"]["spotify_cover"] ) && is_string( $item["bof_dir_album"]["spotify_cover"] )
+                 ? json_decode( $item["bof_dir_album"]["spotify_cover"], true ) : null );
+        if ( !empty( $_sc ) && is_array( $_sc ) ){
+          $_spotify_covers_raw = [];
+          foreach( $_sc as $_s_cover ){
+            if ( empty( $_s_cover["url"] ) ) continue;
+            $_spotify_covers_raw[ $_s_cover["url"] ] = [
+              isset( $_s_cover["width"] ) ? $_s_cover["width"] : 0,
+              isset( $_s_cover["height"] ) ? $_s_cover["height"] : 0
+            ];
+          }
+          if ( !empty( $_spotify_covers_raw ) ){
+            $_images = array_keys( $_spotify_covers_raw );
+            if ( in_array( "cover", array_keys( $_eq ), true ) )
+            $item["bof_file_cover"]["image_strings"] = bof()->image->html( $_spotify_covers_raw );
+            $item["bof_file_cover"]["image_thumb"] = end( $_images );
+            $item["bof_file_cover"]["image_original"] = reset( $_images );
+          }
+        }
+
+      }
+
+    }
+
     if ( $match_page && empty( $item["cover_id"] ) && !empty( $item["spotify_cover_decoded"] ) && client_auto_images ){
       foreach( $item["spotify_cover_decoded"] as $_s_cover )
       $_spotify_covers_raw[ $_s_cover["url"] ] = [ $_s_cover["width"], $_s_cover["height"] ];
@@ -1784,6 +1821,13 @@ class object_m_track extends bof_type_object {
       }
     }
 
+    // Spotify-style mix per seed: ~5 same-artist, ~5 same-genre (other
+    // artists), ~3 discovery — instead of 12 tracks by one artist, which
+    // turned "infinite play" into a single-artist loop.
+    $_cap_artist = 5;
+    $_cap_genre  = 5;
+    $_cap_rand   = 4;
+
     $_whereArray = array(
       "artist_id" => $item["artist_id"]
     );
@@ -1797,51 +1841,66 @@ class object_m_track extends bof_type_object {
       );
     }
 
-    $related_items = $this->_bof_this->select(
-      $_whereArray,
-      array(
-        "order_by" => " ",
-        "order" => "RAND()",
-        "limit" => $per_item,
-        "single" => false,
-        "as_widget" => true,
-        "thumb_as_cover" => true,
-        "_eq" => array(
-          "cover" => [],
-          "artist" => []
-        ),
-        "cache_load_rt" => false
-      )
+    $_sel_args = array(
+      "single" => false,
+      "as_widget" => true,
+      "thumb_as_cover" => true,
+      "_eq" => array(
+        "cover" => [],
+        "artist" => []
+      ),
+      "cache_load_rt" => false
     );
 
-    if ( !empty( $item["bof_dir_artist"]["bof_rel_genres"] ) ? ( empty( $related_items ) ? true : count( $related_items ) < $per_item ) : false  ){
+    // Same artist — favor popular tracks with randomness mixed in.
+    $related_items = $this->_bof_this->select(
+      $_whereArray,
+      array_merge( $_sel_args, array(
+        "order_by" => "s_popularity",
+        "order" => "DESC",
+        "limit" => 14,
+      ) )
+    );
+    if ( $related_items ){
+      shuffle( $related_items );
+      $related_items = array_slice( $related_items, 0, $_cap_artist );
+    }
+
+    // Same genres but other artists — the discovery layer Spotify fills
+    // with "fans also like".
+    if ( !empty( $item["bof_dir_artist"]["bof_rel_genres"] ) ){
 
       $genreIDS = [];
       foreach( $item["bof_dir_artist"]["bof_rel_genres"] as $_genre )
       $genreIDS[] = $_genre["ID"];
 
-      unset( $_whereArray["artist_id"] );
-      $_whereArray["rel_genre"] = $genreIDS;
+      $_genreWhere = array(
+        "rel_genre" => $genreIDS,
+        array( "artist_id", "!=", $item["artist_id"] )
+      );
+      if ( !empty( $exclude["hash"] ) ){
+        $_genreWhere[] = array(
+          "hash",
+          "NOT IN",
+          "'".(implode("','",$exclude["hash"]))."'",
+          true
+        );
+      }
 
       $related_items_by_genre = $this->_bof_this->select(
-        $_whereArray,
-        array(
+        $_genreWhere,
+        array_merge( $_sel_args, array(
           "order_by" => " ",
           "order" => "RAND()",
-          "limit" => $per_item,
-          "single" => false,
-          "as_widget" => true,
-          "thumb_as_cover" => true,
-          "_eq" => array(
-            "cover" => [],
-            "artist" => []
-          ),
-          "cache_load_rt" => false
-        )
+          "limit" => $_cap_genre * 2,
+        ) )
       );
 
-      if ( $related_items_by_genre )
-      $related_items = !empty( $related_items ) ? array_merge( $related_items, $related_items_by_genre ) : $related_items_by_genre;
+      if ( $related_items_by_genre ){
+        shuffle( $related_items_by_genre );
+        $related_items_by_genre = array_slice( $related_items_by_genre, 0, $_cap_genre );
+        $related_items = !empty( $related_items ) ? array_merge( $related_items, $related_items_by_genre ) : $related_items_by_genre;
+      }
     }
 
     if ( empty( $related_items ) ? true : count( $related_items ) < $per_item ){
@@ -1863,7 +1922,7 @@ class object_m_track extends bof_type_object {
             "order" => "RAND()",
             "empty_select" => true,
             "empty_select()",
-            "limit" => $per_item,
+            "limit" => max( $_cap_rand, $per_item - ( is_array( $related_items ) ? count( $related_items ) : 0 ) ),
             "single" => false,
             "as_widget" => true,
             "thumb_as_cover" => true,
@@ -1878,6 +1937,24 @@ class object_m_track extends bof_type_object {
         if ( $random )
         $related_items = !empty( $related_items ) ? array_merge( $related_items, $random ) : $random;
 
+    }
+
+    // Dedupe by hash and interleave — first items stay same-artist for
+    // continuity, genre/discovery tracks weave in after position ~3 so
+    // the queue reads like a Spotify radio rather than an artist dump.
+    if ( !empty( $related_items ) && is_array( $related_items ) ){
+      $_seen = array();
+      $related_items = array_values( array_filter( $related_items, function( $_ri ) use ( &$_seen ){
+        $_h = !empty( $_ri["hash"] ) ? $_ri["hash"] : ( !empty( $_ri["raw"]["hash"] ) ? $_ri["raw"]["hash"] : null );
+        if ( $_h && isset( $_seen[$_h] ) ) return false;
+        if ( $_h ) $_seen[$_h] = true;
+        return true;
+      } ) );
+      if ( count( $related_items ) > 4 ){
+        $_head = array_splice( $related_items, 0, 3 );
+        shuffle( $related_items );
+        $related_items = array_merge( $_head, $related_items );
+      }
     }
 
     return $related_items;
