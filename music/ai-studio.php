@@ -62,7 +62,7 @@ button{font-family:inherit}
 .nav-it.on .ic{background:var(--grad);border-color:transparent;box-shadow:0 4px 14px #00b7ff55}
 .nav-it.on .ic .mdi{color:#fff}
 .nav-it .lock{margin-left:auto;font-size:13px;color:var(--gd);text-shadow:0 0 10px #ffb02066}
-.t-song_gen .ic .mdi{color:#00b7ff}.t-cover_art .ic .mdi{color:#8b5cf6}.t-clip_video .ic .mdi{color:#fa2d48}
+.t-home .ic .mdi{color:#c084fc}.t-song_gen .ic .mdi{color:#00b7ff}.t-cover_art .ic .mdi{color:#8b5cf6}.t-clip_video .ic .mdi{color:#fa2d48}
 .t-karaoke .ic .mdi{color:#2ee6a8}.t-master .ic .mdi{color:#ffb020}.t-lyrics .ic .mdi{color:#f472b6}
 .nav-it.on .ic .mdi{color:#fff!important}
 .rail-foot{margin-top:auto;padding-top:16px}
@@ -308,6 +308,80 @@ body.light .tbar .t-track{background:#00000010}
 #gate img{animation:floaty 4s ease-in-out infinite}
 .big-btn{will-change:transform}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ---------- home landing (seedimagine-style) ---------- */
+.home{max-width:1060px;margin:0 auto;padding-bottom:40px}
+.hero{text-align:center;padding:34px 20px 26px;position:relative}
+.hero .badge{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;padding:6px 14px;border-radius:20px;background:#8b5cf61f;border:1px solid #8b5cf655;color:#c4b5fd;margin-bottom:18px}
+.hero h2{font-size:44px;font-weight:900;letter-spacing:-1.2px;line-height:1.08;background:linear-gradient(120deg,#fff 30%,#c4b5fd 70%,#00b7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.sub2{margin:14px auto 0;max-width:520px;color:var(--mut);font-size:14.5px;line-height:1.65}
+.prompt-box{display:flex;gap:10px;max-width:640px;margin:26px auto 0;background:#ffffff0a;border:1px solid var(--line2);border-radius:18px;padding:10px 10px 10px 18px;align-items:center;box-shadow:0 12px 40px -12px #8b5cf644}
+.prompt-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:14.5px;font-family:inherit;min-width:0}
+.prompt-box input::placeholder{color:#8d8dab99}
+.prompt-box button{flex:none;display:flex;align-items:center;gap:7px;background:var(--grad);border:none;color:#fff;font-weight:800;font-size:13.5px;padding:12px 22px;border-radius:13px;cursor:pointer;box-shadow:0 6px 20px -4px #8b5cf688;transition:.18s}
+.prompt-box button:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.h-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.h-chips .chip{cursor:pointer;transition:.15s}
+.h-chips .chip:hover{border-color:var(--line2);color:#fff;background:#8b5cf622}
+.sec{margin-top:46px}
+.sec .s-title{font-size:24px;font-weight:900;letter-spacing:-.4px;text-align:center}
+.sec .s-title em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sec .s-sub{text-align:center;color:var(--mut);font-size:13.5px;margin-top:8px;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.6}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.step{background:linear-gradient(165deg,#ffffff0a,#ffffff03);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;overflow:hidden}
+.step:before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);opacity:.7}
+.step .num{width:36px;height:36px;border-radius:11px;background:var(--grad);display:grid;place-items:center;font-weight:900;font-size:15px;box-shadow:0 6px 18px -4px #8b5cf688}
+.step h4{font-size:15.5px;font-weight:800;margin:14px 0 7px}
+.step p{font-size:12.5px;color:var(--mut);line-height:1.6}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.tcard{background:linear-gradient(165deg,#ffffff0a,#ffffff03);border:1px solid var(--line);border-radius:18px;padding:20px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.tcard:hover{transform:translateY(-3px);border-color:#8b5cf655;box-shadow:0 14px 34px -12px #8b5cf655}
+.tcard .tic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;margin-bottom:13px}
+.tcard .tic .mdi{font-size:22px}
+.tcard h4{font-size:14.5px;font-weight:800;margin-bottom:6px}
+.tcard p{font-size:12px;color:var(--mut);line-height:1.55}
+.tcard .arrow{position:absolute;top:18px;right:18px;color:var(--mut);font-size:16px;transition:.2s}
+.tcard:hover .arrow{color:#c4b5fd;transform:translateX(3px)}
+.own{margin-top:46px;border-radius:22px;padding:34px 30px;text-align:center;background:linear-gradient(135deg,#00b7ff14,#8b5cf61c 55%,#fa2d4814);border:1px solid #8b5cf640;position:relative;overflow:hidden}
+.own h3{font-size:24px;font-weight:900;letter-spacing:-.4px}
+.own p{color:#c9c9e0;font-size:13.5px;max-width:560px;margin:12px auto 0;line-height:1.65}
+.own .feats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.own .feats span{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#e7e7f5;background:#ffffff0c;border:1px solid #ffffff1c;padding:8px 14px;border-radius:20px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+.plan{background:linear-gradient(165deg,#ffffff0a,#ffffff03);border:1px solid var(--line);border-radius:20px;padding:24px;position:relative;display:flex;flex-direction:column}
+.plan.hot{border-color:#8b5cf6aa;background:linear-gradient(165deg,#8b5cf61f,#00b7ff10);box-shadow:0 16px 44px -14px #8b5cf666}
+.plan .pt{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--mut)}
+.plan.hot .pt{color:#c4b5fd}
+.plan .pp{font-size:32px;font-weight:900;margin:10px 0 4px}
+.plan .pp small{font-size:12px;font-weight:700;color:var(--mut)}
+.plan ul{list-style:none;margin:14px 0 18px;display:flex;flex-direction:column;gap:8px}
+.plan ul li{font-size:12.5px;color:#c9c9e0;display:flex;gap:8px;align-items:center}
+.plan ul li .mdi{color:#2ee6a8;font-size:15px}
+.plan .go{margin-top:auto;text-align:center;padding:11px;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer;border:1px solid var(--line2);color:#fff;text-decoration:none;display:block;background:#ffffff0a;transition:.18s}
+.plan.hot .go{background:var(--grad);border:none;box-shadow:0 6px 20px -4px #8b5cf688}
+.plan .go:hover{filter:brightness(1.15)}
+.plan .tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:9.5px;font-weight:800;letter-spacing:1.4px;background:var(--grad);padding:4px 12px;border-radius:14px;text-transform:uppercase;box-shadow:0 4px 14px #8b5cf688}
+.faq{margin-top:46px;max-width:700px;margin-left:auto;margin-right:auto}
+.fq{background:#ffffff07;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+.fq .q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;cursor:pointer;font-size:13.5px;font-weight:700}
+.fq .q .mdi{transition:.25s;color:var(--mut)}
+.fq .a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:12.5px;color:var(--mut);line-height:1.65}
+.fq .a div{padding:0 18px 15px}
+.fq.open .q .mdi{transform:rotate(180deg);color:#c4b5fd}
+.fq.open{border-color:#8b5cf655}
+.cta-fin{margin-top:50px;text-align:center;padding:44px 24px;border-radius:24px;background:linear-gradient(135deg,#00b7ff1f,#8b5cf626 55%,#fa2d481f);border:1px solid #8b5cf640}
+.cta-fin h3{font-size:28px;font-weight:900;letter-spacing:-.5px}
+.cta-fin p{color:var(--mut);font-size:13.5px;margin:10px 0 22px}
+.cta-fin .big-btn{display:inline-flex}
+.yours{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:22px}
+.ycard{background:#ffffff08;border:1px solid var(--line);border-radius:14px;padding:12px;font-size:12px}
+.ycard .tt{font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ycard .ty{font-size:10px;color:var(--mut);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.ycard .st{margin-top:7px;font-size:10px;font-weight:700}
+.ycard .st.done{color:#2ee6a8}.ycard .st.busy{color:#ffb020}.ycard .st.fail{color:#fa2d48}
+@media(max-width:820px){.steps,.tgrid,.plans{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.steps,.tgrid,.plans{grid-template-columns:1fr}.hero h2{font-size:30px}.prompt-box{flex-direction:column;align-items:stretch}}
+
 </style>
 </head>
 <body>
@@ -331,6 +405,7 @@ body.light .tbar .t-track{background:#00000010}
     </a>
 
     <div class="nav-label">Studio</div>
+    <div class="nav-it t-home" data-tool="home"><span class="ic"><span class="mdi mdi-home-lightning-bolt"></span></span>Home</div>
     <div class="nav-it t-dash" data-tool="dashboard"><span class="ic"><span class="mdi mdi-view-dashboard"></span></span>Dashboard</div>
 
     <div class="nav-label">Create</div>
@@ -387,7 +462,8 @@ var apiHeaders = {
 };
 distAuth.headers(apiHeaders);
 var TOOL_STATE = { tools:{}, plan:{}, jobs:[], stats:null };
-var ACTIVE = 'dashboard';
+var PREFILL = null;
+var ACTIVE = 'home';
 var POLL = null;
 
 var GENRES = ['Hip Hop','Pop','R&B','EDM','Lo-Fi','Rock','Bollywood','Sad','Romantic','Punjabi','Cinematic','Trap'];
@@ -412,6 +488,7 @@ function toolOn(t){ var i = TOOL_STATE.tools[t]; return i && i.enabled !== false
 function toolAllowed(t){ var i = TOOL_STATE.tools[t]; return !i || i.allowed !== false; }
 
 function renderWork(){
+  if (ACTIVE === 'home') return renderHome();
   if (ACTIVE === 'dashboard') return renderDashboard();
   var w = document.getElementById('work');
   var t = TOOLS[ACTIVE];
@@ -479,9 +556,115 @@ function renderWork(){
     });
     var tg = document.getElementById('f-inst');
     if (tg) tg.onclick = function(){ tg.classList.toggle('on'); };
+    if (PREFILL != null){ var fp = document.getElementById('f-prompt'); if (fp) fp.value = PREFILL; PREFILL = null; }
   }
   var go = document.getElementById('f-go');
   if (go) go.onclick = submit;
+}
+
+/* ---------- home landing ---------- */
+var H_FAQ = [
+  ['AI Studio kya hai?','Hitune ka in-built AI creation suite — prompt likho aur song, cover art, reel clip, karaoke, mastering ya synced lyrics banao. Sab ek jagah, credits system ke saath.'],
+  ['Kya mujhe paid plan chahiye?','Free plan me daily limited generations milte hain. Zyada credits aur saare tools ke liye Creator/Pro plan upgrade karo — subscription page se.'],
+  ['Banaye hue gaane ka copyright kiska hai?','Tumhara. AI-generated creations tumhare account se linked hain — use, share aur IyolMe pe publish kar sakte ho.'],
+  ['Kya main AI song IyolMe reel me use kar sakta hoon?','Haan — Clip/Reel tool vertical reel-ready video banata hai, aur "Publish as Reel on IyolMe" se seedha post ho jata hai.'],
+  ['Generation kitna time leta hai?','Song ~30-60 sec, cover art seconds me. Jobs panel me live progress dikhta hai — complete hone pe notification aata hai.'],
+];
+
+function goTool(t, prefill){
+  if (prefill !== undefined) PREFILL = prefill;
+  ACTIVE = t;
+  document.querySelectorAll('.nav-it[data-tool]').forEach(x=>x.classList.toggle('on', x.dataset.tool===t));
+  renderWork();
+  document.getElementById('work').scrollTop = 0;
+}
+
+function renderHome(){
+  var w = document.getElementById('work');
+  var jobs = TOOL_STATE.jobs || [];
+  var done = jobs.filter(j=>j.status==='done' || j.status==='completed').slice(0,8);
+
+  var html = '<div class="home">'+
+
+  // ── HERO ──
+  '<div class="hero"><div class="badge"><span class="mdi mdi-sparkles"></span>Hitune AI Studio</div>'+
+  '<h2>Turn Your Imagination<br>Into Music</h2>'+
+  '<p class="sub2">Describe a vibe — AI composes the song, paints the cover, cuts the reel, removes vocals, masters the mix. One studio, every creation tool.</p>'+
+  '<div class="prompt-box"><input id="h-prompt" maxlength="300" placeholder="e.g. emotional punjabi love song, female vocals, slow flute…"><button id="h-create"><span class="mdi mdi-creation"></span>Create</button></div>'+
+  '<div class="h-chips">'+['Sad Lo-Fi','Punjabi Bhangra','Bollywood Romantic','Dark Trap','Chill EDM','Devotional'].map(g=>'<span class="chip" data-hg="'+esc(g)+'">'+esc(g)+'</span>').join('')+'</div></div>'+
+
+  // ── HOW ──
+  '<div class="sec"><div class="s-title">How to <em>Create</em></div>'+
+  '<p class="s-sub">Three steps. No studio, no instruments, no experience needed.</p>'+
+  '<div class="steps">'+
+    '<div class="step"><div class="num">1</div><h4>Describe your idea</h4><p>Type the vibe, genre, mood or lyrics theme in plain words — English ya Hindi.</p></div>'+
+    '<div class="step"><div class="num">2</div><h4>AI generates it</h4><p>Song, cover, clip, karaoke ya master — engine tumhare prompt ko real output me badalta hai.</p></div>'+
+    '<div class="step"><div class="num">3</div><h4>Publish & share</h4><p>Play karo, download karo, ya ek tap me IyolMe reel pe publish karo.</p></div>'+
+  '</div></div>'+
+
+  // ── TOOLS ──
+  '<div class="sec"><div class="s-title">Every Creation <em>Tool</em></div>'+
+  '<p class="s-sub">Suno-style studio — music se lekar visuals tak, sab ek hi jagah.</p>'+
+  '<div class="tgrid">'+
+    [['song_gen','#00b7ff'],['cover_art','#8b5cf6'],['clip_video','#fa2d48'],['karaoke','#2ee6a8'],['master','#ffb020'],['lyrics','#f472b6']].map(function(k){
+      var t = TOOLS[k[0]];
+      return '<div class="tcard" data-tt="'+k[0]+'"><span class="arrow mdi mdi-arrow-right"></span><div class="tic" style="background:'+k[1]+'1f;border:1px solid '+k[1]+'44"><span class="mdi '+t.icon+'" style="color:'+k[1]+'"></span></div><h4>'+t.title+'</h4><p>'+t.desc+'</p></div>';
+    }).join('')+
+  '</div></div>';
+
+  // ── YOUR CREATIONS ──
+  if (done.length){
+    html += '<div class="sec"><div class="s-title">Your <em>Creations</em></div>'+
+    '<div class="yours">'+done.map(function(j){
+      return '<div class="ycard"><div class="tt">'+esc(j.title||j.type||'Creation')+'</div><div class="ty">'+esc(j.type||'')+'</div><div class="st '+(j.status==='done'||j.status==='completed'?'done':'busy')+'">'+(j.status==='done'||j.status==='completed'?'READY':'PROCESSING')+'</div></div>';
+    }).join('')+'</div></div>';
+  }
+
+  // ── OWNERSHIP ──
+  html += '<div class="own"><h3>Own Your Imagination</h3>'+
+  '<p>Jo bhi tum banate ho — wo tumhara hai. Har creation tumhare account se linked hai: play, download, share ya IyolMe pe publish — koi lock nahi.</p>'+
+  '<div class="feats"><span><span class="mdi mdi-shield-check"></span>Full ownership</span><span><span class="mdi mdi-share-variant"></span>Share anywhere</span><span><span class="mdi mdi-video"></span>IyolMe reels</span><span><span class="mdi mdi-download"></span>HD download</span><span><span class="mdi mdi-crown"></span>Pro tools</span></div></div>'+
+
+  // ── PLANS ──
+  '<div class="sec"><div class="s-title">Simple <em>Plans</em></div>'+
+  '<p class="s-sub">Free se shuru karo — jab ready ho, upgrade.</p>'+
+  '<div class="plans">'+
+    '<div class="plan"><div class="pt">Starter</div><div class="pp">Free</div>'+
+      '<ul><li><span class="mdi mdi-check"></span>Daily limited generations</li><li><span class="mdi mdi-check"></span>Song + cover art tools</li><li><span class="mdi mdi-check"></span>Community sharing</li></ul>'+
+      '<a class="go" href="/subscription_plans">Start Free</a></div>'+
+    '<div class="plan hot"><div class="tag">Popular</div><div class="pt">Creator</div><div class="pp">Pro<small> /mo</small></div>'+
+      '<ul><li><span class="mdi mdi-check"></span>More daily credits</li><li><span class="mdi mdi-check"></span>All tools unlocked</li><li><span class="mdi mdi-check"></span>Clip/Reel + Karaoke</li><li><span class="mdi mdi-check"></span>Priority queue</li></ul>'+
+      '<a class="go" href="/subscription_plans">Upgrade</a></div>'+
+    '<div class="plan"><div class="pt">Studio</div><div class="pp">Pro+</div>'+
+      '<ul><li><span class="mdi mdi-check"></span>Highest credit cap</li><li><span class="mdi mdi-check"></span>Mastering + Lyrics sync</li><li><span class="mdi mdi-check"></span>Early feature access</li></ul>'+
+      '<a class="go" href="/subscription_plans">View Plans</a></div>'+
+  '</div></div>'+
+
+  // ── FAQ ──
+  '<div class="faq"><div class="s-title">Frequently Asked</div><div style="margin-top:20px">'+
+    H_FAQ.map(function(f){ return '<div class="fq"><div class="q">'+esc(f[0])+'<span class="mdi mdi-chevron-down"></span></div><div class="a"><div>'+esc(f[1])+'</div></div></div>'; }).join('')+
+  '</div></div>'+
+
+  // ── FINAL CTA ──
+  '<div class="cta-fin"><h3>Ready to make your first track?</h3><p>Prompt likho — AI baaki sambhal lega.</p>'+
+  '<button class="big-btn" id="h-cta"><span class="mdi mdi-creation"></span>Open Song Generator</button></div>'+
+
+  '</div>';
+  w.innerHTML = html;
+
+  var hp = document.getElementById('h-prompt');
+  document.getElementById('h-create').onclick = function(){ goTool('song_gen', (hp.value||'').trim()); };
+  document.getElementById('h-cta').onclick = function(){ goTool('song_gen'); };
+  if (hp) hp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); goTool('song_gen', (hp.value||'').trim()); } });
+  w.querySelectorAll('.chip[data-hg]').forEach(function(c){
+    c.onclick = function(){ goTool('song_gen', c.dataset.hg); };
+  });
+  w.querySelectorAll('.tcard[data-tt]').forEach(function(t){
+    t.onclick = function(){ goTool(t.dataset.tt); };
+  });
+  w.querySelectorAll('.fq .q').forEach(function(q){
+    q.onclick = function(){ q.parentElement.classList.toggle('open'); };
+  });
 }
 
 /* ---------- dashboard ---------- */
@@ -701,7 +884,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   /* mobile tool scroller */
   var mt = document.getElementById('m-tools');
-  mt.innerHTML = '<div class="nav-it" data-tool="dashboard"><span class="ic"><span class="mdi mdi-view-dashboard"></span></span>Dashboard</div>' +
+  mt.innerHTML = '<div class="nav-it" data-tool="home"><span class="ic"><span class="mdi mdi-home-lightning-bolt"></span></span>Home</div><div class="nav-it" data-tool="dashboard"><span class="ic"><span class="mdi mdi-view-dashboard"></span></span>Dashboard</div>' +
     Object.keys(TOOLS).map(function(k){
       return '<div class="nav-it t-'+k+(k===ACTIVE?' on':'')+'" data-tool="'+k+'"><span class="ic"><span class="mdi '+TOOLS[k].icon+'"></span></span>'+TOOLS[k].title+' <span class="lock mdi mdi-crown" id="mlock-'+k+'" style="display:none"></span></div>';
     }).join('');
