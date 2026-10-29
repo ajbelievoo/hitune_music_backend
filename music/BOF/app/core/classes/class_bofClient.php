@@ -449,6 +449,14 @@ class bofClient {
     if ( empty( $data ) )
     $data = [];
 
+    // Flat fields for API clients (app can't parse the tds HTML below) —
+    // table rendering unsets title/sub_data/cover further down, restore them.
+    $_api_title = !empty( $data["title"] ) ? $data["title"] : null;
+    $_api_sub   = !empty( $data["sub_data"] ) ? $data["sub_data"] : null;
+    $_api_cover = !empty( $data["cover"]["image_thumb"] ) ? $data["cover"]["image_thumb"]
+                : ( !empty( $data["cover_url"] ) ? $data["cover_url"]
+                : ( !empty( $data["cover"] ) && is_string( $data["cover"] ) ? $data["cover"] : null ) );
+
     $data["id"] = uniqid();
     $data["ot"] = !empty( $data["ot"] ) ? $data["ot"] : $object_name;
 
@@ -537,6 +545,9 @@ class bofClient {
       $data[ "tds" ][] = array( "val" => '<div class="button_wrapper more"><span class="mdi mdi-dots-horizontal"></span></div>', "class" => "buttons" );
 
       unset( $data["title"], $data["sub_data"], $data["cover"] );
+      if ( $_api_title !== null ) $data["title"] = $_api_title;
+      if ( $_api_sub !== null )   $data["sub_data"] = $_api_sub;
+      if ( $_api_cover !== null ) $data["cover"] = $_api_cover;
 
     }
 

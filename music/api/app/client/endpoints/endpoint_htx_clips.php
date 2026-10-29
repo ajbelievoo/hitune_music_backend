@@ -43,6 +43,8 @@ function endpoint_htx_clips( $loader, $excuter, $args ){
     if ( $len < 5 ) $len = 15;
     $item["clip"]     = array( "start" => max(0,(int)$start), "duration" => (int)$len );
     $item["ai_pct"]   = isset( $item["raw"]["ai_pct"] ) ? (int)$item["raw"]["ai_pct"] : 0;
+    $item["youtube_id"] = !empty( $item["raw"]["youtube_id"] ) ? $item["raw"]["youtube_id"] : null;
+    $item["video"]    = !empty( $item["raw"]["youtube_id"] );
     $item["reel_hint"] = "publish_as_reel";
   }
   unset( $item );

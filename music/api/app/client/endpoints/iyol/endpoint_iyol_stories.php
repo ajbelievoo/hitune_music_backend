@@ -62,6 +62,45 @@ function endpoint_iyol_stories( $loader, $excuter, $args ){
     unset( $st );
   }
 
+// ---- Admin stories merge (appended before the final set_message) ----
+// Official admin stories bypass the verified-artist filter (they ARE
+// official). Deduped by content URL against stories already proxied from
+// IyolMe (admin stories are mirrored there too).
+try {
+
+  require_once( dirname(__FILE__) . "/../../../admin/endpoints/ht_stories_lib.php" );
+  ht_admin_stories_table( $loader->db );
+
+  $seen = array();
+  foreach ( $stories as $st ){
+    if ( !empty( $st["content"] ) ) $seen[ $st["content"] ] = true;
+    if ( !empty( $st["thumbnail"] ) ) $seen[ $st["thumbnail"] ] = true;
+  }
+
+  $admin_rows = array();
+  $r = $loader->db->query(
+    "SELECT * FROM `_ht_admin_stories`
+     WHERE active = 1 AND ( repeat_forever = 1 OR time_add >= ( NOW() - INTERVAL 24 HOUR ) )
+     ORDER BY repeat_forever DESC, ID DESC LIMIT 24"
+  );
+  while ( $r && ( $row = $r->fetch_assoc() ) ) $admin_rows[] = $row;
+
+  $admin_stories = array();
+  foreach ( $admin_rows as $row ){
+    $pub = ht_admin_story_public( $row );
+    if ( !empty( $pub["content"] ) && isset( $seen[ $pub["content"] ] ) ) continue;
+    $admin_stories[] = $pub;
+  }
+
+  // Official stories first — the rail groups them under the HiTune ring.
+  if ( $admin_stories )
+  $stories = array_merge( $admin_stories, $stories );
+
+} catch ( Throwable $e ) {
+  // Admin-story merge must never break the public rail.
+}
+
+
   return $loader->api->set_message( "ok", array(
     "stories" => $stories,
     "count"   => count( $stories ),

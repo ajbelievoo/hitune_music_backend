@@ -1221,7 +1221,8 @@ class object_m_artist extends bof_type_object {
       array(
         "order_by" => "s_views",
         "order" => "DESC",
-        "limit" => 5
+        "limit" => 5,
+        "_eq" => array( "cover" => [], "album" => [] )
       )
     );
     if ( $get_popular_tracks ){
@@ -1236,6 +1237,24 @@ class object_m_artist extends bof_type_object {
       }
     }
 
+    // Artist has no photo (cover_id & spotify_cover both empty): borrow the
+    // top track's artwork so the app header/banner isn't blank gray.
+    if ( empty( $item["bof_file_cover"]["image_thumb"] ) && !empty( $get_popular_tracks ) ){
+      foreach( $get_popular_tracks as $_track ){
+        if ( empty( $_track["bof_file_cover"]["image_thumb"] ) ) continue;
+        $item["bof_file_cover"] = array(
+          "image_thumb" => $_track["bof_file_cover"]["image_thumb"],
+          "image_original" => !empty( $_track["bof_file_cover"]["image_original"] ) ? $_track["bof_file_cover"]["image_original"] : $_track["bof_file_cover"]["image_thumb"],
+          "image_strings" => !empty( $_track["bof_file_cover"]["image_strings"] ) ? $_track["bof_file_cover"]["image_strings"] : null,
+        );
+        if ( empty( $item["remote_cover"] ) )
+        $item["remote_cover"] = $item["bof_file_cover"]["image_original"];
+        if ( empty( $item["bof_file_bg"]["image_thumb"] ) )
+        $item["bof_file_bg"] = $item["bof_file_cover"];
+        break;
+      }
+    }
+
     $item["artist_albums"] = [];
     $get_albums = bof()->object->m_album->select(
       array(
@@ -1244,7 +1263,8 @@ class object_m_artist extends bof_type_object {
       array(
         "order_by" => "time_release",
         "order" => "DESC",
-        "limit" => 10
+        "limit" => 10,
+        "_eq" => array( "cover" => [] )
       )
     );
     if ( $get_albums ){
@@ -1266,7 +1286,8 @@ class object_m_artist extends bof_type_object {
       array(
         "order_by" => "s_subscribers",
         "order" => "DESC",
-        "limit" => 5
+        "limit" => 5,
+        "_eq" => array( "cover" => [] )
       )
     );
     if ( $get_related ){

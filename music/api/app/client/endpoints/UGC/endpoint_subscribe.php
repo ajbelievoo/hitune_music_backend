@@ -5,7 +5,9 @@ if ( !defined( "bof_root" ) ) die;
 function endpoint_subscribe( $loader, $excuter, $args ){
 
   $object_name = $loader->nest->user_input( "post", "object_type", "bofClient_object", [ "has_button" => "subscribe" ] );
-  $object_hash = $loader->nest->user_input( "post", "object", "md5" );
+  $object_hash = $loader->nest->user_input( "post", "object", "md5" )
+    ?: $loader->nest->user_input( "post", "object_hash", "md5" )
+    ?: $loader->nest->user_input( "post", "hash", "md5" );
 
   if ( $object_name && $object_hash ){
 

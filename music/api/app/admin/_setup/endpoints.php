@@ -328,6 +328,15 @@ bof()->object->endpoint->add( "dist_admin_royalties", array(
     "executers" => array( $admin_dist_dir . "endpoint_dist_admin_royalties.php" )
 ));
 
+// HiTune admin stories (admin posts stories -> app rail + IyolMe)
+bof()->object->endpoint->add( "be_ht_stories", array(
+    "url" => array(
+      "equal" => "ht_stories"
+    ),
+    "groups" => [ "admin" ],
+    "executers" => array( root . "/app/admin/endpoints/endpoint_be_ht_stories.php" )
+));
+
 // Developer API admin endpoints (see DEVELOPER_API.md)
 $admin_dev_dir = root . "/app/admin/endpoints/";
 
