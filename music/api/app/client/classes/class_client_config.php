@@ -766,9 +766,21 @@ class client_config extends bof_type_class {
       )
     );
 
+    // Admin-managed AdMob unit IDs (Brand Panels > Settings). Ad units are
+    // public identifiers - safe to ship in client config. Signing secrets
+    // (keystore/passwords) are NEVER exposed here.
+    $ad_ids = bof()->object->db_setting->get( "admob_unit_ids" );
+    $ad_units = array(
+      "android_banner"       => !empty($ad_ids["android_banner"])       ? $ad_ids["android_banner"]       : null,
+      "android_interstitial" => !empty($ad_ids["android_interstitial"]) ? $ad_ids["android_interstitial"] : null,
+      "ios_banner"           => !empty($ad_ids["ios_banner"])           ? $ad_ids["ios_banner"]           : null,
+      "ios_interstitial"     => !empty($ad_ids["ios_interstitial"])     ? $ad_ids["ios_interstitial"]     : null,
+    );
+
     return array(
 
       "mobile" => bof()->request->is_mobile(),
+      "ad_units" => $ad_units,
       "brand" => array(
         "name" => bof()->object->db_setting->get( "sitename" ),
         "logo" => !empty( $logoAddress ) ? $logoAddress : null,
