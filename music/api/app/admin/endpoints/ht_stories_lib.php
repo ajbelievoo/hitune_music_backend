@@ -131,6 +131,7 @@ function ht_admin_story_public( $row ){
   $created = strtotime( $row["time_add"] );
   return array(
     "id"        => "admin_" . (int)$row["ID"],
+    "ref"       => "a:" . (int)$row["ID"],
     "type"      => (int)$row["type"],
     "content"   => $row["content"],
     "thumbnail" => !empty( $row["thumbnail"] ) ? $row["thumbnail"] : $row["content"],
@@ -154,6 +155,58 @@ function ht_admin_story_public( $row ){
     "music" => null,
   );
 
+}
+
+
+/* ---------------- engagement tracking (shared) ---------------- */
+
+function ht_story_events_schema( $db ){
+  static $done = false;
+  if ( $done ) return;
+  $done = true;
+  $db->query( "CREATE TABLE IF NOT EXISTS `_ht_story_views` (
+    ID int(11) NOT NULL AUTO_INCREMENT,
+    story_ref varchar(40) NOT NULL,
+    who varchar(80) NOT NULL,
+    user_id int(11) NOT NULL DEFAULT 0,
+    time_add timestamp NOT NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (ID), UNIQUE KEY ref_who (story_ref, who), KEY user_id (user_id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" );
+  $db->query( "CREATE TABLE IF NOT EXISTS `_ht_story_likes` (
+    ID int(11) NOT NULL AUTO_INCREMENT,
+    story_ref varchar(40) NOT NULL,
+    who varchar(80) NOT NULL,
+    user_id int(11) NOT NULL DEFAULT 0,
+    time_add timestamp NOT NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (ID), UNIQUE KEY ref_who (story_ref, who), KEY user_id (user_id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" );
+  $db->query( "CREATE TABLE IF NOT EXISTS `_ht_story_replies` (
+    ID int(11) NOT NULL AUTO_INCREMENT,
+    story_ref varchar(40) NOT NULL,
+    who varchar(80) NOT NULL,
+    user_id int(11) NOT NULL DEFAULT 0,
+    message varchar(500) NOT NULL,
+    time_add timestamp NOT NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (ID), KEY story_ref (story_ref), KEY user_id (user_id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" );
+}
+
+/** Bulk stats for a set of story refs: views/likes/replies + liked by $who. */
+function ht_story_stats_bulk( $db, $refs, $who ){
+  $out = array();
+  if ( !$refs ) return $out;
+  ht_story_events_schema( $db );
+  $in = "'" . implode( "','", array_map( function( $x ) use ( $db ){ return $db->real_escape_string( $x ); }, $refs ) ) . "'";
+  foreach ( array( "views" => "_ht_story_views", "likes" => "_ht_story_likes", "replies" => "_ht_story_replies" ) as $k => $t ){
+    $r = $db->query( "SELECT story_ref, COUNT(*) c FROM `{$t}` WHERE story_ref IN ({$in}) GROUP BY story_ref" );
+    while ( $r && ( $row = $r->fetch_assoc() ) ) $out[ $row["story_ref"] ][ $k ] = (int) $row["c"];
+  }
+  if ( $who ){
+    $w = $db->real_escape_string( $who );
+    $r = $db->query( "SELECT story_ref FROM `_ht_story_likes` WHERE story_ref IN ({$in}) AND who='{$w}'" );
+    while ( $r && ( $row = $r->fetch_assoc() ) ) $out[ $row["story_ref"] ]["liked"] = true;
+  }
+  return $out;
 }
 
 ?>

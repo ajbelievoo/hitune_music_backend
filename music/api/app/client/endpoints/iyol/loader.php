@@ -98,6 +98,14 @@ bof()->object->endpoint->add( "iyol_stories", array(
   "executers" => array( $iyol_dir . "endpoint_iyol_stories.php" )
 ) );
 
+bof()->object->endpoint->add( "iyol_story_event", array(
+  "url" => "iyol/story_event",
+  "groups" => [ "v1_public" ],
+  "skip_key_check" => true,
+  "response_type" => "json",
+  "executers" => array( $iyol_dir . "endpoint_iyol_story_event.php" )
+) );
+
 /* ------------------------- App (signed, user) ------------------------ */
 
 bof()->object->endpoint->add( "iyol_sso_link", array(

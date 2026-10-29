@@ -101,6 +101,36 @@ try {
 }
 
 
+  // Attach engagement refs + stats (music-side tables) for the viewer.
+  try {
+    ht_story_events_schema( $loader->db );
+    $who = "";
+    try {
+      $u = $loader->user->check();
+      if ( $u && !empty( $u->ID ) ) $who = "u:" . (int) $u->ID;
+    } catch ( \Throwable $e ) {}
+    if ( !$who ) $who = "g:" . md5( ( $_SERVER["REMOTE_ADDR"] ?? "" ) . "|" . ( $_SERVER["HTTP_USER_AGENT"] ?? "" ) );
+
+    $refs = array();
+    foreach ( $stories as &$st ){
+      if ( empty( $st["ref"] ) ){
+        $sid = isset( $st["id"] ) ? (int) $st["id"] : 0;
+        $st["ref"] = $sid > 0 ? "i:" . $sid : "";
+      }
+      if ( $st["ref"] ) $refs[] = $st["ref"];
+    }
+    unset( $st );
+    $stats = ht_story_stats_bulk( $loader->db, $refs, $who );
+    foreach ( $stories as &$st ){
+      $rf = $st["ref"] ?? "";
+      $st["views"]   = $stats[ $rf ]["views"] ?? 0;
+      $st["likes"]   = $stats[ $rf ]["likes"] ?? 0;
+      $st["replies"] = $stats[ $rf ]["replies"] ?? 0;
+      $st["liked"]   = !empty( $stats[ $rf ]["liked"] );
+    }
+    unset( $st );
+  } catch ( Throwable $e ) {}
+
   return $loader->api->set_message( "ok", array(
     "stories" => $stories,
     "count"   => count( $stories ),
