@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^privacy-policy\.html?$ /privacy [R=301,L]
+RewriteRule ^terms\.html$ /terms [R=301,L]
+RewriteRule ^(privacy|terms)/?$ /$1/index.html [L]
